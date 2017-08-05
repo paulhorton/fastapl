@@ -21,6 +21,7 @@ Runs on a linux box under several version of perl (e.g. v5.18.2).  Not tested el
 
 #### fastapl Examples
 * Truncate sequences to length 39.
+
 `% fastapl5 -pe 'trim 0,38'  proteins.fasta`
 
 * Reverse complement DNA sequences.
