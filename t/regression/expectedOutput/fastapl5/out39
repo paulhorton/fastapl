@@ -1,0 +1,5 @@
+39  Print entries with residues colorized as DNA.
+-Cd	shortDNA.fasta
+>chrM
+[32mG[34mA[31mT[33mC[34mA[33mC[34mA[32mGG[31mT[33mC[31mT[34mA[31mT[33mC[34mA[33mCCC[31mT[34mA[31mTT[34mAA[33mCC[34mA[33mC[31mT[33mC[34mA[33mC[32mGGG[34mA[32mG[33mC[31mT[33mC[31mT[33mCC[34mA[31mT[32mG[33mC[34mA[31mT[39m
+[31mTT[32mGG[31mT[34mA[31mTTTT[33mC[32mG[31mT[33mC[31mT[32mGGGGGG[31mT[32mG[31mT[32mG[33mC[34mA[33mC[32mG[33mC[32mG[34mA[31mT[34mA[32mG[33mC[34mA[31mTT[32mG[33mC[32mG[34mA[32mG[34mA[33mC[32mG[33mC[31mT[32mG[39m

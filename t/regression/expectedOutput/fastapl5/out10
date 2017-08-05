@@ -1,0 +1,14 @@
+10  Trim poly-A tail allowing for some miscalled bases.
+-p  -e '$s = 0; $p = 0; $m = -9; for $i (reverse 0..$#seq){ $s += $seq[$i] eq "a" ? 1 : -2; if( $s > $m ){ $m = $s; $p = $i }} $m < 8 or substr( $seq, $p ) = ""'	DNAwithPolyAtail.fasta
+> fakeShort-mRNA-1
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+> fakeShort-mRNA-2
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+cattacgact
+> fakeShort-mRNA-3
+# this one's got no clear poly-A tail.
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+cattacgactaaagtgaaaaaggaagctgtaaa

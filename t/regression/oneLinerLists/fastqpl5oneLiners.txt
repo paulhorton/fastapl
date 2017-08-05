@@ -1,0 +1,47 @@
+# This file contains a series of fastqpl one-liner records
+# The structure of each record is:
+#
+#     serial-no  Description of the fastqpl one-liner
+#     command-line-args \t input-filename
+#
+
+$INPUT_DIR  = ../input
+$OUTPUT_DIR = ../expectedOutput/fastqpl5
+
+BEG_CKSUMS
+  1667615717 9466 longreads_original_sanger.fastq
+  2397105147 9602 longreads_with_dummy.fastq
+END_CKSUMS
+
+01  Print records with id containing substring "4401B".
+-g  -e  '$id =~ /4401B/'	longreads_original_sanger.fastq
+
+02  For each record: print (id, p), where p is the probability that all bases are correct.
+-e '$p = 1;  $p *= (1 - $_) for( errProb() ); print "$p\n"'	longreads_original_sanger.fastq
+
+03  Extract fasta file from fastq input.
+-e 'print ">$head\n$seq\n"'	longreads_original_sanger.fastq
+
+04  Sort records in order of descending average Phred score.
+-se '(sum Phred1) / length $seq1  <=>  (sum Phred2) / length $seq2'	longreads_original_sanger.fastq
+
+05  Trim off first 4 bases of each read.
+-pe 'trim 4' 	longreads_original_sanger.fastq
+
+06  Dump sequence with Phred scores.  Output looks like: 'FSRRS4401BE7HA  t:37 c:37 a:37 g:35 T:35 T:35...'
+-e '@p = Phred; @v = pairwise {"$a:$b"} @seq, @p; say "$id  @v"' 	longreads_original_sanger.fastq
+
+07  Trim off any bases with error prob > 0.1 at end of read.  Discard record if none found.
+-ge  'trim  0,  lastidx {$_ < 0.1} errProb;  $seq' 	longreads_original_sanger.fastq
+
+08  Add fake poly-A tail to each read.  Each added base having an increasing error prob.
+-b 'srand 5'  -pe  '$len = rand 30; $p = .05; @p = map {$p *= 1.1} 1..$len; $seq .= "a" x $len; $quality .= prob_to_qualStr @p'	longreads_original_sanger.fastq
+
+09  Trim off final 4 bases of each read.
+-pe 'trim 0,-5' 	longreads_original_sanger.fastq
+
+10  Keep the (shortest) prefix with the highest total adjusted (15 subtracted from each score) Phred scores.  Similar to BWA trimming.
+-ge '$sum = 0;  ($i,$max) = maxidx apply {$_ = $sum += $_-15} Phred;  trim 0,$i;  $max > 0'	longreads_with_dummy.fastq
+
+11  Keep the segment with the highest total adjusted (15 subtracted from each score) Phred scores .  Similar to Solexa trimming.
+-ge '($beg,$end,$max) = maxSeg apply {$_ -= 15} Phred;  trim $beg,$end;  $max'	longreads_with_dummy.fastq

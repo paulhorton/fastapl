@@ -1,0 +1,3 @@
+31  Count the number of records with first field 'E.R.'.
+-ce '$head[1] eq "E.R."'	proteins.fasta
+3

@@ -1,0 +1,4 @@
+41  For circular genome, print the reverse strand sequence seqment of length 10 centered on the origin.
+-Oe 'say seg 5, -5'	mitoGenomes.fa
+ATGAATATGG
+TGATCCATCG

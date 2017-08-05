@@ -1,0 +1,11 @@
+28  Print table of homopolymer runs of length 20 or more.
+-e '$m = runs 20;  say  join "\t",  $a, $b, $b-$a, seq $a  while $m->ab'	yeast_chrII.fa
+43104	43131	27	T
+137659	137683	24	A
+145899	145930	31	A
+165902	165926	24	T
+296125	296147	22	T
+300033	300059	26	A
+499536	499557	21	A
+561222	561246	24	A
+563031	563052	21	T

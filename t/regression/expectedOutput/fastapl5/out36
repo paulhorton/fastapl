@@ -1,0 +1,586 @@
+36  Print sequence as double stranded with inline ruler and ORF colored ORF track in xterm format.
+--ORF a110m80c  -Pr  -l100	InfluenzaA_H1N1_Iwate200903.fa
+>GU136069 A/Iwate/3/2009 2009/06/24 1 (PB2)
+         [4m[31mM[39m[24m  [31mE[39m  [31mR[39m   [31mI[39m  [31mK[39m  [31mE[39m  [31mL[39m   [31mR[39m  [31mD[39m  [31mL[39m   [31mM[39m  [31mS[39m  [31mQ[39m   [31mS[39m  [31mR[39m  [31mT[39m  [31mR[39m    [31mE[39m  [31mI[39m  [31mL[39m   [31mT[39m  [31mK[39m  [31mT[39m   [31mT[39m  [31mV[39m  [31mD[39m  [31mH[39m   [31mM[39m  [31mA[39m  [31mI[39m   [31mI[39m  [31mK[39m  [31mK[39m  
+     0  ATGGAGAGAA TAAAAGAACT GAGAGATCTA ATGTCGCAGT CCCGCACTCG  CGAGATACTC ACTAAGACCA CTGTGGACCA TATGGCCATA ATCAAAAAGT     100
+        TACCTCTCTT ATTTTCTTGA CTCTCTAGAT TACAGCGTCA GGGCGTGAGC  GCTCTATGAG TGATTCTGGT GACACCTGGT ATACCGGTAT TAGTTTTTCA
+
+        [31mY[39m  [31mT[39m  [31mS[39m  [31mG[39m   [31mR[39m  [31mQ[39m  [31mE[39m   [31mK[39m  [31mN[39m  [31mP[39m   [31mA[39m  [31mL[39m  [31mR[39m  [31mM[39m   [31mK[39m  [31mW[39m  [31mM[39m    [31mM[39m  [31mA[39m  [31mM[39m   [31mR[39m  [31mY[39m  [31mP[39m  [31mI[39m   [31mT[39m  [31mA[39m  [31mD[39m   [31mK[39m  [31mR[39m  [31mI[39m   [31mM[39m  [31mD[39m  [31mM[39m  [31mI[39m
+   100  ACACATCAGG AAGGCAAGAG AAGAACCCCG CACTCAGAAT GAAGTGGATG  ATGGCAATGA GATACCCAAT TACAGCAGAC AAGAGAATAA TGGACATGAT     200
+        TGTGTAGTCC TTCCGTTCTC TTCTTGGGGC GTGAGTCTTA CTTCACCTAC  TACCGTTACT CTATGGGTTA ATGTCGTCTG TTCTCTTATT ACCTGTACTA
+
+          [31mP[39m  [31mE[39m  [31mR[39m   [31mN[39m  [31mE[39m  [31mQ[39m   [31mG[39m  [31mQ[39m  [31mT[39m  [31mL[39m   [31mW[39m  [31mS[39m  [31mK[39m   [31mT[39m  [31mN[39m  [31mD[39m    [31mA[39m  [31mG[39m  [31mS[39m  [31mD[39m   [31mR[39m  [31mV[39m  [31mM[39m   [31mV[39m  [31mS[39m  [31mP[39m   [31mL[39m  [31mA[39m  [31mV[39m  [31mT[39m   [31mW[39m  [31mW[39m  [31mN[39m 
+   200  TCCAGAGAGG AATGAACAAG GACAAACCCT CTGGAGCAAA ACAAACGATG  CTGGATCAGA CCGAGTGATG GTATCACCTC TGGCCGTAAC ATGGTGGAAT     300
+        AGGTCTCTCC TTACTTGTTC CTGTTTGGGA GACCTCGTTT TGTTTGCTAC  GACCTAGTCT GGCTCACTAC CATAGTGGAG ACCGGCATTG TACCACCTTA
+
+         [31mR[39m  [31mN[39m  [31mG[39m   [31mP[39m  [31mT[39m  [31mT[39m  [31mS[39m   [31mT[39m  [31mV[39m  [31mH[39m   [31mY[39m  [31mP[39m  [31mK[39m   [31mV[39m  [31mY[39m  [31mK[39m  [31mT[39m    [31mY[39m  [31mF[39m  [31mE[39m   [31mK[39m  [31mV[39m  [31mE[39m   [31mR[39m  [31mL[39m  [31mK[39m  [31mH[39m   [31mG[39m  [31mT[39m  [31mF[39m   [31mG[39m  [31mP[39m  [31mV[39m  
+   300  AGGAATGGCC CAACAACAAG TACAGTTCAT TACCCTAAGG TATATAAAAC  TTATTTCGAA AAGGTCGAAA GGTTGAAACA TGGTACCTTC GGCCCTGTCC     400
+        TCCTTACCGG GTTGTTGTTC ATGTCAAGTA ATGGGATTCC ATATATTTTG  AATAAAGCTT TTCCAGCTTT CCAACTTTGT ACCATGGAAG CCGGGACAGG
+
+        [31mH[39m  [31mF[39m  [31mR[39m  [31mN[39m   [31mQ[39m  [31mV[39m  [31mK[39m   [31mI[39m  [31mR[39m  [31mR[39m   [31mR[39m  [31mV[39m  [31mD[39m  [31mT[39m   [31mN[39m  [31mP[39m  [31mG[39m    [31mH[39m  [31mA[39m  [31mD[39m   [31mL[39m  [31mS[39m  [31mA[39m  [31mK[39m   [31mE[39m  [31mA[39m  [31mQ[39m   [31mD[39m  [31mV[39m  [31mI[39m   [31mM[39m  [31mE[39m  [31mV[39m  [31mV[39m
+   400  ACTTCAGAAA TCAAGTTAAA ATAAGGAGGA GAGTTGATAC AAACCCTGGC  CATGCAGATC TCAGTGCCAA GGAGGCACAG GATGTGATTA TGGAAGTTGT     500
+        TGAAGTCTTT AGTTCAATTT TATTCCTCCT CTCAACTATG TTTGGGACCG  GTACGTCTAG AGTCACGGTT CCTCCGTGTC CTACACTAAT ACCTTCAACA
+
+          [31mF[39m  [31mP[39m  [31mN[39m   [31mE[39m  [31mV[39m  [31mG[39m   [31mA[39m  [31mR[39m  [31mI[39m  [31mL[39m   [31mT[39m  [31mS[39m  [31mE[39m   [31mS[39m  [31mQ[39m  [31mL[39m    [31mA[39m  [31mI[39m  [31mT[39m  [31mK[39m   [31mE[39m  [31mK[39m  [31mK[39m   [31mE[39m  [31mE[39m  [31mL[39m   [31mQ[39m  [31mD[39m  [31mC[39m  [31mK[39m   [31mI[39m  [31mA[39m  [31mP[39m 
+   500  TTTCCCAAAT GAAGTGGGGG CAAGAATACT GACATCAGAG TCACAGCTGG  CAATAACAAA AGAGAAGAAA GAAGAGCTCC AGGATTGTAA AATTGCTCCC     600
+        AAAGGGTTTA CTTCACCCCC GTTCTTATGA CTGTAGTCTC AGTGTCGACC  GTTATTGTTT TCTCTTCTTT CTTCTCGAGG TCCTAACATT TTAACGAGGG
+
+         [31mL[39m  [31mM[39m  [31mV[39m   [31mA[39m  [31mY[39m  [31mM[39m  [31mL[39m   [31mE[39m  [31mR[39m  [31mE[39m   [31mL[39m  [31mV[39m  [31mR[39m   [31mK[39m  [31mT[39m  [31mR[39m  [31mF[39m    [31mL[39m  [31mP[39m  [31mV[39m   [31mA[39m  [31mG[39m  [31mG[39m   [31mT[39m  [31mG[39m  [31mS[39m  [31mV[39m   [31mY[39m  [31mI[39m  [31mE[39m   [31mV[39m  [31mL[39m  [31mH[39m  
+   600  TTGATGGTGG CGTACATGCT AGAAAGAGAA TTGGTCCGTA AAACAAGGTT  TCTCCCAGTA GCCGGCGGAA CAGGCAGTGT TTATATTGAA GTGTTGCACT     700
+        AACTACCACC GCATGTACGA TCTTTCTCTT AACCAGGCAT TTTGTTCCAA  AGAGGGTCAT CGGCCGCCTT GTCCGTCACA AATATAACTT CACAACGTGA
+                                                                                                  [33m*[39m  [33mI[39m  [33mS[39m   [33mT[39m  [33mN[39m  [33mC[39m  [33mK[39m
+
+        [31mL[39m  [31mT[39m  [31mQ[39m  [31mG[39m   [31mT[39m  [31mC[39m  [31mW[39m   [31mE[39m  [31mQ[39m  [31mM[39m   [31mY[39m  [31mT[39m  [31mP[39m  [31mG[39m   [31mG[39m  [31mE[39m  [31mV[39m    [31mR[39m  [31mN[39m  [31mD[39m   [31mD[39m  [31mV[39m  [31mD[39m  [31mQ[39m   [31mS[39m  [31mL[39m  [31mI[39m   [31mI[39m  [31mA[39m  [31mA[39m   [31mR[39m  [31mN[39m  [31mI[39m  [31mV[39m
+   700  TAACCCAAGG GACGTGCTGG GAGCAGATGT ACACTCCAGG AGGAGAAGTG  AGAAATGATG ATGTTGACCA AAGTTTGATT ATCGCTGCTA GAAACATAGT     800
+        ATTGGGTTCC CTGCACGACC CTCGTCTACA TGTGAGGTCC TCCTCTTCAC  TCTTTACTAC TACAACTGGT TTCAAACTAA TAGCGACGAT CTTTGTATCA
+          [33mV[39m  [33mW[39m  [33mP[39m   [33mV[39m  [33mH[39m  [33mQ[39m   [33mS[39m  [33mC[39m  [33mI[39m  [33mY[39m   [33mV[39m  [33mG[39m  [33mP[39m   [33mP[39m  [33mS[39m  [33mT[39m    [33mL[39m  [33mF[39m  [33mS[39m  [33mS[39m   [33mT[39m  [33mS[39m  [33mW[39m   [33mL[39m  [33mK[39m  [33mI[39m   [33mI[39m  [33mA[39m  [33mA[39m  [33mL[39m   [33mF[39m  [33mM[39m  [33mT[39m 
+
+          [31mR[39m  [31mR[39m  [31mA[39m   [31mA[39m  [31mV[39m  [31mS[39m   [31mA[39m  [31mD[39m  [31mP[39m  [31mL[39m   [31mA[39m  [31mS[39m  [31mL[39m   [31mL[39m  [31mE[39m  [31mM[39m    [31mC[39m  [31mH[39m  [31mS[39m  [31mT[39m   [31mQ[39m  [31mI[39m  [31mG[39m   [31mG[39m  [31mV[39m  [31mR[39m   [31mM[39m  [31mV[39m  [31mD[39m  [31mI[39m   [31mL[39m  [31mR[39m  [31mQ[39m 
+   800  AAGAAGAGCA GCAGTGTCAG CAGACCCATT AGCATCTCTC TTGGAAATGT  GCCACAGCAC ACAGATTGGA GGAGTAAGGA TGGTGGACAT CCTTAGACAG     900
+        TTCTTCTCGT CGTCACAGTC GTCTGGGTAA TCGTAGAGAG AACCTTTACA  CGGTGTCGTG TGTCTAACCT CCTCATTCCT ACCACCTGTA GGAATCTGTC
+         [33mL[39m  [33mL[39m  [33mA[39m   [33mA[39m  [33mT[39m  [33mD[39m  [33mA[39m   [33mS[39m  [33mG[39m  [33mN[39m   [33mA[39m  [33mD[39m  [33mR[39m   [33mK[39m  [33mS[39m  [33mI[39m  [33mH[39m    [33mW[39m  [33mL[39m  [33mV[39m   [33mC[39m  [33mI[39m  [33mP[39m   [33mP[39m  [33mT[39m  [33mL[39m  [33mI[39m   [33mT[39m  [33mS[39m  [33mM[39m   [33mR[39m  [33mL[39m  [33mC[39m  
+
+         [31mN[39m  [31mP[39m  [31mT[39m   [31mE[39m  [31mE[39m  [31mQ[39m  [31mA[39m   [31mV[39m  [31mD[39m  [31mI[39m   [31mC[39m  [31mK[39m  [31mA[39m   [31mA[39m  [31mI[39m  [31mG[39m  [31mL[39m    [31mR[39m  [31mI[39m  [31mS[39m   [31mS[39m  [31mS[39m  [31mF[39m   [31mS[39m  [31mF[39m  [31mG[39m  [31mG[39m   [31mF[39m  [31mT[39m  [31mF[39m   [31mK[39m  [31mR[39m  [31mT[39m  
+   900  AATCCAACTG AGGAACAAGC CGTAGACATA TGCAAGGCAG CAATAGGGTT  GAGGATTAGC TCATCTTTCA GTTTTGGTGG GTTCACTTTC AAAAGGACAA    1000
+        TTAGGTTGAC TCCTTGTTCG GCATCTGTAT ACGTTCCGTC GTTATCCCAA  CTCCTAATCG AGTAGAAAGT CAAAACCACC CAAGTGAAAG TTTTCCTGTT
+        [33mF[39m  [33mG[39m  [33mV[39m  [33mS[39m   [33mS[39m  [33mC[39m  [33mA[39m   [33mT[39m  [33mS[39m  [33mM[39m   [33mH[39m  [33mL[39m  [33mA[39m  [33mA[39m   [33mI[39m  [33mP[39m  [33mN[39m    [33mL[39m  [33mI[39m  [33mL[39m   [33mE[39m  [33mD[39m  [33mK[39m  [33mL[39m   [33mK[39m  [33mP[39m  [33mP[39m   [33mN[39m  [33mV[39m  [33mK[39m   [33mL[39m  [33mL[39m  [33mV[39m  [33mL[39m
+
+        [31mS[39m  [31mG[39m  [31mS[39m  [31mS[39m   [31mV[39m  [31mK[39m  [31mK[39m   [31mE[39m  [31mE[39m  [31mE[39m   [31mV[39m  [31mL[39m  [31mT[39m  [31mG[39m   [31mN[39m  [31mL[39m  [31mQ[39m    [31mT[39m  [31mL[39m  [31mK[39m   [31mI[39m  [31mR[39m  [31mV[39m  [31mH[39m   [31mE[39m  [31mG[39m  [31mY[39m   [31mE[39m  [31mE[39m  [31mF[39m   [31mT[39m  [31mM[39m  [31mV[39m  [31mG[39m
+  1000  GCGGATCATC AGTCAAGAAA GAAGAAGAAG TGCTAACGGG CAACCTCCAA  ACACTGAAAA TAAGAGTACA TGAAGGGTAT GAAGAATTCA CAATGGTTGG    1100
+        CGCCTAGTAG TCAGTTCTTT CTTCTTCTTC ACGATTGCCC GTTGGAGGTT  TGTGACTTTT ATTCTCATGT ACTTCCCATA CTTCTTAAGT GTTACCAACC
+          [33mP[39m  [33mD[39m  [33mD[39m   [33mT[39m  [33mL[39m  [33mF[39m   [33mS[39m  [33mS[39m  [33mS[39m  [33mT[39m   [33mS[39m  [33mV[39m  [33mP[39m   [33mL[39m  [33mR[39m  [33mW[39m    [33mV[39m  [33mS[39m  [33mF[39m  [33mI[39m   [33mL[39m  [33mT[39m  [33mC[39m   [33mS[39m  [33mP[39m  [33mY[39m   [33mS[39m  [33mS[39m  [33mN[39m  [33mV[39m   [33mI[39m  [33mT[39m  [33mP[39m 
+
+          [31mR[39m  [31mR[39m  [31mA[39m   [31mT[39m  [31mA[39m  [31mI[39m   [31mL[39m  [31mR[39m  [31mK[39m  [31mA[39m   [31mT[39m  [31mR[39m  [31mR[39m   [31mL[39m  [31mI[39m  [31mQ[39m    [31mL[39m  [31mI[39m  [31mV[39m  [31mS[39m   [31mG[39m  [31mR[39m  [31mD[39m   [31mE[39m  [31mQ[39m  [31mS[39m   [31mI[39m  [31mA[39m  [31mE[39m  [31mA[39m   [31mI[39m  [31mI[39m  [31mV[39m 
+  1100  GAGAAGAGCA ACAGCTATTC TCAGAAAGGC AACCAGGAGA TTGATCCAGT  TGATAGTAAG CGGGAGAGAC GAGCAGTCAA TTGCTGAGGC AATAATTGTG    1200
+        CTCTTCTCGT TGTCGATAAG AGTCTTTCCG TTGGTCCTCT AACTAGGTCA  ACTATCATTC GCCCTCTCTG CTCGTCAGTT AACGACTCCG TTATTAACAC
+         [33mL[39m  [33mL[39m  [33mA[39m   [33mV[39m  [33mA[39m  [33mI[39m  [33mR[39m   [33mL[39m  [33mF[39m  [33mA[39m   [33mV[39m  [33mL[39m  [33mL[39m   [33mN[39m  [33mI[39m  [33mW[39m  [33mN[39m    [33mI[39m  [33mT[39m  [33mL[39m   [33mP[39m  [33mL[39m  [33mS[39m   [33mS[39m  [33mC[39m  [33mD[39m  [33mI[39m   [33mA[39m  [33mS[39m  [33mA[39m   [33mI[39m  [33mI[39m  [33mT[39m  
+
+         [31mA[39m  [31mM[39m  [31mV[39m   [31mF[39m  [31mS[39m  [31mQ[39m  [31mE[39m   [31mD[39m  [31mC[39m  [31mM[39m   [31mI[39m  [31mK[39m  [31mA[39m   [31mV[39m  [31mR[39m  [31mG[39m  [31mD[39m    [31mL[39m  [31mN[39m  [31mF[39m   [31mV[39m  [31mN[39m  [31mR[39m   [31mA[39m  [31mN[39m  [31mQ[39m  [31mR[39m   [31mL[39m  [31mN[39m  [31mP[39m   [31mM[39m  [31mH[39m  [31mQ[39m  
+  1200  GCCATGGTAT TCTCACAAGA GGATTGCATG ATCAAGGCAG TTAGGGGCGA  TCTGAACTTT GTCAATAGGG CAAACCAGCG ACTGAACCCC ATGCACCAAC    1300
+        CGGTACCATA AGAGTGTTCT CCTAACGTAC TAGTTCCGTC AATCCCCGCT  AGACTTGAAA CAGTTATCCC GTTTGGTCGC TGACTTGGGG TACGTGGTTG
+        [33mA[39m  [33mM[39m  [33mT[39m  [33mN[39m   [33mE[39m  [33mC[39m  [33mS[39m   [33mS[39m  [33mQ[39m  [33mM[39m   [33mI[39m  [33mL[39m  [33mA[39m  [33mT[39m   [33mL[39m  [33mP[39m  [33mS[39m    [33mR[39m  [33mF[39m  [33mK[39m   [33mT[39m  [33mL[39m  [33mL[39m  [33mA[39m   [33mF[39m  [33mW[39m  [33mR[39m   [33mS[39m  [33mF[39m  [33mG[39m   [33mM[39m  [33mC[39m  [33mW[39m  [33mS[39m
+
+        [31mL[39m  [31mL[39m  [31mR[39m  [31mH[39m   [31mF[39m  [31mQ[39m  [31mK[39m   [31mD[39m  [31mA[39m  [31mK[39m   [31mV[39m  [31mL[39m  [31mF[39m  [31mQ[39m   [31mN[39m  [31mW[39m  [31mG[39m    [31mI[39m  [31mE[39m  [31mS[39m   [31mI[39m  [31mD[39m  [31mN[39m  [31mV[39m   [31mM[39m  [31mG[39m  [31mM[39m   [31mI[39m  [31mG[39m  [31mI[39m   [31mL[39m  [31mP[39m  [31mD[39m  [31mM[39m
+  1300  TCTTGAGGCA TTTCCAAAAA GATGCAAAAG TGCTTTTCCA GAACTGGGGA  ATTGAATCCA TCGACAATGT GATGGGAATG ATCGGAATAC TGCCCGACAT    1400
+        AGAACTCCGT AAAGGTTTTT CTACGTTTTC ACGAAAAGGT CTTGACCCCT  TAACTTAGGT AGCTGTTACA CTACCCTTAC TAGCCTTATG ACGGGCTGTA
+          [33mK[39m  [33mL[39m  [33mC[39m   [33mK[39m  [33mW[39m  [33mF[39m   [33mS[39m  [33mA[39m  [33mF[39m  [33mT[39m   [33mS[39m  [33mK[39m  [33mW[39m   [33mF[39m  [33mQ[39m  [33mP[39m    [33mI[39m  [33mS[39m  [33mD[39m  [33mM[39m   [33mS[39m  [33mL[39m  [33mT[39m   [33mI[39m  [33mP[39m  [33mI[39m   [33mI[39m  [33mP[39m  [33mI[39m  [33mS[39m   [33mG[39m  [33mS[39m  [4m[33mM[39m[24m 
+
+          [31mT[39m  [31mP[39m  [31mS[39m   [31mT[39m  [31mE[39m  [31mM[39m   [31mS[39m  [31mL[39m  [31mR[39m  [31mG[39m   [31mI[39m  [31mR[39m  [31mV[39m   [31mS[39m  [31mK[39m  [31mM[39m    [31mG[39m  [31mV[39m  [31mD[39m  [31mE[39m   [31mY[39m  [31mS[39m  [31mS[39m   [31mT[39m  [31mE[39m  [31mR[39m   [31mV[39m  [31mV[39m  [31mV[39m  [31mS[39m   [31mI[39m  [31mD[39m  [31mR[39m 
+  1400  GACCCCAAGC ACGGAGATGT CGCTGAGAGG GATAAGAGTC AGCAAAATGG  GAGTAGATGA ATACTCCAGC ACGGAGAGAG TGGTAGTGAG TATTGACCGA    1500
+        CTGGGGTTCG TGCCTCTACA GCGACTCTCC CTATTCTCAG TCGTTTTACC  CTCATCTACT TATGAGGTCG TGCCTCTCTC ACCATCACTC ATAACTGGCT
+
+         [31mF[39m  [31mL[39m  [31mR[39m   [31mV[39m  [31mR[39m  [31mD[39m  [31mQ[39m   [31mR[39m  [31mG[39m  [31mN[39m   [31mV[39m  [31mL[39m  [31mL[39m   [31mS[39m  [31mP[39m  [31mE[39m  [31mE[39m    [31mV[39m  [31mS[39m  [31mE[39m   [31mT[39m  [31mQ[39m  [31mG[39m   [31mT[39m  [31mE[39m  [31mK[39m  [31mL[39m   [31mT[39m  [31mI[39m  [31mT[39m   [31mY[39m  [31mS[39m  [31mS[39m  
+  1500  TTTTTAAGGG TTAGAGATCA AAGAGGGAAC GTACTATTGT CTCCCGAAGA  AGTCAGTGAA ACGCAAGGAA CTGAGAAGTT GACAATAACT TATTCGTCAT    1600
+        AAAAATTCCC AATCTCTAGT TTCTCCCTTG CATGATAACA GAGGGCTTCT  TCAGTCACTT TGCGTTCCTT GACTCTTCAA CTGTTATTGA ATAAGCAGTA
+
+        [31mS[39m  [31mM[39m  [31mM[39m  [31mW[39m   [31mE[39m  [31mI[39m  [31mN[39m   [31mG[39m  [31mP[39m  [31mE[39m   [31mS[39m  [31mV[39m  [31mL[39m  [31mV[39m   [31mN[39m  [31mT[39m  [31mY[39m    [31mQ[39m  [31mW[39m  [31mI[39m   [31mI[39m  [31mR[39m  [31mN[39m  [31mW[39m   [31mE[39m  [31mI[39m  [31mV[39m   [31mK[39m  [31mI[39m  [31mQ[39m   [31mW[39m  [31mS[39m  [31mQ[39m  [31mD[39m
+  1600  CAATGATGTG GGAGATCAAT GGCCCTGAGT CAGTGCTAGT CAACACTTAT  CAATGGATAA TCAGGAACTG GGAAATTGTG AAAATTCAAT GGTCACAAGA    1700
+        GTTACTACAC CCTCTAGTTA CCGGGACTCA GTCACGATCA GTTGTGAATA  GTTACCTATT AGTCCTTGAC CCTTTAACAC TTTTAAGTTA CCAGTGTTCT
+
+          [31mP[39m  [31mT[39m  [31mM[39m   [31mL[39m  [31mY[39m  [31mN[39m   [31mK[39m  [31mM[39m  [31mE[39m  [31mF[39m   [31mE[39m  [31mP[39m  [31mF[39m   [31mQ[39m  [31mS[39m  [31mL[39m    [31mV[39m  [31mP[39m  [31mK[39m  [31mA[39m   [31mT[39m  [31mR[39m  [31mS[39m   [31mR[39m  [31mY[39m  [31mS[39m   [31mG[39m  [31mF[39m  [31mV[39m  [31mR[39m   [31mT[39m  [31mL[39m  [31mF[39m 
+  1700  TCCCACAATG TTATACAACA AAATGGAATT TGAACCATTT CAGTCTCTTG  TCCCTAAGGC AACCAGAAGC CGGTACAGTG GATTCGTAAG GACACTGTTC    1800
+        AGGGTGTTAC AATATGTTGT TTTACCTTAA ACTTGGTAAA GTCAGAGAAC  AGGGATTCCG TTGGTCTTCG GCCATGTCAC CTAAGCATTC CTGTGACAAG
+
+         [31mQ[39m  [31mQ[39m  [31mM[39m   [31mR[39m  [31mD[39m  [31mV[39m  [31mL[39m   [31mG[39m  [31mT[39m  [31mF[39m   [31mD[39m  [31mT[39m  [31mV[39m   [31mQ[39m  [31mI[39m  [31mI[39m  [31mK[39m    [31mL[39m  [31mL[39m  [31mP[39m   [31mF[39m  [31mA[39m  [31mA[39m   [31mA[39m  [31mP[39m  [31mP[39m  [31mE[39m   [31mQ[39m  [31mS[39m  [31mR[39m   [31mM[39m  [31mQ[39m  [31mF[39m  
+  1800  CAGCAAATGC GGGATGTGCT TGGGACATTT GACACTGTCC AAATAATAAA  ACTTCTCCCC TTTGCTGCTG CTCCACCAGA ACAGAGTAGG ATGCAATTTT    1900
+        GTCGTTTACG CCCTACACGA ACCCTGTAAA CTGTGACAGG TTTATTATTT  TGAAGAGGGG AAACGACGAC GAGGTGGTCT TGTCTCATCC TACGTTAAAA
+
+        [31mS[39m  [31mS[39m  [31mL[39m  [31mT[39m   [31mV[39m  [31mN[39m  [31mV[39m   [31mR[39m  [31mG[39m  [31mS[39m   [31mG[39m  [31mL[39m  [31mR[39m  [31mI[39m   [31mL[39m  [31mV[39m  [31mR[39m    [31mG[39m  [31mN[39m  [31mS[39m   [31mP[39m  [31mV[39m  [31mF[39m  [31mN[39m   [31mY[39m  [31mN[39m  [31mK[39m   [31mA[39m  [31mT[39m  [31mK[39m   [31mR[39m  [31mL[39m  [31mT[39m  [31mV[39m
+  1900  CCTCATTGAC TGTGAATGTG AGAGGATCAG GGTTGAGGAT ACTGGTAAGA  GGCAATTCTC CAGTATTCAA TTACAACAAG GCAACCAAAC GACTTACAGT    2000
+        GGAGTAACTG ACACTTACAC TCTCCTAGTC CCAACTCCTA TGACCATTCT  CCGTTAAGAG GTCATAAGTT AATGTTGTTC CGTTGGTTTG CTGAATGTCA
+                                                                                       [33m*[39m  [33mL[39m  [33mL[39m   [33mA[39m  [33mV[39m  [33mL[39m  [33mR[39m   [33mS[39m  [33mV[39m  [33mT[39m 
+
+          [31mL[39m  [31mG[39m  [31mK[39m   [31mD[39m  [31mA[39m  [31mG[39m   [31mA[39m  [31mL[39m  [31mT[39m  [31mE[39m   [31mD[39m  [31mP[39m  [31mD[39m   [31mE[39m  [31mG[39m  [31mT[39m    [31mS[39m  [31mG[39m  [31mV[39m  [31mE[39m   [31mS[39m  [31mA[39m  [31mV[39m   [31mL[39m  [31mR[39m  [31mG[39m   [31mF[39m  [31mL[39m  [31mI[39m  [31mL[39m   [31mG[39m  [31mK[39m  [31mE[39m 
+  2000  TCTTGGAAAG GATGCAGGTG CATTGACTGA AGATCCAGAT GAAGGCACAT  CTGGGGTGGA GTCTGCTGTC CTGAGAGGAT TTCTCATTTT GGGCAAAGAA    2100
+        AGAACCTTTC CTACGTCCAC GTAACTGACT TCTAGGTCTA CTTCCGTGTA  GACCCCACCT CAGACGACAG GACTCTCCTA AAGAGTAAAA CCCGTTTCTT
+         [33mR[39m  [33mP[39m  [33mF[39m   [33mS[39m  [33mA[39m  [33mP[39m  [33mA[39m   [33mN[39m  [33mV[39m  [33mS[39m   [33mS[39m  [33mG[39m  [33mS[39m   [33mS[39m  [33mP[39m  [33mV[39m  [33mD[39m    [33mP[39m  [33mT[39m  [33mS[39m   [33mD[39m  [33mA[39m  [33mT[39m   [33mR[39m  [33mL[39m  [33mP[39m  [33mN[39m   [33mR[39m  [33mM[39m  [33mK[39m   [33mP[39m  [33mL[39m  [33mS[39m  
+
+         [31mD[39m  [31mK[39m  [31mR[39m   [31mY[39m  [31mG[39m  [31mP[39m  [31mA[39m   [31mL[39m  [31mS[39m  [31mI[39m   [31mN[39m  [31mE[39m  [31mL[39m   [31mS[39m  [31mN[39m  [31mL[39m  [31mA[39m    [31mK[39m  [31mG[39m  [31mE[39m   [31mK[39m  [31mA[39m  [31mN[39m   [31mV[39m  [31mL[39m  [31mI[39m  [31mG[39m   [31mQ[39m  [31mG[39m  [31mD[39m   [31mV[39m  [31mV[39m  [31mL[39m  
+  2100  GACAAGAGAT ATGGCCCAGC ATTAAGCATC AATGAACTGA GCAATCTTGC  AAAAGGAGAG AAAGCTAATG TGCTAATTGG GCAAGGGGAC GTAGTGTTGG    2200
+        CTGTTCTCTA TACCGGGTCG TAATTCGTAG TTACTTGACT CGTTAGAACG  TTTTCCTCTC TTTCGATTAC ACGATTAACC CGTTCCCCTG CATCACAACC
+        [33mS[39m  [33mL[39m  [33mL[39m  [33mY[39m   [33mP[39m  [33mG[39m  [33mA[39m   [33mN[39m  [33mL[39m  [33mM[39m   [33mL[39m  [33mS[39m  [33mS[39m  [33mL[39m   [33mL[39m  [33mR[39m  [33mA[39m    [33mF[39m  [33mP[39m  [33mS[39m   [33mF[39m  [33mA[39m  [33mL[39m  [33mT[39m   [33mS[39m  [33mI[39m  [33mP[39m   [33mC[39m  [33mP[39m  [33mS[39m   [33mT[39m  [33mT[39m  [33mN[39m  [33mT[39m
+
+        [31mV[39m  [31mM[39m  [31mK[39m  [31mR[39m   [31mK[39m  [31mR[39m  [31mD[39m   [31mS[39m  [31mS[39m  [31mI[39m   [31mL[39m  [31mT[39m  [31mD[39m  [31mS[39m   [31mQ[39m  [31mT[39m  [31mA[39m    [31mT[39m  [31mK[39m  [31mR[39m   [31mI[39m  [31mR[39m  [31mM[39m  [31mA[39m   [31mI[39m  [31mN[39m  [31m*[39m 
+  2200  TAATGAAACG AAAACGGGAC TCTAGCATAC TTACTGACAG CCAGACAGCG  ACCAAAAGAA TTCGGATGGC CATCAATTAG
+        ATTACTTTGC TTTTGCCCTG AGATCGTATG AATGACTGTC GGTCTGTCGC  TGGTTTTCTT AAGCCTACCG GTAGTTAATC
+          [33mI[39m  [33mF[39m  [33mR[39m   [33mF[39m  [33mR[39m  [33mS[39m   [33mE[39m  [33mL[39m  [33mM[39m  [33mS[39m   [33mV[39m  [33mS[39m  [33mL[39m   [33mW[39m  [33mV[39m  [33mA[39m    [33mV[39m  [33mL[39m  [33mL[39m  [33mI[39m   [33mR[39m  [33mI[39m  [33mA[39m   [4m[33mM[39m[24m        
+>GU136036 A/Iwate/3/2009 2009/06/24 2 (PB1)
+         [4m[31mM[39m[24m  [31mD[39m  [31mV[39m   [31mN[39m  [31mP[39m  [31mT[39m  [31mL[39m   [31mL[39m  [31mF[39m  [31mL[39m   [31mK[39m  [31mI[39m  [31mP[39m   [31mA[39m  [31mQ[39m  [31mN[39m  [31mA[39m    [31mI[39m  [31mS[39m  [31mT[39m   [31mT[39m  [31mF[39m  [31mP[39m   [31mY[39m  [31mT[39m  [31mG[39m  [31mD[39m   [31mP[39m  [31mP[39m  [31mY[39m   [31mS[39m  [31mH[39m  [31mG[39m  
+     0  ATGGATGTCA ATCCGACTCT ACTTTTCCTA AAAATTCCAG CGCAAAATGC  CATAAGCACC ACATTCCCTT ATACTGGAGA TCCTCCATAC AGCCATGGAA     100
+        TACCTACAGT TAGGCTGAGA TGAAAAGGAT TTTTAAGGTC GCGTTTTACG  GTATTCGTGG TGTAAGGGAA TATGACCTCT AGGAGGTATG TCGGTACCTT
+
+        [31mT[39m  [31mG[39m  [31mT[39m  [31mG[39m   [31mY[39m  [31mT[39m  [31mM[39m   [31mD[39m  [31mT[39m  [31mV[39m   [31mN[39m  [31mR[39m  [31mT[39m  [31mH[39m   [31mQ[39m  [31mY[39m  [31mS[39m    [31mE[39m  [31mK[39m  [31mG[39m   [31mK[39m  [31mW[39m  [31mT[39m  [31mT[39m   [31mN[39m  [31mT[39m  [31mE[39m   [31mT[39m  [31mG[39m  [31mA[39m   [31mP[39m  [31mQ[39m  [31mL[39m  [31mN[39m
+   100  CAGGAACAGG ATACACCATG GACACAGTAA ACAGAACACA CCAATACTCA  GAAAAGGGAA AGTGGACGAC AAACACAGAG ACTGGTGCAC CCCAGCTCAA     200
+        GTCCTTGTCC TATGTGGTAC CTGTGTCATT TGTCTTGTGT GGTTATGAGT  CTTTTCCCTT TCACCTGCTG TTTGTGTCTC TGACCACGTG GGGTCGAGTT
+
+          [31mP[39m  [31mI[39m  [31mD[39m   [31mG[39m  [31mP[39m  [31mL[39m   [31mP[39m  [31mE[39m  [31mD[39m  [31mN[39m   [31mE[39m  [31mP[39m  [31mS[39m   [31mG[39m  [31mY[39m  [31mA[39m    [31mQ[39m  [31mT[39m  [31mD[39m  [31mC[39m   [31mV[39m  [31mL[39m  [31mE[39m   [31mA[39m  [31mM[39m  [31mA[39m   [31mF[39m  [31mL[39m  [31mE[39m  [31mE[39m   [31mS[39m  [31mH[39m  [31mP[39m 
+   200  CCCGATTGAT GGACCACTAC CTGAGGATAA TGAACCAAGT GGGTATGCAC  AAACAGACTG TGTTCTAGAG GCTATGGCTT TCCTTGAAGA ATCCCACCCA     300
+        GGGCTAACTA CCTGGTGATG GACTCCTATT ACTTGGTTCA CCCATACGTG  TTTGTCTGAC ACAAGATCTC CGATACCGAA AGGAACTTCT TAGGGTGGGT
+
+         [31mG[39m  [31mI[39m  [31mF[39m   [31mE[39m  [31mN[39m  [31mS[39m  [31mC[39m   [31mL[39m  [31mE[39m  [31mT[39m   [31mM[39m  [31mE[39m  [31mV[39m   [31mV[39m  [31mQ[39m  [31mQ[39m  [31mT[39m    [31mR[39m  [31mV[39m  [31mD[39m   [31mK[39m  [31mL[39m  [31mT[39m   [31mQ[39m  [31mG[39m  [31mR[39m  [31mQ[39m   [31mT[39m  [31mY[39m  [31mD[39m   [31mW[39m  [31mT[39m  [31mL[39m  
+   300  GGAATATTTG AGAATTCATG CCTTGAAACA ATGGAAGTTG TTCAACAAAC  AAGGGTAGAT AAACTAACTC AAGGTCGCCA GACTTATGAT TGGACATTAA     400
+        CCTTATAAAC TCTTAAGTAC GGAACTTTGT TACCTTCAAC AAGTTGTTTG  TTCCCATCTA TTTGATTGAG TTCCAGCGGT CTGAATACTA ACCTGTAATT
+
+        [31mN[39m  [31mR[39m  [31mN[39m  [31mQ[39m   [31mP[39m  [31mA[39m  [31mA[39m   [31mT[39m  [31mA[39m  [31mL[39m   [31mA[39m  [31mN[39m  [31mT[39m  [31mI[39m   [31mE[39m  [31mV[39m  [31mF[39m    [31mR[39m  [31mS[39m  [31mN[39m   [31mG[39m  [31mL[39m  [31mT[39m  [31mA[39m   [31mN[39m  [31mE[39m  [31mS[39m   [31mG[39m  [31mR[39m  [31mL[39m   [31mI[39m  [31mD[39m  [31mF[39m  [31mL[39m
+   400  ACAGAAATCA ACCGGCAGCA ACTGCATTGG CCAACACCAT AGAAGTCTTT  AGATCGAATG GCCTAACAGC TAATGAGTCA GGAAGGCTAA TAGATTTCTT     500
+        TGTCTTTAGT TGGCCGTCGT TGACGTAACC GGTTGTGGTA TCTTCAGAAA  TCTAGCTTAC CGGATTGTCG ATTACTCAGT CCTTCCGATT ATCTAAAGAA
+
+          [31mK[39m  [31mD[39m  [31mV[39m   [31mM[39m  [31mE[39m  [31mS[39m   [31mM[39m  [31mN[39m  [31mK[39m  [31mE[39m   [31mE[39m  [31mI[39m  [31mE[39m   [31mI[39m  [31mT[39m  [31mT[39m    [31mH[39m  [31mF[39m  [31mQ[39m  [31mR[39m   [31mK[39m  [31mR[39m  [31mR[39m   [31mV[39m  [31mR[39m  [31mD[39m   [31mN[39m  [31mM[39m  [31mT[39m  [31mK[39m   [31mK[39m  [31mM[39m  [31mV[39m 
+   500  AAAGGATGTA ATGGAATCAA TGAACAAAGA GGAAATAGAG ATAACAACCC  ACTTTCAAAG AAAAAGGAGA GTAAGAGACA ACATGACCAA GAAGATGGTC     600
+        TTTCCTACAT TACCTTAGTT ACTTGTTTCT CCTTTATCTC TATTGTTGGG  TGAAAGTTTC TTTTTCCTCT CATTCTCTGT TGTACTGGTT CTTCTACCAG
+
+         [31mT[39m  [31mQ[39m  [31mR[39m   [31mT[39m  [31mI[39m  [31mG[39m  [31mK[39m   [31mK[39m  [31mK[39m  [31mQ[39m   [31mR[39m  [31mL[39m  [31mN[39m   [31mK[39m  [31mR[39m  [31mG[39m  [31mY[39m    [31mL[39m  [31mI[39m  [31mR[39m   [31mA[39m  [31mL[39m  [31mT[39m   [31mL[39m  [31mN[39m  [31mT[39m  [31mM[39m   [31mT[39m  [31mK[39m  [31mD[39m   [31mA[39m  [31mE[39m  [31mR[39m  
+   600  ACGCAAAGAA CAATAGGGAA GAAAAAACAA AGACTGAATA AGAGAGGCTA  TCTAATAAGA GCACTGACAT TAAATACGAT GACCAAAGAT GCAGAGAGAG     700
+        TGCGTTTCTT GTTATCCCTT CTTTTTTGTT TCTGACTTAT TCTCTCCGAT  AGATTATTCT CGTGACTGTA ATTTATGCTA CTGGTTTCTA CGTCTCTCTC
+
+        [31mG[39m  [31mK[39m  [31mL[39m  [31mK[39m   [31mR[39m  [31mR[39m  [31mA[39m   [31mI[39m  [31mA[39m  [31mT[39m   [31mP[39m  [31mG[39m  [31mM[39m  [31mQ[39m   [31mI[39m  [31mR[39m  [31mG[39m    [31mF[39m  [31mV[39m  [31mY[39m   [31mF[39m  [31mV[39m  [31mE[39m  [31mT[39m   [31mL[39m  [31mA[39m  [31mR[39m   [31mS[39m  [31mI[39m  [31mC[39m   [31mE[39m  [31mK[39m  [31mL[39m  [31mE[39m
+   700  GCAAGTTAAA AAGAAGGGCT ATCGCAACAC CTGGGATGCA GATTAGAGGT  TTCGTATACT TTGTTGAAAC TTTAGCTAGG AGCATTTGCG AAAAGCTTGA     800
+        CGTTCAATTT TTCTTCCCGA TAGCGTTGTG GACCCTACGT CTAATCTCCA  AAGCATATGA AACAACTTTG AAATCGATCC TCGTAAACGC TTTTCGAACT
+
+          [31mQ[39m  [31mS[39m  [31mG[39m   [31mL[39m  [31mP[39m  [31mV[39m   [31mG[39m  [31mG[39m  [31mN[39m  [31mE[39m   [31mK[39m  [31mK[39m  [31mA[39m   [31mK[39m  [31mL[39m  [31mA[39m    [31mN[39m  [31mV[39m  [31mV[39m  [31mR[39m   [31mK[39m  [31mM[39m  [31mM[39m   [31mT[39m  [31mN[39m  [31mS[39m   [31mQ[39m  [31mD[39m  [31mT[39m  [31mE[39m   [31mI[39m  [31mS[39m  [31mF[39m 
+   800  ACAGTCTGGG CTCCCAGTAG GGGGCAATGA AAAGAAGGCC AAACTGGCAA  ATGTTGTGAG AAAGATGATG ACTAACTCAC AAGACACAGA GATTTCTTTC     900
+        TGTCAGACCC GAGGGTCATC CCCCGTTACT TTTCTTCCGG TTTGACCGTT  TACAACACTC TTTCTACTAC TGATTGAGTG TTCTGTGTCT CTAAAGAAAG
+
+         [31mT[39m  [31mI[39m  [31mT[39m   [31mG[39m  [31mD[39m  [31mN[39m  [31mT[39m   [31mK[39m  [31mW[39m  [31mN[39m   [31mE[39m  [31mN[39m  [31mQ[39m   [31mN[39m  [31mP[39m  [31mR[39m  [31mM[39m    [31mF[39m  [31mL[39m  [31mA[39m   [31mM[39m  [31mI[39m  [31mT[39m   [31mY[39m  [31mI[39m  [31mT[39m  [31mR[39m   [31mN[39m  [31mQ[39m  [31mP[39m   [31mE[39m  [31mW[39m  [31mF[39m  
+   900  ACAATCACTG GGGACAACAC TAAGTGGAAT GAAAATCAAA ATCCTCGAAT  GTTCCTGGCG ATGATTACAT ATATCACCAG AAATCAACCC GAGTGGTTCA    1000
+        TGTTAGTGAC CCCTGTTGTG ATTCACCTTA CTTTTAGTTT TAGGAGCTTA  CAAGGACCGC TACTAATGTA TATAGTGGTC TTTAGTTGGG CTCACCAAGT
+                                                                                                     [33m*[39m  [33mG[39m   [33mS[39m  [33mH[39m  [33mN[39m  [33mL[39m
+
+        [31mR[39m  [31mN[39m  [31mI[39m  [31mL[39m   [31mS[39m  [31mM[39m  [31mA[39m   [31mP[39m  [31mI[39m  [31mM[39m   [31mF[39m  [31mS[39m  [31mN[39m  [31mK[39m   [31mM[39m  [31mA[39m  [31mR[39m    [31mL[39m  [31mG[39m  [31mK[39m   [31mG[39m  [31mY[39m  [31mM[39m  [31mF[39m   [31mE[39m  [31mS[39m  [31mK[39m   [31mR[39m  [31mM[39m  [31mK[39m   [31mI[39m  [31mR[39m  [31mT[39m  [31mQ[39m
+  1000  GAAACATCCT GAGCATGGCA CCCATAATGT TCTCAAACAA AATGGCAAGA  CTAGGGAAAG GGTACATGTT CGAGAGTAAA AGAATGAAGA TTCGAACACA    1100
+        CTTTGTAGGA CTCGTACCGT GGGTATTACA AGAGTTTGTT TTACCGTTCT  GATCCCTTTC CCATGTACAA GCTCTCATTT TCTTACTTCT AAGCTTGTGT
+          [33mF[39m  [33mM[39m  [33mR[39m   [33mL[39m  [33mM[39m  [33mA[39m   [33mG[39m  [33mM[39m  [33mI[39m  [33mN[39m   [33mE[39m  [33mF[39m  [33mL[39m   [33mI[39m  [33mA[39m  [33mL[39m    [33mS[39m  [33mP[39m  [33mF[39m  [33mP[39m   [33mY[39m  [33mM[39m  [33mN[39m   [33mS[39m  [33mL[39m  [33mL[39m   [33mL[39m  [33mI[39m  [33mF[39m  [33mI[39m   [33mR[39m  [33mV[39m  [33mC[39m 
+
+          [31mI[39m  [31mP[39m  [31mA[39m   [31mE[39m  [31mM[39m  [31mL[39m   [31mA[39m  [31mS[39m  [31mI[39m  [31mD[39m   [31mL[39m  [31mK[39m  [31mY[39m   [31mF[39m  [31mN[39m  [31mE[39m    [31mS[39m  [31mT[39m  [31mK[39m  [31mK[39m   [31mK[39m  [31mI[39m  [31mE[39m   [31mK[39m  [31mI[39m  [31mR[39m   [31mP[39m  [31mL[39m  [31mL[39m  [31mI[39m   [31mD[39m  [31mG[39m  [31mT[39m 
+  1100  AATACCAGCA GAAATGCTAG CAAGCATTGA CCTGAAGTAC TTCAATGAAT  CAACAAAGAA GAAAATTGAG AAAATAAGGC CTCTTCTAAT AGATGGCACA    1200
+        TTATGGTCGT CTTTACGATC GTTCGTAACT GGACTTCATG AAGTTACTTA  GTTGTTTCTT CTTTTAACTC TTTTATTCCG GAGAAGATTA TCTACCGTGT
+         [33mI[39m  [33mG[39m  [33mA[39m   [33mS[39m  [33mI[39m  [33mS[39m  [33mA[39m   [33mL[39m  [33mM[39m  [33mS[39m   [33mR[39m  [33mF[39m  [33mY[39m   [33mK[39m  [33mL[39m  [33mS[39m  [33mD[39m    [33mV[39m  [33mF[39m  [33mF[39m   [33mF[39m  [33mI[39m  [33mS[39m   [33mF[39m  [33mI[39m  [33mL[39m  [33mG[39m   [33mR[39m  [33mR[39m  [33mI[39m   [33mS[39m  [33mP[39m  [33mV[39m  
+
+         [31mA[39m  [31mS[39m  [31mL[39m   [31mS[39m  [31mP[39m  [31mG[39m  [31mM[39m   [31mM[39m  [31mM[39m  [31mG[39m   [31mM[39m  [31mF[39m  [31mN[39m   [31mM[39m  [31mL[39m  [31mS[39m  [31mT[39m    [31mV[39m  [31mL[39m  [31mG[39m   [31mV[39m  [31mS[39m  [31mI[39m   [31mL[39m  [31mN[39m  [31mL[39m  [31mG[39m   [31mQ[39m  [31mK[39m  [31mK[39m   [31mY[39m  [31mT[39m  [31mK[39m  
+  1200  GCATCACTGA GTCCTGGGAT GATGATGGGC ATGTTCAACA TGCTAAGTAC  GGTCTTGGGA GTCTCGATAC TGAATCTTGG ACAAAAGAAA TACACCAAGA    1300
+        CGTAGTGACT CAGGACCCTA CTACTACCCG TACAAGTTGT ACGATTCATG  CCAGAACCCT CAGAGCTATG ACTTAGAACC TGTTTTCTTT ATGTGGTTCT
+        [33mA[39m  [33mD[39m  [33mS[39m  [33mL[39m   [33mG[39m  [33mP[39m  [33mI[39m   [33mI[39m  [33mI[39m  [33mP[39m   [33mM[39m  [33mN[39m  [33mL[39m  [33mM[39m   [33mS[39m  [33mL[39m  [33mV[39m    [33mT[39m  [33mK[39m  [33mP[39m   [33mT[39m  [33mE[39m  [33mI[39m  [33mS[39m   [33mF[39m  [33mR[39m  [33mP[39m   [33mC[39m  [33mF[39m  [33mF[39m   [33mY[39m  [33mV[39m  [33mL[39m  [33mV[39m
+
+        [31mT[39m  [31mI[39m  [31mY[39m  [31mW[39m   [31mW[39m  [31mD[39m  [31mG[39m   [31mL[39m  [31mQ[39m  [31mS[39m   [31mS[39m  [31mD[39m  [31mD[39m  [31mF[39m   [31mA[39m  [31mL[39m  [31mI[39m    [31mV[39m  [31mN[39m  [31mA[39m   [31mP[39m  [31mN[39m  [31mH[39m  [31mE[39m   [31mG[39m  [31mI[39m  [31mQ[39m   [31mA[39m  [31mG[39m  [31mV[39m   [31mD[39m  [31mR[39m  [31mF[39m  [31mY[39m
+  1300  CAATATACTG GTGGGATGGG CTCCAATCAT CCGACGATTT TGCTCTCATA  GTGAATGCAC CAAACCATGA GGGAATACAA GCAGGAGTGG ACAGATTCTA    1400
+        GTTATATGAC CACCCTACCC GAGGTTAGTA GGCTGCTAAA ACGAGAGTAT  CACTTACGTG GTTTGGTACT CCCTTATGTT CGTCCTCACC TGTCTAAGAT
+          [33mI[39m  [33mY[39m  [33mQ[39m   [33mH[39m  [33mS[39m  [33mP[39m   [33mS[39m  [33mW[39m  [33mD[39m  [33mD[39m   [33mS[39m  [33mS[39m  [33mK[39m   [33mA[39m  [33mR[39m  [4m[33mM[39m[24m                                                          
+
+          [31mR[39m  [31mT[39m  [31mC[39m   [31mK[39m  [31mL[39m  [31mV[39m   [31mG[39m  [31mI[39m  [31mN[39m  [31mM[39m   [31mS[39m  [31mK[39m  [31mK[39m   [31mK[39m  [31mS[39m  [31mY[39m    [31mI[39m  [31mN[39m  [31mK[39m  [31mT[39m   [31mG[39m  [31mT[39m  [31mF[39m   [31mE[39m  [31mF[39m  [31mT[39m   [31mS[39m  [31mF[39m  [31mF[39m  [31mY[39m   [31mR[39m  [31mY[39m  [31mG[39m 
+  1400  CAGGACCTGC AAGTTAGTGG GAATCAACAT GAGCAAAAAG AAGTCCTATA  TAAATAAGAC AGGGACATTT GAATTCACAA GCTTTTTTTA TCGCTATGGA    1500
+        GTCCTGGACG TTCAATCACC CTTAGTTGTA CTCGTTTTTC TTCAGGATAT  ATTTATTCTG TCCCTGTAAA CTTAAGTGTT CGAAAAAAAT AGCGATACCT
+
+         [31mF[39m  [31mV[39m  [31mA[39m   [31mN[39m  [31mF[39m  [31mS[39m  [31mM[39m   [31mE[39m  [31mL[39m  [31mP[39m   [31mS[39m  [31mF[39m  [31mG[39m   [31mV[39m  [31mS[39m  [31mG[39m  [31mV[39m    [31mN[39m  [31mE[39m  [31mS[39m   [31mA[39m  [31mD[39m  [31mM[39m   [31mS[39m  [31mI[39m  [31mG[39m  [31mV[39m   [31mT[39m  [31mV[39m  [31mI[39m   [31mK[39m  [31mN[39m  [31mN[39m  
+  1500  TTTGTGGCTA ATTTTAGCAT GGAGCTACCC AGCTTTGGAG TGTCTGGAGT  AAATGAATCA GCTGACATGA GTATTGGAGT AACAGTGATA AAGAACAACA    1600
+        AAACACCGAT TAAAATCGTA CCTCGATGGG TCGAAACCTC ACAGACCTCA  TTTACTTAGT CGACTGTACT CATAACCTCA TTGTCACTAT TTCTTGTTGT
+
+        [31mM[39m  [31mI[39m  [31mN[39m  [31mN[39m   [31mD[39m  [31mL[39m  [31mG[39m   [31mP[39m  [31mA[39m  [31mT[39m   [31mA[39m  [31mQ[39m  [31mM[39m  [31mA[39m   [31mL[39m  [31mQ[39m  [31mL[39m    [31mF[39m  [31mI[39m  [31mK[39m   [31mD[39m  [31mY[39m  [31mR[39m  [31mY[39m   [31mT[39m  [31mY[39m  [31mR[39m   [31mC[39m  [31mH[39m  [31mR[39m   [31mG[39m  [31mD[39m  [31mT[39m  [31mQ[39m
+  1600  TGATAAACAA TGACCTTGGA CCTGCAACGG CCCAGATGGC TCTTCAATTG  TTCATCAAAG ACTACAGATA CACATATAGG TGCCATAGGG GAGACACACA    1700
+        ACTATTTGTT ACTGGAACCT GGACGTTGCC GGGTCTACCG AGAAGTTAAC  AAGTAGTTTC TGATGTCTAT GTGTATATCC ACGGTATCCC CTCTGTGTGT
+
+          [31mI[39m  [31mQ[39m  [31mT[39m   [31mR[39m  [31mR[39m  [31mS[39m   [31mF[39m  [31mE[39m  [31mL[39m  [31mK[39m   [31mK[39m  [31mL[39m  [31mW[39m   [31mD[39m  [31mQ[39m  [31mT[39m    [31mQ[39m  [31mS[39m  [31mK[39m  [31mV[39m   [31mG[39m  [31mL[39m  [31mL[39m   [31mV[39m  [31mS[39m  [31mD[39m   [31mG[39m  [31mG[39m  [31mP[39m  [31mN[39m   [31mL[39m  [31mY[39m  [31mN[39m 
+  1700  AATTCAGACG AGAAGATCAT TTGAGTTAAA GAAGCTGTGG GATCAAACCC  AATCAAAGGT AGGGCTATTA GTATCAGATG GAGGACCAAA CTTATACAAT    1800
+        TTAAGTCTGC TCTTCTAGTA AACTCAATTT CTTCGACACC CTAGTTTGGG  TTAGTTTCCA TCCCGATAAT CATAGTCTAC CTCCTGGTTT GAATATGTTA
+
+         [31mI[39m  [31mR[39m  [31mN[39m   [31mL[39m  [31mH[39m  [31mI[39m  [31mP[39m   [31mE[39m  [31mV[39m  [31mC[39m   [31mL[39m  [31mK[39m  [31mW[39m   [31mE[39m  [31mL[39m  [31mM[39m  [31mD[39m    [31mD[39m  [31mD[39m  [31mY[39m   [31mR[39m  [31mG[39m  [31mR[39m   [31mL[39m  [31mC[39m  [31mN[39m  [31mP[39m   [31mL[39m  [31mN[39m  [31mP[39m   [31mF[39m  [31mV[39m  [31mS[39m  
+  1800  ATACGGAATC TTCACATCCC TGAAGTCTGC TTAAAATGGG AGCTAATGGA  TGATGATTAT CGGGGAAGAC TTTGTAATCC CCTGAATCCC TTTGTCAGTC    1900
+        TATGCCTTAG AAGTGTAGGG ACTTCAGACG AATTTTACCC TCGATTACCT  ACTACTAATA GCCCCTTCTG AAACATTAGG GGACTTAGGG AAACAGTCAG
+                                                                                                                     [33m*[39m
+
+        [31mH[39m  [31mK[39m  [31mE[39m  [31mI[39m   [31mD[39m  [31mS[39m  [31mV[39m   [31mN[39m  [31mN[39m  [31mA[39m   [31mV[39m  [31mV[39m  [31mM[39m  [31mP[39m   [31mA[39m  [31mH[39m[4m[33mM[39m[24m [31mG[39m[33mV[39m   [31mP[39m[33mQ[39m [31mA[39m[33mP[39m [31mK[39m[33mK[39m  [31mS[39m[33mA[39m [31mM[39m[33mW[39m [31mE[39m[33mN[39m [31mY[39m [33mM[39m [31mD[39m[33mM[39m [31mA[39m[33mP[39m [31mV[39m[33mL[39m  [31mA[39m[33mQ[39m [31mT[39m[33mL[39m [31mT[39m[33mH[39m  [31mH[39m[33mI[39m [31mS[39m[33mP[39m [31mW[39m[33mG[39m [31mI[39m
+  1900  ATAAAGAGAT TGATTCTGTA AACAATGCTG TGGTAATGCC AGCCCATGGT  CCAGCCAAAA GCATGGAATA TGATGCCGTT GCAACTACAC ATTCCTGGAT    2000
+        TATTTCTCTA ACTAAGACAT TTGTTACGAC ACCATTACGG TCGGGTACCA  GGTCGGTTTT CGTACCTTAT ACTACGGCAA CGTTGATGTG TAAGGACCTA
+          [33mL[39m  [33mS[39m  [33mI[39m   [33mS[39m  [33mE[39m  [33mT[39m   [33mF[39m  [33mL[39m  [33mA[39m  [33mT[39m   [33mT[39m  [33mI[39m  [33mG[39m   [33mA[39m  [33mW[39m  [33mP[39m    [33mG[39m  [33mA[39m  [33mL[39m  [33mL[39m   [33mM[39m  [33mS[39m  [33mY[39m   [33mS[39m  [33mA[39m  [33mT[39m   [33mA[39m  [33mV[39m  [33mV[39m  [33mC[39m   [33mE[39m  [33mQ[39m  [33mI[39m 
+
+        [33mF[39m [31mP[39m[33mP[39m [31mK[39m[33mR[39m [31mR[39m[33mG[39m  [31mN[39m[33mI[39m [31mR[39m[33mV[39m [31mS[39m[33mL[39m  [31mI[39m[33mF[39m [31mL[39m[33mS[39m [31mN[39m[33mT[39m [31mT[39m [33mQ[39m [31mS[39m[33mA[39m [31mQ[39m[33mK[39m [31mR[39m[33mG[39m  [31mG[39m[33mE[39m [31mI[39m[33mF[39m [31mL[39m[33mL[39m   [31mE[39m[33mR[39m [31mD[39m[33mM[39m [31mE[39m[33mN[39m [31mQ[39m [33mR[39m [31mM[39m[33mC[39m [31mY[39m[33mT[39m [31mQ[39m[33mR[39m  [31mK[39m[33mS[39m [31mC[39m[33mA[39m [31mC[39m[33mA[39m  [31mN[39m[33mI[39m [31mL[39m[33mY[39m [31mF[39m[33mS[39m [31mE[39m [33mR[39m [31mK[39m[33mN[39m [31mF[39m[33mF[39m [31mF[39m[33mS[39m
+  2000  TCCCAAGAGG AATCGTTCTA TTCTCAACAC AAGCCAAAGG GGAATTCTTG  AGGATGAACA GATGTACCAG AAGTGCTGCA ATCTATTCGA GAAATTTTTC    2100
+        AGGGTTCTCC TTAGCAAGAT AAGAGTTGTG TTCGGTTTCC CCTTAAGAAC  TCCTACTTGT CTACATGGTC TTCACGACGT TAGATAAGCT CTTTAAAAAG
+         [33mG[39m  [33mL[39m  [33mL[39m   [33mF[39m  [33mR[39m  [33mE[39m  [33mI[39m   [33mR[39m  [33mL[39m  [33mV[39m   [33mL[39m  [33mW[39m  [33mL[39m   [33mP[39m  [33mI[39m  [33mR[39m  [33mS[39m    [33mS[39m  [33mS[39m  [33mC[39m   [33mI[39m  [33mY[39m  [33mW[39m   [33mF[39m  [33mH[39m  [33mQ[39m  [33mL[39m   [33mR[39m  [33mN[39m  [33mS[39m   [33mF[39m  [33mN[39m  [33mK[39m  
+
+         [31mP[39m[33mL[39m [31mS[39m[33mA[39m [31mS[39m[33mV[39m  [31mS[39m[33mH[39m [31mY[39m[33mI[39m [31mR[39m[33mG[39m [31mR[39m [33mD[39m [31mP[39m[33mR[39m [31mV[39m[33mL[39m [31mG[39m[33mE[39m  [31mI[39m[33mF[39m [31mS[39m[33mL[39m [31mS[39m[33mA[39m  [31mM[39m[33mW[39m [31mV[39m[33mW[39m [31mE[39m[33mR[39m [31mA[39m  [33mP[39m [31mM[39m[33mW[39m [31mV[39m[33mC[39m [31mS[39m[33mL[39m  [31mR[39m[33mG[39m [31mA[39m[33mP[39m [31mR[39m[33mG[39m  [31mI[39m[33mL[39m [31mD[39m[33mM[39m [31mA[39m[33mP[39m [31mR[39m [33mG[39m [31mV[39m[33mS[39m [31mD[39m[33mT[39m [31mF[39m[33mS[39m  [31mE[39m[33mS[39m [31mS[39m[33mL[39m [31mG[39m[33mD[39m 
+  2100  CCTAGCAGTT CATATAGGAG ACCGGTTGGA ATTTCTAGCA TGGTGGAGGC  CATGGTGTCT AGGGCCCGGA TTGATGCCAG GGTCGACTTC GAGTCTGGAC    2200
+        GGATCGTCAA GTATATCCTC TGGCCAACCT TAAAGATCGT ACCACCTCCG  GTACCACAGA TCCCGGGCCT AACTACGGTC CCAGCTGAAG CTCAGACCTG
+        [33mG[39m  [33mL[39m  [33mL[39m  [33mE[39m   [33mY[39m  [33mL[39m  [33mL[39m   [33mG[39m  [33mT[39m  [33mP[39m   [33mI[39m  [33mE[39m  [33mL[39m  [33mM[39m   [33mT[39m  [33mS[39m  [33mA[39m    [33mM[39m  [33mT[39m  [33mD[39m   [33mL[39m  [33mA[39m  [33mR[39m  [33mI[39m   [33mS[39m  [33mA[39m  [33mL[39m   [33mT[39m  [33mS[39m  [33mK[39m   [33mS[39m  [33mD[39m  [33mP[39m  [33mR[39m
+
+        [31mR[39m[33mG[39m [31mI[39m[33mS[39m [31mK[39m[33mR[39m [31mK[39m [33mK[39m [31mE[39m[33mK[39m [31mE[39m[33mS[39m [31mF[39m[33mS[39m  [31mS[39m[33mL[39m [31mE[39m[33mR[39m [31mI[39m[33mS[39m  [31mM[39m[33m*[39m [31mK[39m  [31mI[39m  [31mC[39m   [31mS[39m  [31mT[39m  [31mI[39m    [31mE[39m  [31mE[39m  [31mL[39m   [31mR[39m  [31mR[39m  [31mQ[39m  [31mK[39m   [31m*[39m 
+  2200  GGATCAAGAA AGAAGAGTTC TCTGAGATCA TGAAGATCTG TTCCACCATT  GAAGAACTCA GACGGCAAAA ATAA
+        CCTAGTTCTT TCTTCTCAAG AGACTCTAGT ACTTCTAGAC AAGGTGGTAA  CTTCTTGAGT CTGCCGTTTT TATT
+          [33mI[39m  [33mL[39m  [33mF[39m   [33mS[39m  [33mS[39m  [33mN[39m   [33mE[39m  [33mS[39m  [33mI[39m  [33mM[39m   [33mF[39m  [33mI[39m  [33mQ[39m   [33mE[39m  [33mV[39m  [4m[33mM[39m[24m                              
+>GU138946 A/Iwate/3/2009 2009/06/24 3 (PA)
+         [4m[31mM[39m[24m  [31mE[39m  [31mD[39m   [31mF[39m  [31mV[39m  [31mR[39m  [31mQ[39m   [31mC[39m  [31mF[39m  [31mN[39m   [31mP[39m  [31mM[39m  [31mI[39m   [31mV[39m  [31mE[39m  [31mL[39m  [31mA[39m    [31mE[39m  [31mK[39m  [31mA[39m   [31mM[39m  [31mK[39m  [31mE[39m   [31mY[39m  [31mG[39m  [31mE[39m  [31mD[39m   [31mP[39m  [31mK[39m  [31mI[39m   [31mE[39m  [31mT[39m  [31mN[39m  
+     0  ATGGAAGACT TTGTGCGACA ATGCTTCAAT CCAATGATCG TCGAGCTTGC  GGAAAAGGCA ATGAAAGAAT ATGGGGAAGA TCCGAAAATC GAAACTAACA     100
+        TACCTTCTGA AACACGCTGT TACGAAGTTA GGTTACTAGC AGCTCGAACG  CCTTTTCCGT TACTTTCTTA TACCCCTTCT AGGCTTTTAG CTTTGATTGT
+           [33mS[39m  [33mS[39m  [33mK[39m   [33mT[39m  [33mR[39m  [33mC[39m   [33mH[39m  [33mK[39m  [33mL[39m   [33mG[39m  [33mI[39m  [33mI[39m  [33mT[39m   [33mS[39m  [33mS[39m  [33mA[39m    [33mS[39m  [33mF[39m  [33mA[39m   [33mI[39m  [33mF[39m  [33mS[39m  [33mY[39m   [33mP[39m  [33mS[39m  [33mS[39m   [33mG[39m  [33mF[39m  [33mI[39m   [33mS[39m  [33mV[39m  [33mL[39m  [33mL[39m
+
+        [31mK[39m  [31mF[39m  [31mA[39m  [31mA[39m   [31mI[39m  [31mC[39m  [31mT[39m   [31mH[39m  [31mL[39m  [31mE[39m   [31mV[39m  [31mC[39m  [31mF[39m  [31mM[39m   [31mY[39m  [31mS[39m  [31mD[39m    [31mF[39m  [31mH[39m  [31mF[39m   [31mI[39m  [31mD[39m  [31mE[39m  [31mR[39m   [31mG[39m  [31mE[39m  [31mS[39m   [31mI[39m  [31mI[39m  [31mV[39m   [31mE[39m  [31mS[39m  [31mG[39m  [31mD[39m
+   100  AGTTTGCTGC AATATGCACA CATTTGGAAG TTTGTTTCAT GTATTCGGAT  TTCCATTTCA TCGACGAACG GGGTGAATCA ATAATTGTAG AATCTGGTGA     200
+        TCAAACGACG TTATACGTGT GTAAACCTTC AAACAAAGTA CATAAGCCTA  AAGGTAAAGT AGCTGCTTGC CCCACTTAGT TATTAACATC TTAGACCACT
+          [33mN[39m  [33mA[39m  [33mA[39m   [33mI[39m  [33mH[39m  [33mV[39m   [33mC[39m  [33mK[39m  [33mS[39m  [33mT[39m   [33mQ[39m  [33mK[39m  [33mM[39m   [33mY[39m  [33mE[39m  [33mS[39m    [33mK[39m  [33mW[39m  [33mK[39m  [33mM[39m   [33mS[39m  [33mS[39m  [33mR[39m   [33mP[39m  [33mS[39m  [33mD[39m   [33mI[39m  [33mI[39m  [33mT[39m  [33mS[39m   [33mD[39m  [33mP[39m  [33mS[39m 
+
+          [31mP[39m  [31mN[39m  [31mA[39m   [31mL[39m  [31mL[39m  [31mK[39m   [31mH[39m  [31mR[39m  [31mF[39m  [31mE[39m   [31mI[39m  [31mI[39m  [31mE[39m   [31mG[39m  [31mR[39m  [31mD[39m    [31mR[39m  [31mI[39m  [31mM[39m  [31mA[39m   [31mW[39m  [31mT[39m  [31mV[39m   [31mV[39m  [31mN[39m  [31mS[39m   [31mI[39m  [31mC[39m  [31mN[39m  [31mT[39m   [31mT[39m  [31mG[39m  [31mV[39m 
+   200  CCCGAATGCA CTATTGAAGC ACCGATTTGA GATAATTGAA GGAAGAGACC  GAATCATGGC CTGGACAGTG GTGAACAGTA TATGTAACAC AACAGGGGTA     300
+        GGGCTTACGT GATAACTTCG TGGCTAAACT CTATTAACTT CCTTCTCTGG  CTTAGTACCG GACCTGTCAC CACTTGTCAT ATACATTGTG TTGTCCCCAT
+         [33mG[39m  [33mF[39m  [33mA[39m   [33mS[39m  [33mN[39m  [33mF[39m  [33mC[39m   [33mR[39m  [33mN[39m  [33mS[39m   [33mI[39m  [33mI[39m  [33mS[39m   [33mP[39m  [33mL[39m  [33mS[39m  [33mR[39m    [33mI[39m  [4m[33mM[39m[24m                                                
+
+         [31mE[39m  [31mK[39m  [31mP[39m   [31mK[39m  [31mF[39m  [31mL[39m  [31mP[39m   [31mD[39m  [31mL[39m  [31mY[39m   [31mD[39m  [31mY[39m  [31mK[39m   [31mE[39m  [31mN[39m  [31mR[39m  [31mF[39m    [31mI[39m  [31mE[39m  [31mI[39m   [31mG[39m  [31mV[39m  [31mT[39m   [31mR[39m  [31mR[39m  [31mE[39m  [31mV[39m   [31mH[39m  [31mI[39m  [31mY[39m   [31mY[39m  [31mL[39m  [31mE[39m  
+   300  GAGAAGCCTA AATTTCTTCC TGATTTGTAT GATTACAAAG AGAACCGGTT  CATTGAAATT GGAGTAACAC GGAGGGAAGT CCACATATAT TACCTAGAGA     400
+        CTCTTCGGAT TTAAAGAAGG ACTAAACATA CTAATGTTTC TCTTGGCCAA  GTAACTTTAA CCTCATTGTG CCTCCCTTCA GGTGTATATA ATGGATCTCT
+
+        [31mK[39m  [31mA[39m  [31mN[39m  [31mK[39m   [31mI[39m  [31mK[39m  [31mS[39m   [31mE[39m  [31mK[39m  [31mT[39m   [31mH[39m  [31mI[39m  [31mH[39m  [31mI[39m   [31mF[39m  [31mS[39m  [31mF[39m    [31mT[39m  [31mG[39m  [31mE[39m   [31mE[39m  [31mM[39m  [31mA[39m  [31mT[39m   [31mK[39m  [31mA[39m  [31mD[39m   [31mY[39m  [31mT[39m  [31mL[39m   [31mD[39m  [31mE[39m  [31mE[39m  [31mS[39m
+   400  AAGCCAACAA AATAAAATCT GAGAAGACAC ACATTCACAT CTTTTCATTC  ACTGGAGAGG AGATGGCCAC CAAAGCGGAC TACACCCTTG ACGAAGAGAG     500
+        TTCGGTTGTT TTATTTTAGA CTCTTCTGTG TGTAAGTGTA GAAAAGTAAG  TGACCTCTCC TCTACCGGTG GTTTCGCCTG ATGTGGGAAC TGCTTCTCTC
+
+          [31mR[39m  [31mA[39m  [31mR[39m   [31mI[39m  [31mK[39m  [31mT[39m   [31mR[39m  [31mL[39m  [31mF[39m  [31mT[39m   [31mI[39m  [31mR[39m  [31mQ[39m   [31mE[39m  [31mM[39m  [31mA[39m    [31mS[39m  [31mR[39m  [31mS[39m  [31mL[39m   [31mW[39m  [31mD[39m  [31mS[39m   [31mF[39m  [31mR[39m  [31mQ[39m   [31mS[39m  [31mE[39m  [31mR[39m  [31mG[39m   [31mE[39m  [31mE[39m  [31mT[39m 
+   500  CAGGGCAAGA ATCAAAACTA GGCTTTTCAC TATAAGACAA GAAATGGCCA  GTAGGAGTCT ATGGGATTCC TTTCGTCAGT CCGAAAGAGG CGAAGAGACA     600
+        GTCCCGTTCT TAGTTTTGAT CCGAAAAGTG ATATTCTGTT CTTTACCGGT  CATCCTCAGA TACCCTAAGG AAAGCAGTCA GGCTTTCTCC GCTTCTCTGT
+
+         [31mI[39m  [31mE[39m  [31mE[39m   [31mK[39m  [31mF[39m  [31mE[39m  [31mI[39m   [31mT[39m  [31mG[39m  [31mT[39m   [31mM[39m  [31mR[39m  [31mK[39m   [31mL[39m  [31mA[39m  [31mD[39m  [31mQ[39m    [31mS[39m  [31mL[39m  [31mP[39m   [31mP[39m  [31mN[39m  [31mF[39m   [31mS[39m  [31mS[39m  [31mL[39m  [31mE[39m   [31mN[39m  [31mF[39m  [31mR[39m   [31mA[39m  [31mY[39m  [31mV[39m  
+   600  ATTGAAGAAA AATTTGAGAT TACAGGAACT ATGCGCAAGC TTGCCGACCA  AAGTCTCCCA CCGAACTTCT CCAGCCTTGA AAACTTTAGA GCCTATGTAG     700
+        TAACTTCTTT TTAAACTCTA ATGTCCTTGA TACGCGTTCG AACGGCTGGT  TTCAGAGGGT GGCTTGAAGA GGTCGGAACT TTTGAAATCT CGGATACATC
+
+        [31mD[39m  [31mG[39m  [31mF[39m  [31mE[39m   [31mP[39m  [31mN[39m  [31mG[39m   [31mC[39m  [31mI[39m  [31mE[39m   [31mG[39m  [31mK[39m  [31mL[39m  [31mS[39m   [31mQ[39m  [31mM[39m  [31mS[39m    [31mK[39m  [31mE[39m  [31mV[39m   [31mN[39m  [31mA[39m  [31mK[39m  [31mI[39m   [31mE[39m  [31mP[39m  [31mF[39m   [31mL[39m  [31mR[39m  [31mT[39m   [31mT[39m  [31mP[39m  [31mR[39m  [31mP[39m
+   700  ATGGATTCGA GCCGAACGGC TGCATTGAGG GCAAGCTTTC CCAAATGTCA  AAAGAAGTGA ACGCCAAAAT TGAACCATTC TTGAGGACGA CACCACGCCC     800
+        TACCTAAGCT CGGCTTGCCG ACGTAACTCC CGTTCGAAAG GGTTTACAGT  TTTCTTCACT TGCGGTTTTA ACTTGGTAAG AACTCCTGCT GTGGTGCGGG
+
+          [31mL[39m  [31mR[39m  [31mL[39m   [31mP[39m  [31mD[39m  [31mG[39m   [31mP[39m  [31mL[39m  [31mC[39m  [31mH[39m   [31mQ[39m  [31mR[39m  [31mS[39m   [31mK[39m  [31mF[39m  [31mL[39m    [31mL[39m  [31mM[39m  [31mD[39m  [31mA[39m   [31mL[39m  [31mK[39m  [31mL[39m   [31mS[39m  [31mI[39m  [31mE[39m   [31mD[39m  [31mP[39m  [31mS[39m  [31mH[39m   [31mE[39m  [31mG[39m  [31mE[39m 
+   800  CCTCAGATTG CCTGATGGGC CTCTTTGCCA TCAGCGGTCA AAGTTCCTGC  TGATGGATGC TCTGAAATTA AGTATTGAAG ACCCGAGTCA CGAGGGGGAG     900
+        GGAGTCTAAC GGACTACCCG GAGAAACGGT AGTCGCCAGT TTCAAGGACG  ACTACCTACG AGACTTTAAT TCATAACTTC TGGGCTCAGT GCTCCCCCTC
+
+         [31mG[39m  [31mI[39m  [31mP[39m   [31mL[39m  [31mY[39m  [31mD[39m  [31mA[39m   [31mI[39m  [31mK[39m  [31mC[39m   [31mM[39m  [31mK[39m  [31mT[39m   [31mF[39m  [31mF[39m  [31mG[39m  [31mW[39m    [31mK[39m  [31mE[39m  [31mP[39m   [31mN[39m  [31mI[39m  [31mV[39m   [31mK[39m  [31mP[39m  [31mH[39m  [31mE[39m   [31mK[39m  [31mG[39m  [31mI[39m   [31mN[39m  [31mP[39m  [31mN[39m  
+   900  GGAATACCAC TATATGATGC AATCAAATGC ATGAAGACAT TCTTTGGCTG  GAAAGAGCCT AACATAGTCA AACCACATGA GAAAGGCATA AATCCCAATT    1000
+        CCTTATGGTG ATATACTACG TTAGTTTACG TACTTCTGTA AGAAACCGAC  CTTTCTCGGA TTGTATCAGT TTGGTGTACT CTTTCCGTAT TTAGGGTTAA
+                                                                                                                     [33m*[39m
+
+        [31mY[39m  [31mL[39m  [31mM[39m  [31mA[39m   [31mW[39m  [31mK[39m  [31mQ[39m   [31mV[39m  [31mL[39m  [31mA[39m   [31mE[39m  [31mL[39m  [31mQ[39m  [31mD[39m   [31mI[39m  [31mE[39m  [31mN[39m    [31mE[39m  [31mE[39m  [31mK[39m   [31mI[39m  [31mP[39m  [31mR[39m  [31mT[39m   [31mK[39m  [31mN[39m  [31mM[39m   [31mK[39m  [31mR[39m  [31mT[39m   [31mS[39m  [31mQ[39m  [31mL[39m  [31mK[39m
+  1000  ACCTCATGGC TTGGAAGCAG GTGCTAGCAG AGCTACAGGA CATTGAAAAT  GAAGAGAAGA TCCCAAGGAC AAAGAACATG AAGAGAACAA GCCAATTGAA    1100
+        TGGAGTACCG AACCTTCGTC CACGATCGTC TCGATGTCCT GTAACTTTTA  CTTCTCTTCT AGGGTTCCTG TTTCTTGTAC TTCTCTTGTT CGGTTAACTT
+          [33mR[39m  [33mM[39m  [33mA[39m   [33mQ[39m  [33mF[39m  [33mC[39m   [33mT[39m  [33mS[39m  [33mA[39m  [33mS[39m   [33mS[39m  [33mC[39m  [33mS[39m   [33mM[39m  [33mS[39m  [33mF[39m    [33mS[39m  [33mS[39m  [33mF[39m  [33mI[39m   [33mG[39m  [33mL[39m  [33mV[39m   [33mF[39m  [33mF[39m  [33mM[39m   [33mF[39m  [33mL[39m  [33mV[39m  [33mL[39m   [33mW[39m  [33mN[39m  [33mF[39m 
+
+          [31mW[39m  [31mA[39m  [31mL[39m   [31mG[39m  [31mE[39m  [31mN[39m   [31mM[39m  [31mA[39m  [31mP[39m  [31mE[39m   [31mK[39m  [31mV[39m  [31mD[39m   [31mF[39m  [31mD[39m  [31mD[39m    [31mC[39m  [31mK[39m  [31mD[39m  [31mV[39m   [31mG[39m  [31mD[39m  [31mL[39m   [31mK[39m  [31mQ[39m  [31mY[39m   [31mD[39m  [31mS[39m  [31mD[39m  [31mE[39m   [31mP[39m  [31mE[39m  [31mP[39m 
+  1100  GTGGGCACTC GGTGAAAATA TGGCACCAGA AAAAGTAGAC TTTGATGACT  GCAAAGATGT TGGAGACCTT AAACAGTATG ACAGTGATGA GCCAGAGCCC    1200
+        CACCCGTGAG CCACTTTTAT ACCGTGGTCT TTTTCATCTG AAACTACTGA  CGTTTCTACA ACCTCTGGAA TTTGTCATAC TGTCACTACT CGGTCTCGGG
+         [33mH[39m  [33mA[39m  [33mS[39m   [33mP[39m  [33mS[39m  [33mF[39m  [33mI[39m   [33mA[39m  [33mG[39m  [33mS[39m   [33mF[39m  [33mT[39m  [33mS[39m   [33mK[39m  [33mS[39m  [33mS[39m  [33mQ[39m    [33mL[39m  [33mS[39m  [33mT[39m   [33mP[39m  [33mS[39m  [33mR[39m   [33mL[39m  [33mC[39m  [33mY[39m  [33mS[39m   [33mL[39m  [33mS[39m  [33mS[39m   [33mG[39m  [33mS[39m  [33mG[39m  
+
+         [31mR[39m  [31mS[39m  [31mL[39m   [31mA[39m  [31mS[39m  [31mW[39m  [31mV[39m   [31mQ[39m  [31mN[39m  [31mE[39m   [31mF[39m  [31mN[39m  [31mK[39m   [31mA[39m  [31mC[39m  [31mE[39m  [31mL[39m    [31mT[39m  [31mD[39m  [31mS[39m   [31mS[39m  [31mW[39m  [31mI[39m   [31mE[39m  [31mL[39m  [31mD[39m  [31mE[39m   [31mI[39m  [31mG[39m  [31mE[39m   [31mD[39m  [31mV[39m  [31mA[39m  
+  1200  AGATCTCTAG CAAGCTGGGT CCAAAATGAA TTCAATAAGG CATGTGAATT  GACTGATTCA AGCTGGATAG AACTTGATGA AATAGGAGAA GATGTTGCCC    1300
+        TCTAGAGATC GTTCGACCCA GGTTTTACTT AAGTTATTCC GTACACTTAA  CTGACTAAGT TCGACCTATC TTGAACTACT TTATCCTCTT CTACAACGGG
+        [33mL[39m  [33mD[39m  [33mR[39m  [33mA[39m   [33mL[39m  [33mQ[39m  [33mT[39m   [33mW[39m  [33mF[39m  [33mS[39m   [33mN[39m  [33mL[39m  [33mL[39m  [33mA[39m   [33mH[39m  [33mS[39m  [33mN[39m    [33mV[39m  [33mS[39m  [33mE[39m[31m*[39m  [33mL[39m[31mA[39m [33mQ[39m[31mP[39m [33mI[39m[31mY[39m [33mS[39m [31mF[39m [33mS[39m[31mK[39m [33mS[39m[31mI[39m [33mS[39m[31mF[39m  [33mI[39m[31mY[39m [33mP[39m[31mS[39m [33mS[39m[31mF[39m  [33mS[39m[31mI[39m [33mT[39m[31mN[39m [33mA[39m[31mG[39m [33mG[39m
+
+        [31mP[39m  [31mI[39m  [31mE[39m  [31mH[39m   [31mI[39m  [31mA[39m  [31mS[39m   [31mM[39m  [31mR[39m  [31mR[39m   [31mN[39m  [31mY[39m  [31mF[39m  [31mT[39m   [31mA[39m  [31mE[39m  [31mV[39m    [31mS[39m  [31mH[39m  [31mC[39m   [31mR[39m  [31mA[39m  [31mT[39m  [31mE[39m   [31mY[39m  [31mI[39m  [31mM[39m   [31mK[39m  [31mG[39m  [31mV[39m   [31mY[39m  [31mI[39m  [31mN[39m  [31mT[39m
+  1300  CGATTGAACA TATCGCAAGC ATGAGGAGGA ACTATTTTAC AGCAGAAGTG  TCCCACTGCA GGGCTACTGA ATACATAATG AAGGGAGTGT ACATAAATAC    1400
+        GCTAACTTGT ATAGCGTTCG TACTCCTCCT TGATAAAATG TCGTCTTCAC  AGGGTGACGT CCCGATGACT TATGTATTAC TTCCCTCACA TGTATTTATG
+        [31mR[39m [33mI[39m[31mN[39m [33mS[39m[31mF[39m [33mC[39m[31mM[39m  [33mI[39m[31mD[39m [33mA[39m[31mC[39m [33mL[39m[31mA[39m  [4m[33mM[39m[24m[31mH[39m  [31mP[39m  [31mP[39m   [31mV[39m  [31mI[39m  [31mK[39m  [31mC[39m   [31mC[39m  [31mF[39m  [31mH[39m    [31mG[39m  [31mV[39m  [31mA[39m   [31mP[39m  [31mS[39m  [31mS[39m  [31mF[39m   [31mV[39m  [31mY[39m  [31mH[39m   [31mL[39m  [31mS[39m  [31mH[39m   [31mV[39m  [31mY[39m  [31mI[39m  [31mR[39m
+
+          [31mA[39m  [31mL[39m  [31mL[39m   [31mN[39m  [31mA[39m  [31mS[39m   [31mC[39m  [31mA[39m  [31mA[39m  [31mM[39m   [31mD[39m  [31mD[39m  [31mF[39m   [31mQ[39m  [31mL[39m  [31mI[39m    [31mP[39m  [31mM[39m  [31mI[39m  [31mS[39m   [31mK[39m  [31mC[39m  [31mR[39m   [31mT[39m  [31mK[39m  [31mE[39m   [31mG[39m  [31mR[39m  [31mR[39m  [31mK[39m   [31mT[39m  [31mN[39m  [31mL[39m 
+  1400  GGCCTTGCTC AATGCATCCT GTGCAGCCAT GGATGACTTT CAGCTGATCC  CAATGATAAG CAAATGTAGG ACCAAAGAAG GAAGACGGAA AACAAACCTG    1500
+        CCGGAACGAG TTACGTAGGA CACGTCGGTA CCTACTGAAA GTCGACTAGG  GTTACTATTC GTTTACATCC TGGTTTCTTC CTTCTGCCTT TTGTTTGGAC
+          [31mG[39m  [31mQ[39m  [31mE[39m   [31mI[39m  [31mC[39m  [31mG[39m   [31mT[39m  [31mC[39m  [31mG[39m  [31mH[39m   [31mI[39m  [31mV[39m  [31mK[39m   [31mL[39m  [31mQ[39m  [31mD[39m    [31mW[39m  [31mH[39m  [31mY[39m  [31mA[39m   [31mF[39m  [31mT[39m  [31mP[39m   [31mG[39m  [31mF[39m  [31mF[39m   [31mS[39m  [31mS[39m  [31mP[39m  [31mF[39m   [31mC[39m  [31mV[39m  [31mQ[39m 
+
+         [31mY[39m  [31mG[39m  [31mF[39m   [31mI[39m  [31mI[39m  [31mK[39m  [31mG[39m   [31mR[39m  [31mS[39m  [31mH[39m   [31mL[39m  [31mR[39m  [31mN[39m   [31mD[39m  [31mT[39m  [31mD[39m  [31mV[39m    [31mV[39m  [31mN[39m  [31mF[39m   [31mV[39m  [31mS[39m  [31mM[39m   [31mE[39m  [31mF[39m  [31mS[39m  [31mL[39m   [31mT[39m  [31mD[39m  [31mP[39m   [31mR[39m  [31mL[39m  [31mE[39m  
+  1500  TATGGGTTCA TTATAAAAGG AAGGTCTCAT TTGAGAAATG ATACTGATGT  GGTGAACTTT GTAAGTATGG AGTTCTCACT CACTGACCCG AGACTGGAGC    1600
+        ATACCCAAGT AATATTTTCC TTCCAGAGTA AACTCTTTAC TATGACTACA  CCACTTGAAA CATTCATACC TCAAGAGTGA GTGACTGGGC TCTGACCTCG
+         [31mI[39m  [31mP[39m  [31mE[39m   [31mN[39m  [31mY[39m  [31mF[39m  [31mS[39m   [31mP[39m  [31mR[39m  [4m[31mM[39m[24m                                                                               
+
+        [31mP[39m  [31mH[39m  [31mK[39m  [31mW[39m   [31mE[39m  [31mK[39m  [31mY[39m   [31mC[39m  [31mV[39m  [31mL[39m   [31mE[39m  [31mI[39m  [31mG[39m  [31mD[39m   [31mM[39m  [31mL[39m  [31mL[39m    [31mR[39m  [31mT[39m  [31mA[39m   [31mI[39m  [31mG[39m  [31mQ[39m  [31mV[39m   [31mS[39m  [31mR[39m  [31mP[39m   [31mM[39m  [31mF[39m  [31mL[39m   [31mY[39m  [31mV[39m  [31mR[39m  [31mT[39m
+  1600  CACACAAATG GGAAAAATAC TGTGTTCTTG AAATAGGAGA CATGCTCTTG  AGGACTGCGA TAGGCCAAGT GTCGAGGCCC ATGTTCCTAT ATGTGAGAAC    1700
+        GTGTGTTTAC CCTTTTTATG ACACAAGAAC TTTATCCTCT GTACGAGAAC  TCCTGACGCT ATCCGGTTCA CAGCTCCGGG TACAAGGATA TACACTCTTG
+
+          [31mN[39m  [31mG[39m  [31mT[39m   [31mS[39m  [31mK[39m  [31mI[39m   [31mK[39m  [31mM[39m  [31mK[39m  [31mW[39m   [31mG[39m  [31mM[39m  [31mE[39m   [31mM[39m  [31mR[39m  [31mR[39m    [31mC[39m  [31mL[39m  [31mL[39m  [31mQ[39m   [31mS[39m  [31mL[39m  [31mQ[39m   [31mQ[39m  [31mI[39m  [31mE[39m   [31mS[39m  [31mM[39m  [31mI[39m  [31mE[39m   [31mA[39m  [31mE[39m  [31mS[39m 
+  1700  CAATGGAACC TCCAAGATCA AGATGAAATG GGGCATGGAA ATGAGGCGCT  GCCTTCTTCA GTCTCTTCAG CAGATTGAGA GCATGATTGA GGCCGAGTCT    1800
+        GTTACCTTGG AGGTTCTAGT TCTACTTTAC CCCGTACCTT TACTCCGCGA  CGGAAGAAGT CAGAGAAGTC GTCTAACTCT CGTACTAACT CCGGCTCAGA
+
+         [31mS[39m  [31mV[39m  [31mK[39m   [31mE[39m  [31mK[39m  [31mD[39m  [31mM[39m   [31mT[39m  [31mK[39m  [31mE[39m   [31mF[39m  [31mF[39m  [31mE[39m   [31mN[39m  [31mK[39m  [31mS[39m  [31mE[39m    [31mT[39m  [31mW[39m  [31mP[39m   [31mI[39m  [31mG[39m  [31mE[39m   [31mS[39m  [31mP[39m  [31mR[39m  [31mG[39m   [31mV[39m  [31mE[39m  [31mE[39m   [31mG[39m  [31mS[39m  [31mI[39m  
+  1800  TCTGTCAAAG AGAAAGACAT GACCAAGGAA TTCTTTGAAA ACAAATCGGA  AACATGGCCA ATCGGAGAGT CACCCAGGGG AGTGGAGGAA GGCTCTATTG    1900
+        AGACAGTTTC TCTTTCTGTA CTGGTTCCTT AAGAAACTTT TGTTTAGCCT  TTGTACCGGT TAGCCTCTCA GTGGGTCCCC TCACCTCCTT CCGAGATAAC
+
+        [31mG[39m  [31mK[39m  [31mV[39m  [31mC[39m   [31mR[39m  [31mT[39m  [31mL[39m   [31mL[39m  [31mA[39m  [31mK[39m   [31mS[39m  [31mV[39m  [31mF[39m  [31mN[39m   [31mS[39m  [31mL[39m  [31mY[39m    [31mA[39m  [31mS[39m  [31mP[39m   [31mQ[39m  [31mL[39m  [31mE[39m  [31mG[39m   [31mF[39m  [31mS[39m  [31mA[39m   [31mE[39m  [31mS[39m  [31mR[39m   [31mK[39m  [31mL[39m  [31mL[39m  [31mL[39m
+  1900  GGAAAGTGTG CAGGACCTTA CTGGCAAAAT CTGTATTCAA CAGTCTATAT  GCGTCTCCAC AACTTGAGGG GTTTTCGGCT GAATCGAGAA AATTGCTTCT    2000
+        CCTTTCACAC GTCCTGGAAT GACCGTTTTA GACATAAGTT GTCAGATATA  CGCAGAGGTG TTGAACTCCC CAAAAGCCGA CTTAGCTCTT TTAACGAAGA
+
+          [31mI[39m  [31mV[39m  [31mQ[39m   [31mA[39m  [31mL[39m  [31mR[39m   [31mD[39m  [31mN[39m  [31mL[39m  [31mE[39m   [31mP[39m  [31mG[39m  [31mT[39m   [31mF[39m  [31mD[39m  [31mL[39m    [31mG[39m  [31mG[39m  [31mL[39m  [31mY[39m   [31mE[39m  [31mA[39m  [31mI[39m   [31mE[39m  [31mE[39m  [31mC[39m   [31mL[39m  [31mI[39m  [31mN[39m  [31mD[39m   [31mP[39m  [31mW[39m  [31mV[39m 
+  2000  CATTGTTCAG GCACTTAGGG ACAACCTGGA ACCTGGAACC TTCGATCTTG  GGGGGCTATA TGAAGCAATC GAGGAGTGCC TGATTAATGA TCCCTGGGTT    2100
+        GTAACAAGTC CGTGAATCCC TGTTGGACCT TGGACCTTGG AAGCTAGAAC  CCCCCGATAT ACTTCGTTAG CTCCTCACGG ACTAATTACT AGGGACCCAA
+
+         [31mL[39m  [31mL[39m  [31mN[39m   [31mA[39m  [31mS[39m  [31mW[39m  [31mF[39m   [31mN[39m  [31mS[39m  [31mF[39m   [31mL[39m  [31mT[39m  [31mH[39m   [31mA[39m  [31mL[39m  [31mK[39m  [31m*[39m   
+  2100  TTGCTTAATG CATCTTGGTT CAACTCCTTC CTCACACATG CACTGAAGTA  G
+        AACGAATTAC GTAGAACCAA GTTGAGGAAG GAGTGTGTAC GTGACTTCAT  C
+>GU014790 A/Iwate/3/2009 2009// 4 (HA)
+         [4m[31mM[39m[24m  [31mK[39m  [31mA[39m   [31mI[39m  [31mL[39m  [31mV[39m  [31mV[39m   [31mL[39m  [31mL[39m  [31mY[39m   [31mT[39m  [31mF[39m  [31mA[39m   [31mT[39m  [31mA[39m  [31mN[39m  [31mA[39m    [31mD[39m  [31mT[39m  [31mL[39m   [31mC[39m  [31mI[39m  [31mG[39m   [31mY[39m  [31mH[39m  [31mA[39m  [31mN[39m   [31mN[39m  [31mS[39m  [31mT[39m   [31mD[39m  [31mT[39m  [31mV[39m  
+     0  ATGAAGGCAA TACTAGTAGT TCTGCTATAT ACATTTGCAA CCGCAAATGC  AGACACATTA TGTATAGGTT ATCATGCGAA CAATTCAACA GACACTGTAG     100
+        TACTTCCGTT ATGATCATCA AGACGATATA TGTAAACGTT GGCGTTTACG  TCTGTGTAAT ACATATCCAA TAGTACGCTT GTTAAGTTGT CTGTGACATC
+
+        [31mD[39m  [31mT[39m  [31mV[39m  [31mL[39m   [31mE[39m  [31mK[39m  [31mN[39m   [31mV[39m  [31mT[39m  [31mV[39m   [31mT[39m  [31mH[39m  [31mS[39m  [31mV[39m   [31mN[39m  [31mL[39m  [31mL[39m    [31mE[39m  [31mD[39m  [31mK[39m   [31mH[39m  [31mN[39m  [31mG[39m  [31mK[39m   [31mL[39m  [31mC[39m  [31mK[39m   [31mL[39m  [31mR[39m  [31mG[39m   [31mV[39m  [31mA[39m  [31mP[39m  [31mL[39m
+   100  ACACAGTACT AGAAAAGAAT GTAACAGTAA CACACTCTGT TAACCTTCTA  GAAGACAAGC ATAACGGGAA ACTATGCAAA CTAAGAGGGG TAGCCCCATT     200
+        TGTGTCATGA TCTTTTCTTA CATTGTCATT GTGTGAGACA ATTGGAAGAT  CTTCTGTTCG TATTGCCCTT TGATACGTTT GATTCTCCCC ATCGGGGTAA
+
+          [31mH[39m  [31mL[39m  [31mG[39m   [31mK[39m  [31mC[39m  [31mN[39m   [31mI[39m  [31mA[39m  [31mG[39m  [31mW[39m   [31mI[39m  [31mL[39m  [31mG[39m   [31mN[39m  [31mP[39m  [31mE[39m    [31mC[39m  [31mE[39m  [31mS[39m  [31mL[39m   [31mS[39m  [31mT[39m  [31mA[39m   [31mS[39m  [31mS[39m  [31mW[39m   [31mS[39m  [31mY[39m  [31mI[39m  [31mV[39m   [31mE[39m  [31mT[39m  [31mS[39m 
+   200  GCATTTGGGT AAATGTAACA TTGCTGGCTG GATCCTGGGA AATCCAGAGT  GTGAATCACT CTCCACAGCA AGCTCATGGT CCTACATTGT GGAAACATCT     300
+        CGTAAACCCA TTTACATTGT AACGACCGAC CTAGGACCCT TTAGGTCTCA  CACTTAGTGA GAGGTGTCGT TCGAGTACCA GGATGTAACA CCTTTGTAGA
+
+         [31mS[39m  [31mS[39m  [31mD[39m   [31mN[39m  [31mG[39m  [31mT[39m  [31mC[39m   [31mY[39m  [31mP[39m  [31mG[39m   [31mD[39m  [31mF[39m  [31mI[39m   [31mD[39m  [31mY[39m  [31mE[39m  [31mE[39m    [31mL[39m  [31mR[39m  [31mE[39m   [31mQ[39m  [31mL[39m  [31mS[39m   [31mS[39m  [31mV[39m  [31mS[39m  [31mS[39m   [31mF[39m  [31mE[39m  [31mR[39m   [31mF[39m  [31mE[39m  [31mI[39m  
+   300  AGTTCAGACA ATGGAACGTG TTACCCAGGA GATTTCATCG ATTATGAGGA  GCTAAGAGAG CAATTGAGCT CAGTGTCATC ATTTGAAAGG TTTGAGATAT     400
+        TCAAGTCTGT TACCTTGCAC AATGGGTCCT CTAAAGTAGC TAATACTCCT  CGATTCTCTC GTTAACTCGA GTCACAGTAG TAAACTTTCC AAACTCTATA
+
+        [31mF[39m  [31mP[39m  [31mK[39m  [31mT[39m   [31mS[39m  [31mS[39m  [31mW[39m   [31mP[39m  [31mN[39m  [31mH[39m   [31mD[39m  [31mS[39m  [31mN[39m  [31mK[39m   [31mG[39m  [31mV[39m  [31mT[39m    [31mA[39m  [31mA[39m  [31mC[39m   [31mP[39m  [31mH[39m  [31mA[39m  [31mG[39m   [31mA[39m  [31mK[39m  [31mS[39m   [31mF[39m  [31mY[39m  [31mK[39m   [31mN[39m  [31mL[39m  [31mI[39m  [31mW[39m
+   400  TCCCCAAGAC AAGTTCATGG CCCAATCATG ACTCGAACAA AGGTGTAACG  GCAGCATGTC CTCATGCTGG AGCAAAAAGC TTCTACAAAA ATTTAATATG     500
+        AGGGGTTCTG TTCAAGTACC GGGTTAGTAC TGAGCTTGTT TCCACATTGC  CGTCGTACAG GAGTACGACC TCGTTTTTCG AAGATGTTTT TAAATTATAC
+
+          [31mL[39m  [31mV[39m  [31mK[39m   [31mK[39m  [31mG[39m  [31mN[39m   [31mS[39m  [31mY[39m  [31mP[39m  [31mK[39m   [31mL[39m  [31mS[39m  [31mK[39m   [31mS[39m  [31mY[39m  [31mI[39m    [31mN[39m  [31mD[39m  [31mK[39m  [31mG[39m   [31mK[39m  [31mE[39m  [31mV[39m   [31mL[39m  [31mV[39m  [31mL[39m   [31mW[39m  [31mG[39m  [31mI[39m  [31mH[39m   [31mH[39m  [31mP[39m  [31mS[39m 
+   500  GCTAGTTAAA AAAGGAAATT CATACCCAAA GCTCAGCAAA TCCTACATTA  ATGATAAAGG GAAAGAAGTC CTCGTGCTAT GGGGCATTCA CCATCCATCT     600
+        CGATCAATTT TTTCCTTTAA GTATGGGTTT CGAGTCGTTT AGGATGTAAT  TACTATTTCC CTTTCTTCAG GAGCACGATA CCCCGTAAGT GGTAGGTAGA
+
+         [31mT[39m  [31mS[39m  [31mA[39m   [31mD[39m  [31mQ[39m  [31mQ[39m  [31mS[39m   [31mL[39m  [31mY[39m  [31mQ[39m   [31mN[39m [4m[34mC[39m[24m[31mA[39m [34mR[39m[31mD[39m [34mC[39m [31mA[39m [34mI[39m[31mY[39m [34mC[39m[31mV[39m [34mF[39m[31mF[39m   [34mC[39m[31mV[39m [34mG[39m[31mG[39m [34mD[39m[31mT[39m  [34mI[39m[31mS[39m [34mK[39m[31mR[39m [34mI[39m[31mY[39m [34mQ[39m [31mS[39m [34mQ[39m[31mK[39m [34mE[39m[31mK[39m [34mV[39m[31mF[39m  [34mQ[39m[31mK[39m [34mA[39m[31mP[39m [34mG[39m[31mE[39m  [34mN[39m[31mI[39m [34mS[39m[31mA[39m [34mN[39m[31mI[39m [34mK[39m
+   600  ACTAGTGCTG ACCAACAAAG TCTCTATCAG AATGCAGATG CATATGTTTT  TGTGGGGACA TCAAGATACA GCAAGAAGTT CAAGCCGGAA ATAGCAATAA     700
+        TGATCACGAC TGGTTGTTTC AGAGATAGTC TTACGTCTAC GTATACAAAA  ACACCCCTGT AGTTCTATGT CGTTCTTCAA GTTCGGCCTT TATCGTTATT
+
+        [31mR[39m [34mT[39m[31mP[39m [34mQ[39m[31mK[39m [34mS[39m[31mV[39m  [34mE[39m[31mR[39m [34mG[39m[31mD[39m [34mS[39m[31mQ[39m  [34mR[39m[31mE[39m [34mR[39m[31mG[39m [34mE[39m[31mR[39m [34mN[39m [31mM[39m [34mE[39m[31mN[39m [34mL[39m[31mY[39m [34mL[39m[31mY[39m  [34mL[39m[31mW[39m [34mD[39m[31mT[39m [34mT[39m[31mL[39m   [34mS[39m[31mV[39m [34mR[39m[31mE[39m [34mA[39m[31mP[39m [34mG[39m [31mG[39m [34mR[39m[31mD[39m [34mQ[39m[31mK[39m [34mN[39m[31mI[39m  [34mN[39m[31mT[39m [34mI[39m[31mF[39m [34mR[39m[31mE[39m  [34mS[39m[31mA[39m [34mN[39m[31mT[39m [34mW[39m[31mG[39m [34mK[39m [31mN[39m [34mS[39m[31mL[39m [34mS[39m[31mV[39m [34mG[39m[31mV[39m
+   700  GACCCAAAGT GAGGGATCAA GAAGGGAGAA TGAACTATTA CTGGACACTA  GTAGAGCCGG GAGACAAAAT AACATTCGAA GCAACTGGAA ATCTAGTGGT     800
+        CTGGGTTTCA CTCCCTAGTT CTTCCCTCTT ACTTGATAAT GACCTGTGAT  CATCTCGGCC CTCTGTTTTA TTGTAAGCTT CGTTGACCTT TAGATCACCA
+
+         [34mT[39m[31mP[39m [34mE[39m[31mR[39m [34mI[39m[31mY[39m  [34mC[39m[31mA[39m [34mI[39m[31mF[39m [34mR[39m[31mA[39m [34mN[39m [31mM[39m [34mG[39m[31mE[39m [34mK[39m[31mR[39m [34mK[39m[31mN[39m  [34mC[39m[31mA[39m [34mW[39m[31mG[39m [34mI[39m[31mS[39m  [34mW[39m[31mG[39m [34mY[39m[31mI[39m [34mY[39m[31mI[39m [34mH[39m  [31mI[39m [34mF[39m[31mS[39m [34mR[39m[31mD[39m [34mY[39m[31mT[39m  [34mT[39m[31mP[39m [34mS[39m[31mV[39m [34mP[39m[31mH[39m  [34mR[39m[31mD[39m [34mL[39m[31mC[39m [34mQ[39m[31mN[39m [34mY[39m [31mT[39m [34mN[39m[31mT[39m [34mL[39m[31mC[39m [34mS[39m[31mQ[39m  [34mD[39m[31mT[39m [34mT[39m[31mP[39m [34mQ[39m[31mK[39m 
+   800  ACCGAGATAT GCATTCGCAA TGGAAAGAAA TGCTGGATCT GGTATTATCA  TTTCAGATAC ACCAGTCCAC GATTGCAATA CAACTTGTCA GACACCCAAG     900
+        TGGCTCTATA CGTAAGCGTT ACCTTTCTTT ACGACCTAGA CCATAATAGT  AAAGTCTATG TGGTCAGGTG CTAACGTTAT GTTGAACAGT CTGTGGGTTC
+
+        [34mG[39m[31mG[39m [34mC[39m[31mA[39m [34mY[39m[31mI[39m [34mK[39m [31mN[39m [34mH[39m[31mT[39m [34mQ[39m[31mS[39m [34mP[39m[31mL[39m  [34mP[39m[31mP[39m [34mI[39m[31mF[39m [34mS[39m[31mQ[39m  [34mE[39m[31mN[39m [34mY[39m[31mI[39m [34mT[39m[31mH[39m [34mS[39m [31mP[39m [34mD[39m[31mI[39m [34mH[39m[31mT[39m [34mN[39m[31mI[39m   [34mW[39m[31mG[39m [34mK[39m[31mK[39m [34mM[39m[31mC[39m  [34mS[39m[31mP[39m [34mK[39m[31mK[39m [34mI[39m[31mY[39m [34mC[39m [31mV[39m [34mK[39m[31mK[39m [34mK[39m[31mS[39m [34mH[39m[31mT[39m  [34mK[39m[31mK[39m [34mI[39m[31mL[39m [34mE[39m[31mR[39m  [34mT[39m[31mL[39m [34mG[39m[31mA[39m [34mH[39m[31mT[39m [34mR[39m
+   900  GGTGCTATAA ACACCAGCCT CCCATTTCAG AATATACATC CGATCACAAT  TGGAAAATGT CCAAAATATG TAAAAAGCAC AAAATTGAGA CTGGCCACAG    1000
+        CCACGATATT TGTGGTCGGA GGGTAAAGTC TTATATGTAG GCTAGTGTTA  ACCTTTTACA GGTTTTATAC ATTTTTCGTG TTTTAACTCT GACCGGTGTC
+
+        [31mG[39m [34mI[39m[31mL[39m [34mE[39m[31mR[39m [34mE[39m[31mN[39m  [34mC[39m[31mV[39m [34mP[39m[31mP[39m [34mV[39m[31mS[39m  [34mY[39m[31mI[39m [34mS[39m[31mQ[39m [34mI[39m[31mS[39m [34m*[39m [31mR[39m  [31mG[39m  [31mL[39m  [31mF[39m   [31mG[39m  [31mA[39m  [31mI[39m    [31mA[39m  [31mG[39m  [31mF[39m   [31mI[39m  [31mE[39m  [31mG[39m  [31mG[39m   [31mW[39m  [31mT[39m  [31mG[39m   [31mM[39m  [31mV[39m  [31mD[39m   [31mG[39m  [31mW[39m  [31mY[39m  [31mG[39m
+  1000  GATTGAGGAA TGTCCCGTCT ATTCAATCTA GAGGCCTATT TGGGGCCATT  GCCGGTTTCA TTGAAGGGGG GTGGACAGGG ATGGTAGATG GATGGTACGG    1100
+        CTAACTCCTT ACAGGGCAGA TAAGTTAGAT CTCCGGATAA ACCCCGGTAA  CGGCCAAAGT AACTTCCCCC CACCTGTCCC TACCATCTAC CTACCATGCC
+
+          [31mY[39m  [31mH[39m  [31mH[39m   [31mQ[39m  [31mN[39m  [31mE[39m   [31mQ[39m  [31mG[39m  [31mS[39m  [31mG[39m   [31mY[39m  [31mA[39m  [31mA[39m   [31mD[39m  [31mL[39m  [31mK[39m    [31mS[39m  [31mT[39m  [31mQ[39m  [31mN[39m   [31mA[39m  [31mI[39m  [31mD[39m   [31mE[39m  [31mI[39m  [31mT[39m   [31mN[39m  [31mK[39m  [31mV[39m  [31mN[39m   [31mS[39m  [31mV[39m  [31mI[39m 
+  1100  TTATCACCAT CAAAATGAGC AGGGGTCAGG ATATGCAGCC GACCTGAAGA  GCACACAGAA TGCCATTGAC GAGATTACTA ACAAAGTAAA TTCTGTTATT    1200
+        AATAGTGGTA GTTTTACTCG TCCCCAGTCC TATACGTCGG CTGGACTTCT  CGTGTGTCTT ACGGTAACTG CTCTAATGAT TGTTTCATTT AAGACAATAA
+
+         [31mE[39m  [31mK[39m  [31mM[39m   [31mN[39m  [31mT[39m  [31mQ[39m  [31mF[39m   [31mT[39m  [31mA[39m  [31mV[39m   [31mG[39m  [31mK[39m  [31mE[39m   [31mF[39m  [31mN[39m  [31mH[39m  [31mL[39m    [31mE[39m  [31mK[39m  [31mR[39m   [31mI[39m  [31mE[39m  [31mN[39m   [31mL[39m  [31mN[39m  [31mK[39m  [31mK[39m   [31mV[39m  [31mD[39m  [31mD[39m   [31mG[39m  [31mF[39m  [31mL[39m  
+  1200  GAAAAGATGA ATACACAGTT CACAGCAGTA GGTAAAGAGT TCAACCACCT  GGAAAAAAGA ATAGAGAATT TAAATAAAAA AGTTGATGAT GGTTTCCTGG    1300
+        CTTTTCTACT TATGTGTCAA GTGTCGTCAT CCATTTCTCA AGTTGGTGGA  CCTTTTTTCT TATCTCTTAA ATTTATTTTT TCAACTACTA CCAAAGGACC
+
+        [31mD[39m  [31mI[39m  [31mW[39m  [31mT[39m   [31mY[39m  [31mN[39m  [31mA[39m   [31mE[39m  [31mL[39m  [31mL[39m   [31mV[39m  [31mL[39m  [31mL[39m  [31mE[39m   [31mN[39m  [31mE[39m  [31mR[39m    [31mT[39m  [31mL[39m  [31mD[39m   [31mY[39m  [31mH[39m  [31mD[39m  [31mS[39m   [31mN[39m  [31mV[39m  [31mK[39m   [31mN[39m  [31mL[39m  [31mY[39m   [31mE[39m  [31mK[39m  [31mV[39m  [31mR[39m
+  1300  ACATTTGGAC TTACAATGCC GAACTGTTGG TTCTATTGGA AAATGAAAGA  ACTTTGGACT ACCACGATTC AAATGTGAAG AACTTATATG AAAAGGTAAG    1400
+        TGTAAACCTG AATGTTACGG CTTGACAACC AAGATAACCT TTTACTTTCT  TGAAACCTGA TGGTGCTAAG TTTACACTTC TTGAATATAC TTTTCCATTC
+
+          [31mS[39m  [31mQ[39m  [31mL[39m   [31mK[39m  [31mN[39m  [31mN[39m   [31mA[39m  [31mK[39m  [31mE[39m  [31mI[39m   [31mG[39m  [31mN[39m  [31mG[39m   [31mC[39m  [31mF[39m  [31mE[39m    [31mF[39m  [31mY[39m  [31mH[39m  [31mK[39m   [31mC[39m  [31mD[39m  [31mN[39m   [31mT[39m  [31mC[39m  [31mM[39m   [31mE[39m  [31mS[39m  [31mV[39m  [31mK[39m   [31mN[39m  [31mG[39m  [31mT[39m 
+  1400  AAGCCAGTTA AAAAACAATG CCAAGGAAAT TGGAAACGGC TGCTTTGAAT  TTTACCACAA ATGCGATAAC ACGTGTATGG AAAGTGTCAA AAATGGGACT    1500
+        TTCGGTCAAT TTTTTGTTAC GGTTCCTTTA ACCTTTGCCG ACGAAACTTA  AAATGGTGTT TACGCTATTG TGCACATACC TTTCACAGTT TTTACCCTGA
+
+         [31mY[39m  [31mD[39m  [31mY[39m   [31mP[39m  [31mK[39m  [31mY[39m  [31mS[39m   [31mE[39m  [31mE[39m  [31mA[39m   [31mK[39m  [31mL[39m  [31mN[39m   [31mR[39m  [31mE[39m  [31mE[39m  [31mI[39m    [31mD[39m  [31mG[39m  [31mV[39m   [31mK[39m  [31mL[39m  [31mE[39m   [31mS[39m  [31mT[39m  [31mR[39m  [31mI[39m   [31mY[39m  [31mQ[39m  [31mI[39m   [31mL[39m  [31mA[39m  [31mI[39m  
+  1500  TATGACTACC CAAAATACTC AGAGGAAGCA AAATTAAACA GAGAAGAAAT  AGATGGGGTA AAGCTGGAAT CAACAAGGAT TTACCAGATT TTGGCGATCT    1600
+        ATACTGATGG GTTTTATGAG TCTCCTTCGT TTTAATTTGT CTCTTCTTTA  TCTACCCCAT TTCGACCTTA GTTGTTCCTA AATGGTCTAA AACCGCTAGA
+
+        [31mY[39m  [31mS[39m  [31mT[39m  [31mV[39m   [31mA[39m  [31mS[39m  [31mS[39m   [31mL[39m  [31mV[39m  [31mL[39m   [31mV[39m  [31mV[39m  [31mS[39m  [31mL[39m   [31mG[39m  [31mA[39m  [31mI[39m    [31mS[39m  [31mF[39m  [31mW[39m   [31mM[39m  [31mC[39m  [31mS[39m  [31mN[39m   [31mG[39m  [31mS[39m  [31mL[39m   [31mQ[39m  [31mC[39m  [31mR[39m   [31mI[39m  [31mC[39m  [31mI[39m  [31m*[39m
+  1600  ATTCAACTGT CGCCAGTTCA TTGGTACTGG TAGTCTCCCT GGGGGCAATC  AGTTTCTGGA TGTGCTCTAA TGGGTCTCTA CAGTGTAGAA TATGTATTTA    1700
+        TAAGTTGACA GCGGTCAAGT AACCATGACC ATCAGAGGGA CCCCCGTTAG  TCAAAGACCT ACACGAGATT ACCCAGAGAT GTCACATCTT ATACATAAAT
+
+  1700  A
+        T
+>GU138913 A/Iwate/3/2009 2009/06/24 5 (NP)
+         [4m[31mM[39m[24m  [31mA[39m  [31mS[39m   [31mQ[39m  [31mG[39m  [31mT[39m  [31mK[39m   [31mR[39m  [31mS[39m  [31mY[39m   [31mE[39m  [31mQ[39m  [31mM[39m   [31mE[39m  [31mT[39m  [31mG[39m  [31mG[39m    [31mE[39m  [31mR[39m  [31mQ[39m   [31mD[39m  [31mA[39m  [31mT[39m   [31mE[39m  [31mI[39m  [31mR[39m  [31mA[39m   [31mS[39m  [31mV[39m  [31mG[39m   [31mR[39m  [31mM[39m  [31mI[39m  
+     0  ATGGCGTCTC AAGGCACCAA ACGATCATAT GAACAAATGG AGACTGGTGG  GGAGCGCCAG GATGCCACAG AAATCAGAGC ATCTGTCGGA AGAATGATTG     100
+        TACCGCAGAG TTCCGTGGTT TGCTAGTATA CTTGTTTACC TCTGACCACC  CCTCGCGGTC CTACGGTGTC TTTAGTCTCG TAGACAGCCT TCTTACTAAC
+
+        [31mG[39m  [31mG[39m  [31mI[39m  [31mG[39m   [31mR[39m  [31mF[39m  [31mY[39m   [31mI[39m  [31mQ[39m  [31mM[39m   [31mC[39m  [31mT[39m  [31mE[39m  [31mL[39m   [31mK[39m  [31mL[39m  [31mS[39m    [31mD[39m  [31mY[39m  [31mD[39m   [31mG[39m  [31mR[39m  [31mL[39m  [31mI[39m   [31mQ[39m  [31mN[39m  [31mS[39m   [31mI[39m  [31mT[39m  [31mI[39m   [31mE[39m  [31mR[39m  [31mM[39m  [31mV[39m
+   100  GTGGAATCGG GAGATTCTAC ATCCAAATGT GCACTGAACT CAAACTCAGT  GATTATGATG GACGACTAAT CCAGAATAGC ATAACAATAG AGAGGATGGT     200
+        CACCTTAGCC CTCTAAGATG TAGGTTTACA CGTGACTTGA GTTTGAGTCA  CTAATACTAC CTGCTGATTA GGTCTTATCG TATTGTTATC TCTCCTACCA
+
+          [31mL[39m  [31mS[39m  [31mA[39m   [31mF[39m  [31mD[39m  [31mE[39m   [31mR[39m  [31mR[39m  [31mN[39m  [31mK[39m   [31mY[39m  [31mL[39m  [31mE[39m   [31mE[39m  [31mH[39m  [31mP[39m    [31mS[39m  [31mA[39m  [31mG[39m  [31mK[39m   [31mD[39m  [31mP[39m  [31mK[39m   [31mK[39m  [31mT[39m  [31mG[39m   [31mG[39m  [31mP[39m  [31mI[39m  [31mY[39m   [31mR[39m  [31mR[39m  [31mI[39m 
+   200  GCTTTCTGCT TTTGATGAGA GAAGAAATAA ATACCTAGAA GAGCATCCCA  GTGCTGGGAA GGACCCTAAG AAAACAGGAG GACCCATATA TAGAAGAATA     300
+        CGAAAGACGA AAACTACTCT CTTCTTTATT TATGGATCTT CTCGTAGGGT  CACGACCCTT CCTGGGATTC TTTTGTCCTC CTGGGTATAT ATCTTCTTAT
+
+         [31mD[39m  [31mG[39m  [31mK[39m   [31mW[39m  [31mM[39m  [31mR[39m  [31mE[39m   [31mL[39m  [31mI[39m  [31mL[39m   [31mY[39m  [31mD[39m  [31mK[39m   [31mE[39m  [31mE[39m  [31mI[39m  [31mR[39m    [31mR[39m  [31mV[39m  [31mW[39m   [31mR[39m  [31mQ[39m  [31mA[39m   [31mN[39m  [31mN[39m  [31mG[39m  [31mE[39m   [31mD[39m  [31mA[39m  [31mT[39m   [31mA[39m  [31mG[39m  [31mL[39m  
+   300  GACGGAAAGT GGATGAGAGA ACTCATCCTT TATGACAAAG AAGAAATAAG  GAGAGTTTGG CGCCAAGCAA ACAATGGCGA AGATGCAACA GCAGGTCTTA     400
+        CTGCCTTTCA CCTACTCTCT TGAGTAGGAA ATACTGTTTC TTCTTTATTC  CTCTCAAACC GCGGTTCGTT TGTTACCGCT TCTACGTTGT CGTCCAGAAT
+
+        [31mT[39m  [31mH[39m  [31mI[39m  [31mM[39m   [31mI[39m  [31mW[39m  [31mH[39m   [31mS[39m  [31mN[39m  [31mL[39m   [31mN[39m  [31mD[39m  [31mA[39m  [31mT[39m   [31mY[39m  [31mQ[39m  [31mR[39m    [31mT[39m  [31mR[39m  [31mA[39m   [31mL[39m  [31mV[39m  [31mR[39m  [31mT[39m   [31mG[39m  [31mM[39m  [31mD[39m   [31mP[39m  [31mR[39m  [31mM[39m   [31mC[39m  [31mS[39m  [31mL[39m  [31mM[39m
+   400  CTCATATCAT GATTTGGCAT TCCAACCTGA ATGATGCCAC ATATCAGAGA  ACAAGAGCGC TTGTTCGCAC CGGAATGGAT CCCAGAATGT GCTCTCTAAT     500
+        GAGTATAGTA CTAAACCGTA AGGTTGGACT TACTACGGTG TATAGTCTCT  TGTTCTCGCG AACAAGCGTG GCCTTACCTA GGGTCTTACA CGAGAGATTA
+
+          [31mQ[39m  [31mG[39m  [31mS[39m   [31mT[39m  [31mL[39m  [31mP[39m   [31mR[39m  [31mR[39m  [31mS[39m  [31mG[39m   [31mA[39m  [31mA[39m  [31mG[39m   [31mA[39m  [31mA[39m  [31mV[39m    [31mK[39m  [31mG[39m  [31mV[39m  [31mG[39m   [31mT[39m  [31mI[39m  [31mA[39m   [31mM[39m  [31mE[39m  [31mL[39m   [31mI[39m  [31mR[39m  [31mM[39m  [31mI[39m   [31mK[39m  [31mR[39m  [31mG[39m 
+   500  GCAAGGTTCA ACACTTCCCA GAAGGTCTGG TGCCGCAGGT GCTGCGGTGA  AAGGAGTTGG AACAATAGCA ATGGAGTTAA TCAGAATGAT CAAACGTGGA     600
+        CGTTCCAAGT TGTGAAGGGT CTTCCAGACC ACGGCGTCCA CGACGCCACT  TTCCTCAACC TTGTTATCGT TACCTCAATT AGTCTTACTA GTTTGCACCT
+
+         [31mI[39m  [31mN[39m  [31mD[39m   [31mR[39m  [31mN[39m  [31mF[39m  [31mW[39m   [31mR[39m  [31mG[39m  [31mE[39m   [31mN[39m  [31mG[39m  [31mR[39m   [31mR[39m  [31mT[39m  [31mR[39m  [31mV[39m    [31mA[39m  [31mY[39m  [31mE[39m   [31mR[39m  [31mM[39m  [31mC[39m   [31mN[39m  [31mI[39m  [31mL[39m  [31mK[39m   [31mG[39m  [31mK[39m  [31mF[39m   [31mQ[39m  [31mT[39m  [31mA[39m  
+   600  ATCAATGACC GAAATTTCTG GAGGGGTGAA AATGGACGAA GGACAAGGGT  TGCTTATGAA AGAATGTGCA ATATCCTCAA AGGAAAATTT CAAACAGCTG     700
+        TAGTTACTGG CTTTAAAGAC CTCCCCACTT TTACCTGCTT CCTGTTCCCA  ACGAATACTT TCTTACACGT TATAGGAGTT TCCTTTTAAA GTTTGTCGAC
+
+        [31mA[39m  [31mQ[39m  [31mR[39m  [31mA[39m   [31mM[39m  [31mM[39m  [31mD[39m   [31mQ[39m  [31mV[39m  [31mR[39m   [31mE[39m  [31mS[39m  [31mR[39m  [31mN[39m   [31mP[39m  [31mG[39m  [31mN[39m    [31mA[39m  [31mE[39m  [31mI[39m   [31mE[39m  [31mD[39m  [31mL[39m  [31mI[39m   [31mF[39m  [31mL[39m  [31mA[39m   [31mR[39m  [31mS[39m  [31mA[39m   [31mL[39m  [31mI[39m  [31mL[39m  [31mR[39m
+   700  CCCAGAGGGC AATGATGGAT CAAGTAAGAG AAAGTCGAAA CCCAGGAAAC  GCTGAGATTG AAGACCTCAT TTTCCTGGCA CGGTCAGCAC TCATTCTGAG     800
+        GGGTCTCCCG TTACTACCTA GTTCATTCTC TTTCAGCTTT GGGTCCTTTG  CGACTCTAAC TTCTGGAGTA AAAGGACCGT GCCAGTCGTG AGTAAGACTC
+
+          [31mG[39m  [31mS[39m  [31mV[39m   [31mA[39m  [31mH[39m  [31mK[39m   [31mS[39m  [31mC[39m  [31mL[39m  [31mP[39m   [31mA[39m  [31mC[39m  [31mV[39m   [31mY[39m  [31mG[39m  [31mL[39m    [31mA[39m  [31mV[39m  [31mA[39m  [31mS[39m   [31mG[39m  [31mH[39m  [31mD[39m   [31mF[39m  [31mE[39m  [31mR[39m   [31mE[39m  [31mG[39m  [31mY[39m  [31mS[39m   [31mL[39m  [31mV[39m  [31mG[39m 
+   800  GGGATCAGTT GCACATAAAT CCTGCTTGCC TGCTTGTGTG TATGGGCTTG  CAGTAGCAAG TGGGCATGAC TTTGAAAGGG AAGGGTACTC ACTGGTCGGG     900
+        CCCTAGTCAA CGTGTATTTA GGACGAACGG ACGAACACAC ATACCCGAAC  GTCATCGTTC ACCCGTACTG AAACTTTCCC TTCCCATGAG TGACCAGCCC
+
+         [31mI[39m  [31mD[39m  [31mP[39m   [31mF[39m  [31mK[39m  [31mL[39m  [31mL[39m   [31mQ[39m  [31mN[39m  [31mS[39m   [31mQ[39m  [31mV[39m  [31mV[39m   [31mS[39m  [31mL[39m  [31mM[39m  [31mR[39m    [31mP[39m  [31mN[39m  [31mE[39m   [31mN[39m  [31mP[39m  [31mA[39m   [31mH[39m  [31mK[39m  [31mS[39m  [31mQ[39m   [31mL[39m  [31mV[39m  [31mW[39m   [31mM[39m  [31mA[39m  [31mC[39m  
+   900  ATAGACCCAT TCAAATTACT CCAAAACAGC CAAGTGGTCA GCCTGATGAG  ACCAAATGAA AACCCAGCTC ACAAGAGTCA ATTGGTGTGG ATGGCATGCC    1000
+        TATCTGGGTA AGTTTAATGA GGTTTTGTCG GTTCACCAGT CGGACTACTC  TGGTTTACTT TTGGGTCGAG TGTTCTCAGT TAACCACACC TACCGTACGG
+
+        [31mH[39m  [31mS[39m  [31mA[39m  [31mA[39m   [31mF[39m  [31mE[39m  [31mD[39m   [31mL[39m  [31mR[39m  [31mV[39m   [31mS[39m  [31mS[39m  [31mF[39m  [31mI[39m   [31mR[39m  [31mG[39m  [31mK[39m    [31mK[39m  [31mV[39m  [31mI[39m   [31mP[39m  [31mR[39m  [31mG[39m  [31mK[39m   [31mL[39m  [31mS[39m  [31mT[39m   [31mR[39m  [31mG[39m  [31mV[39m   [31mQ[39m  [31mI[39m  [31mA[39m  [31mS[39m
+  1000  ACTCTGCTGC ATTTGAAGAT TTAAGAGTAT CAAGTTTCAT AAGAGGAAAG  AAAGTGATTC CAAGAGGAAA GCTTTCCACA AGAGGGGTCC AGATTGCTTC    1100
+        TGAGACGACG TAAACTTCTA AATTCTCATA GTTCAAAGTA TTCTCCTTTC  TTTCACTAAG GTTCTCCTTT CGAAAGGTGT TCTCCCCAGG TCTAACGAAG
+
+          [31mN[39m  [31mE[39m  [31mN[39m   [31mV[39m  [31mE[39m  [31mT[39m   [31mM[39m  [31mD[39m  [31mS[39m  [31mN[39m   [31mT[39m  [31mL[39m  [31mE[39m   [31mL[39m  [31mR[39m  [31mS[39m    [31mR[39m  [31mY[39m  [31mW[39m  [31mA[39m   [31mI[39m  [31mR[39m  [31mT[39m   [31mR[39m  [31mS[39m  [31mG[39m   [31mG[39m  [31mN[39m  [31mT[39m  [31mN[39m   [31mQ[39m  [31mQ[39m  [31mK[39m 
+  1100  AAATGAGAAT GTGGAAACCA TGGACTCCAA TACCCTGGAA CTAAGAAGCA  GATACTGGGC CATAAGGACC AGGAGTGGAG GAAATACCAA TCAACAAAAG    1200
+        TTTACTCTTA CACCTTTGGT ACCTGAGGTT ATGGGACCTT GATTCTTCGT  CTATGACCCG GTATTCCTGG TCCTCACCTC CTTTATGGTT AGTTGTTTTC
+                                                                                                             [33m*[39m  [33mC[39m  [33mF[39m  
+
+         [31mA[39m  [31mS[39m  [31mA[39m   [31mG[39m  [31mQ[39m  [31mI[39m  [31mS[39m   [31mV[39m  [31mQ[39m  [31mP[39m   [31mT[39m  [31mF[39m  [31mS[39m   [31mV[39m  [31mQ[39m  [31mR[39m  [31mN[39m    [31mL[39m  [31mP[39m  [31mF[39m   [31mE[39m  [31mR[39m  [31mA[39m   [31mT[39m  [31mV[39m  [31mM[39m  [31mA[39m   [31mA[39m  [31mF[39m  [31mS[39m   [31mG[39m  [31mN[39m  [31mN[39m  
+  1200  GCATCCGCAG GCCAGATCAG TGTGCAGCCT ACATTCTCAG TGCAGCGAAA  TCTCCCTTTT GAAAGAGCAA CCGTTATGGC AGCATTCAGC GGGAACAATG    1300
+        CGTAGGCGTC CGGTCTAGTC ACACGTCGGA TGTAAGAGTC ACGTCGCTTT  AGAGGGAAAA CTTTCTCGTT GGCAATACCG TCGTAAGTCG CCCTTGTTAC
+        [33mA[39m  [33mD[39m  [33mA[39m  [33mP[39m   [33mW[39m  [33mI[39m  [33mL[39m   [33mT[39m  [33mC[39m  [33mG[39m   [33mV[39m  [33mN[39m  [33mE[39m  [33mT[39m   [33mC[39m  [33mR[39m  [33mF[39m    [33mR[39m  [33mG[39m  [33mK[39m   [33mS[39m  [33mL[39m  [33mA[39m  [33mV[39m   [33mT[39m  [33mI[39m  [33mA[39m   [33mA[39m  [33mN[39m  [33mL[39m   [33mP[39m  [33mF[39m  [33mL[39m  [33mS[39m
+
+        [31mE[39m  [31mG[39m  [31mR[39m  [31mT[39m   [31mS[39m  [31mD[39m  [31mM[39m   [31mR[39m  [31mT[39m  [31mE[39m   [31mV[39m  [31mI[39m  [31mR[39m  [31mM[39m   [31mM[39m  [31mE[39m  [31mS[39m    [31mA[39m  [31mK[39m  [31mP[39m   [31mE[39m  [31mD[39m  [31mL[39m  [31mS[39m   [31mF[39m  [31mQ[39m  [31mG[39m   [31mR[39m  [31mG[39m  [31mV[39m   [31mF[39m  [31mE[39m  [31mL[39m  [31mS[39m
+  1300  AAGGACGGAC ATCCGACATG CGAACAGAAG TTATAAGAAT GATGGAAAGT  GCAAAGCCAG AAGATTTGTC CTTCCAGGGG CGGGGAGTCT TCGAGCTCTC    1400
+        TTCCTGCCTG TAGGCTGTAC GCTTGTCTTC AATATTCTTA CTACCTTTCA  CGTTTCGGTC TTCTAAACAG GAAGGTCCCC GCCCCTCAGA AGCTCGAGAG
+          [33mP[39m  [33mR[39m  [33mV[39m   [33mD[39m  [33mS[39m  [33mM[39m   [33mR[39m  [33mV[39m  [33mS[39m  [33mT[39m   [33mI[39m  [33mL[39m  [33mI[39m   [33mI[39m  [33mS[39m  [33mL[39m    [33mA[39m  [33mF[39m  [33mG[39m  [33mS[39m   [33mS[39m  [33mK[39m  [33mD[39m   [33mK[39m  [33mW[39m  [33mP[39m   [33mR[39m  [33mP[39m  [33mT[39m  [33mK[39m   [33mS[39m  [33mS[39m  [33mE[39m 
+
+          [31mD[39m  [31mE[39m  [31mK[39m   [31mA[39m  [31mT[39m  [31mN[39m   [31mP[39m  [31mI[39m  [31mV[39m  [31mP[39m   [31mS[39m  [31mF[39m  [31mD[39m   [31mM[39m  [31mS[39m  [31mN[39m    [31mE[39m  [31mG[39m  [31mS[39m  [31mY[39m   [31mF[39m  [31mF[39m  [31mG[39m   [31mD[39m  [31mN[39m  [31mA[39m   [31mE[39m  [31mE[39m  [31mY[39m  [31mD[39m   [31mS[39m  [31m*[39m 
+  1400  GGACGAAAAG GCAACGAACC CGATCGTGCC TTCCTTTGAC ATGAGTAATG  AAGGGTCTTA TTTCTTCGGA GACAATGCAG AGGAGTATGA CAGTTGA
+        CCTGCTTTTC CGTTGCTTGG GCTAGCACGG AAGGAAACTG TACTCATTAC  TTCCCAGAAT AAAGAAGCCT CTGTTACGTC TCCTCATACT GTCAACT
+         [33mS[39m  [33mS[39m  [33mF[39m   [33mA[39m  [33mV[39m  [33mF[39m  [33mG[39m   [33mI[39m  [33mT[39m  [33mG[39m   [33mE[39m  [33mK[39m  [33mS[39m   [4m[33mM[39m[24m                                                              
+>GU014791 A/Iwate/3/2009 2009// 6 (NA)
+         [4m[31mM[39m[24m  [31mN[39m  [31mP[39m   [31mN[39m  [31mQ[39m  [31mK[39m  [31mI[39m   [31mI[39m  [31mT[39m  [31mI[39m   [31mG[39m  [31mS[39m  [31mV[39m   [31mC[39m  [31mM[39m  [31mT[39m  [31mI[39m    [31mG[39m  [31mM[39m  [31mA[39m   [31mN[39m  [31mL[39m  [31mI[39m   [31mL[39m  [31mQ[39m  [31mI[39m  [31mG[39m   [31mN[39m  [31mI[39m  [31mI[39m   [31mS[39m  [31mI[39m  [31mW[39m  
+     0  ATGAATCCAA ACCAAAAGAT AATAACCATT GGTTCGGTCT GTATGACAAT  TGGAATGGCT AACTTAATAT TACAAATTGG AAACATAATC TCAATATGGA     100
+        TACTTAGGTT TGGTTTTCTA TTATTGGTAA CCAAGCCAGA CATACTGTTA  ACCTTACCGA TTGAATTATA ATGTTTAACC TTTGTATTAG AGTTATACCT
+
+        [31mI[39m  [31mS[39m  [31mH[39m  [31mS[39m   [31mI[39m  [31mQ[39m  [31mL[39m   [31mG[39m  [31mN[39m  [31mQ[39m   [31mN[39m  [31mQ[39m  [31mI[39m  [31mE[39m   [31mT[39m  [31mC[39m  [31mN[39m    [31mQ[39m  [31mS[39m  [31mV[39m   [31mI[39m  [31mT[39m  [31mY[39m  [31mE[39m   [31mN[39m  [31mN[39m  [31mT[39m   [31mW[39m  [31mV[39m  [31mN[39m   [31mQ[39m  [31mT[39m  [31mY[39m  [31mV[39m
+   100  TTAGCCACTC AATTCAACTT GGGAATCAAA ATCAGATTGA AACATGCAAT  CAAAGCGTCA TTACTTATGA AAACAACACT TGGGTAAATC AGACATATGT     200
+        AATCGGTGAG TTAAGTTGAA CCCTTAGTTT TAGTCTAACT TTGTACGTTA  GTTTCGCAGT AATGAATACT TTTGTTGTGA ACCCATTTAG TCTGTATACA
+
+          [31mN[39m  [31mI[39m  [31mS[39m   [31mN[39m  [31mT[39m  [31mN[39m   [31mF[39m  [31mA[39m  [31mA[39m  [31mG[39m   [31mQ[39m  [31mS[39m  [31mV[39m   [31mV[39m  [31mS[39m  [31mV[39m    [31mK[39m  [31mL[39m  [31mA[39m  [31mG[39m   [31mN[39m  [31mS[39m  [31mS[39m   [31mL[39m  [31mC[39m  [31mP[39m   [31mV[39m  [31mS[39m  [31mG[39m  [31mW[39m   [31mA[39m  [31mI[39m  [31mY[39m 
+   200  TAACATCAGC AACACCAACT TTGCTGCTGG ACAGTCAGTG GTTTCCGTGA  AATTAGCGGG CAATTCCTCT CTCTGCCCTG TTAGTGGATG GGCTATATAC     300
+        ATTGTAGTCG TTGTGGTTGA AACGACGACC TGTCAGTCAC CAAAGGCACT  TTAATCGCCC GTTAAGGAGA GAGACGGGAC AATCACCTAC CCGATATATG
+
+         [31mS[39m  [31mK[39m  [31mD[39m   [31mN[39m  [31mS[39m  [31mI[39m  [31mR[39m   [31mI[39m  [31mG[39m  [31mS[39m   [31mK[39m  [31mG[39m  [31mD[39m   [31mV[39m  [31mF[39m  [31mV[39m  [31mI[39m    [31mR[39m  [31mE[39m  [31mP[39m   [31mF[39m  [31mI[39m  [31mS[39m   [31mC[39m  [31mS[39m  [31mP[39m  [31mL[39m   [31mE[39m  [31mC[39m  [31mR[39m   [31mT[39m  [31mF[39m  [31mF[39m  
+   300  AGTAAAGACA ACAGTATAAG AATCGGTTCC AAGGGGGATG TGTTTGTCAT  AAGGGAACCA TTCATATCAT GCTCCCCCTT GGAATGCAGA ACCTTCTTCT     400
+        TCATTTCTGT TGTCATATTC TTAGCCAAGG TTCCCCCTAC ACAAACAGTA  TTCCCTTGGT AAGTATAGTA CGAGGGGGAA CCTTACGTCT TGGAAGAAGA
+
+        [31mL[39m  [31mT[39m  [31mQ[39m  [31mG[39m   [31mA[39m  [31mL[39m  [31mL[39m   [31mN[39m  [31mD[39m  [31mK[39m   [31mH[39m  [31mS[39m  [31mN[39m  [31mG[39m   [31mT[39m  [31mI[39m  [31mK[39m    [31mD[39m  [31mR[39m  [31mS[39m   [31mP[39m  [31mY[39m  [31mR[39m  [31mT[39m   [31mL[39m  [31mM[39m  [31mS[39m   [31mC[39m  [31mP[39m  [31mI[39m   [31mG[39m  [31mE[39m  [31mV[39m  [31mP[39m
+   400  TGACTCAAGG GGCCTTGCTA AATGACAAAC ATTCCAATGG AACCATTAAA  GACAGGAGCC CATATCGAAC CCTAATGAGC TGTCCTATTG GTGAAGTTCC     500
+        ACTGAGTTCC CCGGAACGAT TTACTGTTTG TAAGGTTACC TTGGTAATTT  CTGTCCTCGG GTATAGCTTG GGATTACTCG ACAGGATAAC CACTTCAAGG
+
+          [31mS[39m  [31mP[39m  [31mY[39m   [31mN[39m  [31mS[39m  [31mR[39m   [31mF[39m  [31mE[39m  [31mS[39m  [31mV[39m   [31mA[39m  [31mW[39m  [31mS[39m   [31mA[39m  [31mS[39m  [31mA[39m    [31mC[39m  [31mH[39m  [31mD[39m  [31mG[39m   [31mI[39m  [31mN[39m  [31mW[39m   [31mL[39m  [31mT[39m  [31mI[39m   [31mG[39m  [31mI[39m  [31mS[39m  [31mG[39m   [31mP[39m  [31mD[39m  [31mN[39m 
+   500  CTCTCCATAC AACTCAAGAT TTGAGTCAGT CGCTTGGTCA GCAAGTGCTT  GTCATGATGG CATCAATTGG CTAACAATTG GAATTTCTGG CCCAGACAAT     600
+        GAGAGGTATG TTGAGTTCTA AACTCAGTCA GCGAACCAGT CGTTCACGAA  CAGTACTACC GTAGTTAACC GATTGTTAAC CTTAAAGACC GGGTCTGTTA
+
+         [31mG[39m  [31mA[39m  [31mV[39m   [31mA[39m  [31mV[39m  [31mL[39m  [31mK[39m   [31mY[39m  [31mN[39m  [31mG[39m   [31mI[39m  [31mI[39m  [31mT[39m   [31mD[39m  [31mT[39m  [31mI[39m  [31mK[39m    [31mS[39m  [31mW[39m  [31mR[39m   [31mN[39m  [31mN[39m  [31mI[39m   [31mL[39m  [31mR[39m  [31mT[39m  [31mQ[39m   [31mE[39m  [31mS[39m  [31mE[39m   [31mC[39m  [31mA[39m  [31mC[39m  
+   600  GGGGCAGTGG CTGTGTTAAA GTACAACGGC ATAATAACAG ACACTATCAA  GAGTTGGAGA AACAATATAT TGAGAACACA AGAGTCTGAA TGTGCATGTG     700
+        CCCCGTCACC GACACAATTT CATGTTGCCG TATTATTGTC TGTGATAGTT  CTCAACCTCT TTGTTATATA ACTCTTGTGT TCTCAGACTT ACACGTACAC
+
+        [31mV[39m  [31mN[39m  [31mG[39m  [31mS[39m   [31mC[39m  [31mF[39m  [31mT[39m   [31mV[39m  [31mM[39m  [31mT[39m   [31mD[39m  [31mG[39m  [31mP[39m  [31mS[39m   [31mD[39m  [31mG[39m  [31mQ[39m    [31mA[39m  [31mS[39m  [31mY[39m   [31mK[39m  [31mI[39m  [31mF[39m  [31mR[39m   [31mI[39m  [31mE[39m  [31mK[39m   [31mG[39m  [31mK[39m  [31mI[39m   [31mV[39m  [31mK[39m  [31mS[39m  [31mV[39m
+   700  TAAATGGTTC TTGCTTTACT GTAATGACCG ATGGACCAAG TGATGGACAG  GCCTCATACA AGATCTTCAG AATAGAAAAG GGAAAGATAG TCAAATCAGT     800
+        ATTTACCAAG AACGAAATGA CATTACTGGC TACCTGGTTC ACTACCTGTC  CGGAGTATGT TCTAGAAGTC TTATCTTTTC CCTTTCTATC AGTTTAGTCA
+
+          [31mE[39m  [31mM[39m  [31mN[39m   [31mA[39m  [31mP[39m  [31mN[39m   [31mY[39m  [31mY[39m  [31mY[39m  [31mE[39m   [31mE[39m  [31mC[39m  [31mS[39m   [31mC[39m  [31mY[39m  [31mP[39m    [31mD[39m  [31mS[39m  [31mS[39m  [31mE[39m   [31mI[39m  [31mT[39m  [31mC[39m   [31mV[39m  [31mC[39m  [31mR[39m   [31mD[39m  [31mN[39m  [31mW[39m  [31mH[39m   [31mG[39m  [31mS[39m  [31mN[39m 
+   800  CGAAATGAAT GCCCCTAATT ATTACTATGA GGAATGCTCC TGTTATCCTG  ATTCTAGTGA AATCACATGT GTGTGCAGGG ATAACTGGCA TGGCTCGAAT     900
+        GCTTTACTTA CGGGGATTAA TAATGATACT CCTTACGAGG ACAATAGGAC  TAAGATCACT TTAGTGTACA CACACGTCCC TATTGACCGT ACCGAGCTTA
+
+         [31mR[39m  [31mP[39m  [31mW[39m   [31mV[39m  [31mS[39m  [31mF[39m  [31mN[39m   [31mQ[39m  [31mN[39m  [31mL[39m   [31mE[39m  [31mY[39m  [31mQ[39m   [31mI[39m  [31mG[39m  [31mY[39m  [31mI[39m    [31mC[39m  [31mS[39m  [31mG[39m   [31mI[39m  [31mF[39m  [31mG[39m   [31mD[39m  [31mN[39m  [31mP[39m  [31mR[39m   [31mP[39m  [31mN[39m  [31mD[39m   [31mK[39m  [31mT[39m  [31mG[39m  
+   900  CGACCGTGGG TGTCTTTCAA CCAGAATCTG GAATATCAGA TAGGATACAT  ATGCAGTGGG ATTTTCGGAG ACAATCCACG CCCTAATGAT AAGACAGGCA    1000
+        GCTGGCACCC ACAGAAAGTT GGTCTTAGAC CTTATAGTCT ATCCTATGTA  TACGTCACCC TAAAAGCCTC TGTTAGGTGC GGGATTACTA TTCTGTCCGT
+
+        [31mS[39m  [31mC[39m  [31mG[39m  [31mP[39m   [31mV[39m  [31mS[39m  [31mS[39m   [31mN[39m  [31mG[39m  [31mA[39m   [31mN[39m  [31mG[39m  [31mV[39m  [31mK[39m   [31mG[39m  [31mF[39m  [31mS[39m    [31mF[39m  [31mK[39m  [31mY[39m   [31mG[39m  [31mN[39m  [31mG[39m  [31mV[39m   [31mW[39m  [31mI[39m  [31mG[39m   [31mR[39m  [31mT[39m  [31mK[39m   [31mS[39m  [31mI[39m  [31mS[39m  [31mS[39m
+  1000  GTTGTGGTCC AGTATCGTCT AATGGAGCAA ATGGAGTAAA AGGATTTTCA  TTCAAATACG GCAATGGTGT TTGGATAGGG AGAACTAAAA GCATTAGTTC    1100
+        CAACACCAGG TCATAGCAGA TTACCTCGTT TACCTCATTT TCCTAAAAGT  AAGTTTATGC CGTTACCACA AACCTATCCC TCTTGATTTT CGTAATCAAG
+
+          [31mR[39m  [31mN[39m  [31mG[39m   [31mF[39m  [31mE[39m  [31mM[39m   [31mI[39m  [31mW[39m  [31mD[39m  [31mP[39m   [31mN[39m  [31mG[39m  [31mW[39m   [31mT[39m  [31mG[39m  [31mT[39m    [31mD[39m  [31mN[39m  [31mN[39m  [31mF[39m   [31mS[39m  [31mI[39m  [31mK[39m   [31mQ[39m  [31mD[39m  [31mI[39m   [31mV[39m  [31mG[39m  [31mI[39m  [31mN[39m   [31mE[39m  [31mW[39m  [31mS[39m 
+  1100  AAGAAACGGT TTTGAGATGA TTTGGGATCC GAACGGATGG ACTGGGACAG  ACAATAACTT CTCAATAAAG CAAGATATCG TAGGAATAAA TGAGTGGTCA    1200
+        TTCTTTGCCA AAACTCTACT AAACCCTAGG CTTGCCTACC TGACCCTGTC  TGTTATTGAA GAGTTATTTC GTTCTATAGC ATCCTTATTT ACTCACCAGT
+
+         [31mG[39m  [31mY[39m  [31mS[39m   [31mG[39m  [31mS[39m  [31mF[39m  [31mV[39m   [31mQ[39m  [31mH[39m  [31mP[39m   [31mE[39m  [31mL[39m  [31mT[39m   [31mG[39m  [31mL[39m  [31mD[39m  [31mC[39m    [31mI[39m  [31mR[39m  [31mP[39m   [31mC[39m  [31mF[39m  [31mW[39m   [31mV[39m  [31mE[39m  [31mL[39m  [31mI[39m   [31mR[39m  [31mG[39m  [31mR[39m   [31mP[39m  [31mK[39m  [31mE[39m  
+  1200  GGATATAGCG GGAGTTTTGT TCAGCATCCA GAACTAACAG GGCTGGATTG  TATAAGACCT TGCTTCTGGG TTGAACTAAT CAGAGGGCGA CCCAAAGAGA    1300
+        CCTATATCGC CCTCAAAACA AGTCGTAGGT CTTGATTGTC CCGACCTAAC  ATATTCTGGA ACGAAGACCC AACTTGATTA GTCTCCCGCT GGGTTTCTCT
+
+        [31mN[39m  [31mT[39m  [31mI[39m  [31mW[39m   [31mT[39m  [31mS[39m  [31mG[39m   [31mS[39m  [31mS[39m  [31mI[39m   [31mS[39m  [31mF[39m  [31mC[39m  [31mG[39m   [31mV[39m  [31mN[39m  [31mS[39m    [31mD[39m  [31mT[39m  [31mV[39m   [31mG[39m  [31mW[39m  [31mS[39m  [31mW[39m   [31mP[39m  [31mD[39m  [31mG[39m   [31mA[39m  [31mE[39m  [31mL[39m   [31mP[39m  [31mF[39m  [31mT[39m  [31mI[39m
+  1300  ACACAATCTG GACTAGCGGG AGCAGCATAT CCTTTTGTGG TGTAAACAGT  GACACTGTGG GTTGGTCTTG GCCAGACGGT GCTGAGTTGC CATTTACCAT    1400
+        TGTGTTAGAC CTGATCGCCC TCGTCGTATA GGAAAACACC ACATTTGTCA  CTGTGACACC CAACCAGAAC CGGTCTGCCA CGACTCAACG GTAAATGGTA
+
+          [31mD[39m  [31mK[39m  [31m*[39m 
+  1400  TGACAAGTAA
+        ACTGTTCATT
+>GU138880 A/Iwate/3/2009 2009/06/24 7 (MP)
+         [4m[31mM[39m[24m  [31mS[39m  [31mL[39m   [31mL[39m  [31mT[39m  [31mE[39m  [31mV[39m   [31mE[39m  [31mT[39m  [31mY[39m   [31mV[39m  [31mL[39m  [31mS[39m   [31mI[39m  [31mI[39m  [31mP[39m  [31mS[39m    [31mG[39m  [31mP[39m  [31mL[39m   [31mK[39m  [31mA[39m  [31mE[39m   [31mI[39m  [31mA[39m  [31mQ[39m  [31mR[39m   [31mL[39m  [31mE[39m  [31mS[39m   [31mV[39m  [31mF[39m  [31mA[39m  
+     0  ATGAGTCTTC TAACCGAGGT CGAAACGTAC GTTCTTTCTA TCATCCCGTC  AGGCCCCCTC AAAGCCGAGA TCGCGCAGAG ACTGGAAAGT GTCTTTGCAG     100
+        TACTCAGAAG ATTGGCTCCA GCTTTGCATG CAAGAAAGAT AGTAGGGCAG  TCCGGGGGAG TTTCGGCTCT AGCGCGTCTC TGACCTTTCA CAGAAACGTC
+           [34mL[39m  [34mR[39m  [34mR[39m   [34mV[39m  [34mS[39m  [34mT[39m   [34mS[39m  [34mV[39m  [34mY[39m   [34mT[39m  [34mR[39m  [34mE[39m  [34mI[39m   [34mM[39m  [34mG[39m  [34mD[39m    [34mP[39m  [34mG[39m  [34mR[39m   [34mL[39m  [34mA[39m  [34mS[39m  [34mI[39m   [34mA[39m  [34mC[39m  [34mL[39m   [34mS[39m  [34mS[39m  [34mL[39m   [34mT[39m  [34mK[39m  [34mA[39m  [34mP[39m
+
+        [31mG[39m  [31mK[39m  [31mN[39m  [31mT[39m   [31mD[39m  [31mL[39m  [31mE[39m   [31mA[39m  [31mL[39m  [31mM[39m   [31mE[39m  [31mW[39m  [31mL[39m  [31mK[39m   [31mT[39m  [31mR[39m  [31mP[39m    [31mI[39m  [31mL[39m  [31mS[39m   [31mP[39m  [31mL[39m  [31mT[39m  [31mK[39m   [31mG[39m  [31mI[39m  [31mL[39m   [31mG[39m  [31mF[39m  [31mV[39m   [31mF[39m  [31mT[39m  [31mL[39m  [31mT[39m
+   100  GAAAGAACAC AGATCTTGAG GCTCTCATGG AATGGCTAAA GACAAGACCA  ATCTTGTCAC CTCTGACTAA GGGAATTTTA GGATTTGTGT TCACGCTCAC     200
+        CTTTCTTGTG TCTAGAACTC CGAGAGTACC TTACCGATTT CTGTTCTGGT  TAGAACAGTG GAGACTGATT CCCTTAAAAT CCTAAACACA AGTGCGAGTG
+          [34mF[39m  [34mF[39m  [34mV[39m   [34mS[39m  [34mR[39m  [34mS[39m   [34mA[39m  [34mR[39m  [34mM[39m  [34mS[39m   [34mH[39m  [34mS[39m  [34mF[39m   [34mV[39m  [34mL[39m  [34mG[39m    [34mI[39m  [34mK[39m  [34mD[39m  [34mG[39m   [34mR[39m  [34mV[39m  [34mL[39m   [34mP[39m  [34mI[39m  [34mK[39m   [34mP[39m  [34mN[39m  [34mT[39m  [34mN[39m   [34mV[39m  [34mS[39m  [34mV[39m 
+
+          [31mV[39m  [31mP[39m  [31mS[39m   [31mE[39m  [31mR[39m  [31mG[39m   [31mL[39m  [31mQ[39m  [31mR[39m  [31mR[39m   [31mR[39m  [31mF[39m  [31mV[39m   [31mQ[39m  [31mN[39m  [31mA[39m    [31mL[39m  [31mN[39m  [31mG[39m  [31mN[39m   [31mG[39m  [31mD[39m  [31mP[39m   [31mN[39m  [31mN[39m  [31mM[39m   [31mD[39m  [31mR[39m  [31mA[39m  [31mV[39m   [31mK[39m  [31mL[39m  [31mY[39m 
+   200  CGTGCCCAGT GAGCGAGGAC TGCAGCGTAG ACGCTTTGTC CAAAATGCCC  TAAATGGGAA TGGGGACCCG AACAACATGG ATAGAGCAGT TAAACTATAC     300
+        GCACGGGTCA CTCGCTCCTG ACGTCGCATC TGCGAAACAG GTTTTACGGG  ATTTACCCTT ACCCCTGGGC TTGTTGTACC TATCTCGTCA ATTTGATATG
+         [34mT[39m  [34mG[39m  [34mL[39m   [34mS[39m  [34mR[39m  [34mP[39m  [34mS[39m   [34mC[39m  [34mR[39m  [34mL[39m   [34mR[39m  [34mK[39m  [34mT[39m   [34mW[39m  [34mF[39m  [34mA[39m  [34mR[39m    [34mF[39m  [34mP[39m  [34mF[39m   [34mP[39m  [34mS[39m  [34mG[39m   [34mF[39m  [34mL[39m  [4m[34mM[39m[24m                         
+
+         [31mK[39m  [31mK[39m  [31mL[39m   [31mK[39m  [31mR[39m  [31mE[39m  [31mI[39m   [31mT[39m  [31mF[39m  [31mH[39m   [31mG[39m  [31mA[39m  [31mR[39m   [31mE[39m  [31mV[39m  [31mS[39m  [31mL[39m    [31mS[39m  [31mY[39m  [31mS[39m   [31mT[39m  [31mG[39m  [31mA[39m   [31mL[39m  [31mA[39m  [31mS[39m  [31mC[39m   [31mM[39m  [31mG[39m  [31mL[39m   [31mI[39m  [31mY[39m  [31mN[39m  
+   300  AAGAAGCTCA AAAGAGAAAT AACGTTCCAT GGGGCCAGGG AGGTGTCACT  AAGCTATTCA ACTGGTGCAC TTGCCAGTTG CATGGGCCTC ATATACAACA     400
+        TTCTTCGAGT TTTCTCTTTA TTGCAAGGTA CCCCGGTCCC TCCACAGTGA  TTCGATAAGT TGACCACGTG AACGGTCAAC GTACCCGGAG TATATGTTGT
+
+        [31mR[39m  [31mM[39m  [31mG[39m  [31mT[39m   [31mV[39m  [31mT[39m  [31mT[39m   [31mE[39m  [31mA[39m  [31mA[39m   [31mF[39m  [31mG[39m  [31mL[39m  [31mV[39m   [31mC[39m  [31mA[39m  [31mT[39m    [31mC[39m  [31mE[39m  [31mQ[39m   [31mI[39m  [31mA[39m  [31mD[39m  [31mS[39m   [31mQ[39m  [31mH[39m  [31mR[39m   [31mS[39m  [31mH[39m  [31mR[39m   [31mQ[39m  [31mM[39m  [31mA[39m  [31mT[39m
+   400  GGATGGGAAC AGTGACCACA GAAGCTGCTT TTGGTCTAGT GTGTGCCACT  TGTGAACAGA TTGCTGATTC ACAGCATCGG TCTCACAGAC AAATGGCTAC     500
+        CCTACCCTTG TCACTGGTGT CTTCGACGAA AACCAGATCA CACACGGTGA  ACACTTGTCT AACGACTAAG TGTCGTAGCC AGAGTGTCTG TTTACCGATG
+
+          [31mT[39m  [31mT[39m  [31mN[39m   [31mP[39m  [31mL[39m  [31mI[39m   [31mR[39m  [31mH[39m  [31mE[39m  [31mN[39m   [31mR[39m  [31mM[39m  [31mV[39m   [31mL[39m  [31mA[39m  [31mS[39m    [31mT[39m  [31mT[39m  [31mA[39m  [31mK[39m   [31mA[39m  [31mM[39m  [31mE[39m   [31mQ[39m  [31mM[39m  [31mA[39m   [31mG[39m  [31mS[39m  [31mS[39m  [31mE[39m   [31mQ[39m  [31mA[39m  [31mA[39m 
+   500  TACCACCAAT CCACTAATCA GGCATGAAAA CAGAATGGTG CTGGCTAGCA  CTACGGCAAA GGCTATGGAA CAGATGGCTG GATCGAGTGA ACAGGCAGCA     600
+        ATGGTGGTTA GGTGATTAGT CCGTACTTTT GTCTTACCAC GACCGATCGT  GATGCCGTTT CCGATACCTT GTCTACCGAC CTAGCTCACT TGTCCGTCGT
+                       [33m*[39m  [33mD[39m   [33mP[39m  [33mM[39m  [33mF[39m  [33mV[39m   [33mS[39m  [33mH[39m  [33mH[39m   [33mQ[39m  [33mS[39m  [33mA[39m    [33mS[39m  [33mR[39m  [33mC[39m  [33mL[39m   [33mS[39m  [33mH[39m  [33mF[39m   [33mL[39m  [33mH[39m  [33mS[39m   [33mS[39m  [33mR[39m  [33mT[39m  [33mF[39m   [33mL[39m  [33mC[39m  [33mC[39m 
+
+         [31mE[39m  [31mA[39m  [31mM[39m   [31mE[39m  [31mV[39m  [31mA[39m  [31mN[39m   [31mQ[39m  [31mT[39m  [31mR[39m   [31mQ[39m  [31mM[39m  [31mV[39m   [31mH[39m  [31mA[39m  [31mM[39m  [31mR[39m    [31mT[39m  [31mI[39m  [31mG[39m   [31mT[39m  [31mH[39m  [31mP[39m   [31mS[39m  [31mS[39m  [31mS[39m  [31mA[39m   [31mG[39m  [31mL[39m  [31mK[39m   [31mD[39m[4m[33mM[39m[24m [31mD[39m[33mT[39m [31mL[39m[33mF[39m 
+   600  GAGGCCATGG AGGTTGCTAA TCAGACTAGG CAGATGGTAC ATGCAATGAG  AACTATTGGG ACTCATCCTA GCTCCAGTGC TGGTCTGAAA GATGACCTTC     700
+        CTCCGGTACC TCCAACGATT AGTCTGATCC GTCTACCATG TACGTTACTC  TTGATAACCC TGAGTAGGAT CGAGGTCACG ACCAGACTTT CTACTGGAAG
+         [33mL[39m  [33mG[39m  [33mH[39m   [33mL[39m  [33mN[39m  [33mS[39m  [33mI[39m   [33mL[39m  [33mS[39m  [33mP[39m   [33mL[39m  [33mH[39m  [33mY[39m   [33mM[39m  [33mC[39m  [33mH[39m  [33mS[39m    [33mS[39m  [33mN[39m  [33mP[39m   [33mS[39m  [33mM[39m  [33mR[39m   [33mA[39m  [33mG[39m  [33mT[39m  [33mS[39m   [33mT[39m  [33mQ[39m  [33mF[39m   [33mI[39m  [33mV[39m  [33mK[39m  
+
+        [31mL[39m[33mL[39m [31mE[39m[33mK[39m [31mN[39m[33mI[39m [31mL[39m [33mC[39m [31mQ[39m[33mR[39m [31mA[39m[33mP[39m [31mY[39m[33mT[39m  [31mQ[39m[33mR[39m [31mK[39m[33mS[39m [31mR[39m[33mE[39m  [31mM[39m[33mW[39m [31mG[39m[33mE[39m [31mV[39m[33mC[39m [31mQ[39m [33mR[39m [31mM[39m[33mC[39m [31mQ[39m[33mS[39m [31mR[39m[33mD[39m   [31mF[39m[33mS[39m [31mK[39m[33mS[39m [31m*[39m[33mD[39m   [33mP[39m  [33mL[39m  [33mV[39m   [33mI[39m  [33mA[39m  [33mA[39m  [33mN[39m   [33mI[39m  [33mI[39m  [33mG[39m   [33mI[39m  [33mL[39m  [33mH[39m  
+   700  TTGAAAATTT GCAGGCCTAC CAGAAGCGAA TGGGAGTGCA GATGCAGCGA  TTCAAGTGAT CCTCTCGTCA TTGCAGCAAA TATCATTGGG ATCTTGCACC     800
+        AACTTTTAAA CGTCCGGATG GTCTTCGCTT ACCCTCACGT CTACGTCGCT  AAGTTCACTA GGAGAGCAGT AACGTCGTTT ATAGTAACCC TAGAACGTGG
+        [33mK[39m  [33mF[39m  [33mI[39m  [33mQ[39m   [33mL[39m  [33mG[39m  [33mV[39m   [33mL[39m  [33mL[39m  [33mS[39m   [33mH[39m  [33mS[39m  [33mH[39m  [33mL[39m   [33mH[39m  [33mL[39m  [33mS[39m    [33mE[39m  [33mL[39m  [33mS[39m   [33mG[39m  [33mR[39m  [33mT[39m  [33mM[39m   [33mA[39m  [33mA[39m  [33mF[39m   [33mI[39m  [4m[33mM[39m[24m                
+
+        [33mL[39m  [33mI[39m  [33mL[39m  [33mW[39m   [33mI[39m  [33mT[39m  [33mD[39m   [33mR[39m  [33mL[39m  [33mF[39m   [33mF[39m  [33mK[39m  [33mC[39m  [33mI[39m   [33mY[39m  [33mR[39m  [33mR[39m    [33mF[39m  [33mK[39m  [33mY[39m   [33mG[39m  [33mL[39m  [33mK[39m  [33mR[39m   [33mG[39m  [33mP[39m  [33mS[39m   [33mT[39m  [33mE[39m  [33mG[39m   [33mV[39m  [33mP[39m  [33mE[39m  [33mS[39m
+   800  TGATATTGTG GATTACTGAT CGTCTTTTTT TCAAATGTAT TTATCGTCGC  TTTAAATACG GTTTGAAAAG AGGGCCTTCT ACGGAAGGAG TGCCTGAGTC     900
+        ACTATAACAC CTAATGACTA GCAGAAAAAA AGTTTACATA AATAGCAGCG  AAATTTATGC CAAACTTTTC TCCCGGAAGA TGCCTTCCTC ACGGACTCAG
+
+          [33mM[39m  [33mR[39m  [33mE[39m   [33mE[39m  [33mY[39m  [33mQ[39m   [33mQ[39m  [33mE[39m  [33mQ[39m  [33mQ[39m   [33mS[39m  [33mA[39m  [33mV[39m   [33mD[39m  [33mV[39m  [33mD[39m    [33mD[39m  [33mG[39m  [33mH[39m  [33mF[39m   [33mV[39m  [33mN[39m  [33mI[39m   [33mE[39m  [33mL[39m  [33mE[39m   [33m*[39m 
+   900  CATGAGGGAA GAATATCAAC AGGAACAGCA GAGTGCTGTG GATGTTGACG  ATGGTCATTT TGTCAACATA GAGCTAGAGT AA
+        GTACTCCCTT CTTATAGTTG TCCTTGTCGT CTCACGACAC CTACAACTGC  TACCAGTAAA ACAGTTGTAT CTCGATCTCA TT
+>GU136005 A/Iwate/3/2009 2009/06/24 8 (NS)
+         [4m[31mM[39m[24m  [31mD[39m  [31mS[39m   [31mN[39m  [31mT[39m  [31mM[39m  [31mS[39m   [31mS[39m  [31mF[39m  [31mQ[39m   [31mV[39m  [31mD[39m  [31mC[39m   [31mF[39m  [31mL[39m  [31mW[39m  [31mH[39m    [31mI[39m  [31mR[39m  [31mK[39m   [31mR[39m  [31mF[39m  [31mA[39m   [31mD[39m  [31mN[39m  [31mG[39m  [31mL[39m   [31mG[39m  [31mD[39m  [31mA[39m   [31mP[39m  [31mF[39m  [31mL[39m  
+     0  ATGGACTCCA ACACCATGTC AAGCTTTCAG GTAGACTGTT TCCTTTGGCA  TATCCGCAAG CGATTTGCAG ACAATGGATT GGGTGATGCC CCATTCCTTG     100
+        TACCTGAGGT TGTGGTACAG TTCGAAAGTC CATCTGACAA AGGAAACCGT  ATAGGCGTTC GCTAAACGTC TGTTACCTAA CCCACTACGG GGTAAGGAAC
+
+        [31mD[39m  [31mR[39m  [31mL[39m  [31mR[39m   [31mR[39m  [31mD[39m  [31mQ[39m   [31mK[39m  [31mS[39m  [31mL[39m   [31mK[39m  [31mG[39m  [31mR[39m  [31mG[39m   [31mN[39m  [31mT[39m  [31mL[39m    [31mG[39m  [31mL[39m  [31mD[39m   [31mI[39m  [31mE[39m  [31mT[39m  [31mA[39m   [31mT[39m  [31mL[39m  [31mV[39m   [31mG[39m  [31mK[39m  [31mQ[39m   [31mI[39m  [31mV[39m  [31mE[39m  [31mW[39m
+   100  ATCGGCTCCG CCGAGATCAA AAGTCCTTAA AAGGAAGAGG CAACACTCTT  GGCCTCGATA TCGAAACAGC CACTCTTGTT GGGAAACAAA TCGTGGAATG     200
+        TAGCCGAGGC GGCTCTAGTT TTCAGGAATT TTCCTTCTCC GTTGTGAGAA  CCGGAGCTAT AGCTTTGTCG GTGAGAACAA CCCTTTGTTT AGCACCTTAC
+
+          [31mI[39m  [31mL[39m  [31mK[39m   [31mE[39m  [31mE[39m  [31mS[39m   [31mS[39m  [31mE[39m  [31mT[39m  [31mL[39m   [31mR[39m  [31mM[39m  [31mT[39m   [31mI[39m  [31mA[39m  [31mS[39m    [31mV[39m  [31mP[39m  [31mT[39m  [31mS[39m   [31mR[39m  [31mY[39m  [31mL[39m   [31mS[39m  [31mD[39m  [31mM[39m   [31mT[39m  [31mL[39m  [31mE[39m  [31mE[39m   [31mM[39m  [31mS[39m  [31mR[39m 
+   200  GATCTTGAAA GAGGAATCCA GCGAGACACT TAGAATGACA ATTGCATCTG  TACCTACTTC GCGCTACCTT TCTGACATGA CCCTCGAGGA AATGTCACGA     300
+        CTAGAACTTT CTCCTTAGGT CGCTCTGTGA ATCTTACTGT TAACGTAGAC  ATGGATGAAG CGCGATGGAA AGACTGTACT GGGAGCTCCT TTACAGTGCT
+
+         [31mD[39m  [31mW[39m  [31mF[39m   [31mM[39m  [31mL[39m  [31mM[39m  [31mP[39m   [31mR[39m  [31mQ[39m  [31mK[39m   [31mI[39m  [31mI[39m  [31mG[39m   [31mP[39m  [31mL[39m  [31mC[39m  [31mV[39m    [31mR[39m  [31mL[39m  [31mD[39m   [31mQ[39m  [31mA[39m  [31mV[39m   [31mM[39m  [31mE[39m  [31mK[39m  [31mN[39m   [31mI[39m  [31mV[39m  [31mL[39m   [31mK[39m  [31mA[39m  [31mN[39m  
+   300  GACTGGTTCA TGCTCATGCC TAGGCAAAAG ATAATAGGCC CTCTTTGCGT  GCGATTGGAC CAGGCAGTCA TGGAAAAGAA CATAGTACTG AAAGCGAACT     400
+        CTGACCAAGT ACGAGTACGG ATCCGTTTTC TATTATCCGG GAGAAACGCA  CGCTAACCTG GTCCGTCAGT ACCTTTTCTT GTATCATGAC TTTCGCTTGA
+
+        [31mF[39m  [31mS[39m  [31mV[39m  [31mI[39m   [31mF[39m  [31mN[39m  [31mR[39m   [31mL[39m  [31mE[39m  [31mT[39m   [31mL[39m  [31mI[39m  [31mL[39m  [31mL[39m   [31mR[39m  [31mA[39m  [31mF[39m    [31mT[39m  [31mE[39m  [31mE[39m   [31mG[39m  [31mA[39m  [31mI[39m  [31mV[39m   [31mG[39m  [31mE[39m  [31mI[39m   [31mS[39m  [31mP[39m  [31mL[39m   [31mP[39m  [31mS[39m  [31mL[39m  [31mP[39m
+   400  TCAGTGTAAT CTTTAACCGA TTAGAGACCT TGATACTACT AAGGGCTTTC  ACTGAGGAGG GAGCAATAGT TGGAGAAATT TCACCATTAC CTTCTCTTCC     500
+        AGTCACATTA GAAATTGGCT AATCTCTGGA ACTATGATGA TTCCCGAAAG  TGACTCCTCC CTCGTTATCA ACCTCTTTAA AGTGGTAATG GAAGAGAAGG
+
+          [31mG[39m  [31mH[39m  [31mT[39m   [31mY[39m[4m[33mM[39m[24m [31mE[39m[33mR[39m [31mD[39m[33mM[39m  [31mV[39m[33mS[39m [31mK[39m[33mK[39m [31mN[39m[33mM[39m [31mA[39m [33mQ[39m [31mV[39m[33mL[39m [31mG[39m[33mG[39m [31mV[39m[33mS[39m  [31mL[39m[33mS[39m [31mI[39m[33mS[39m [31mG[39m[33mE[39m   [31mG[39m[33mD[39m [31mL[39m[33mL[39m [31mE[39m[33mN[39m [31mW[39m [33mG[39m [31mN[39m[33mM[39m [31mG[39m[33mV[39m [31mN[39m[33mT[39m  [31mT[39m[33mR[39m [31mV[39m[33mF[39m [31mR[39m[33mE[39m  [31mV[39m[33mS[39m [31mS[39m[33mL[39m [31mE[39m[33mK[39m [31mN[39m [33mI[39m [31mI[39m[33mY[39m [31mQ[39m[33mR[39m [31mR[39m[33mD[39m
+   500  AGGACATACT TATGAGGATG TCAAAAATGC AGTTGGGGTC CTCATCGGAG  GACTTGAATG GAATGGTAAC ACGGTTCGAG TCTCTGAAAA TATACAGAGA     600
+        TCCTGTATGA ATACTCCTAC AGTTTTTACG TCAACCCCAG GAGTAGCCTC  CTGAACTTAC CTTACCATTG TGCCAAGCTC AGAGACTTTT ATATGTCTCT
+                   [34m*[39m  [34mS[39m  [34mS[39m  [34mT[39m   [34mL[39m  [34mF[39m  [34mA[39m   [34mT[39m  [34mP[39m  [34mT[39m   [34mR[39m  [34mM[39m  [34mP[39m  [34mP[39m    [34mS[39m  [34mS[39m  [34mH[39m   [34mF[39m  [34mP[39m  [34mL[39m   [34mV[39m  [34mT[39m  [34mR[39m  [34mT[39m   [34mE[39m  [34mS[39m  [34mF[39m   [34mI[39m  [34mC[39m  [34mL[39m  
+
+         [31mF[39m[33mS[39m [31mA[39m[33mL[39m [31mW[39m[33mG[39m  [31mR[39m[33mE[39m [31mN[39m[33mT[39m [31mC[39m[33mV[39m [31mD[39m [33mM[39m [31mE[39m[33mR[39m [31mN[39m[33mM[39m [31mG[39m[33mG[39m  [31mR[39m[33mD[39m [31mP[39m[33mL[39m [31mS[39m[33mH[39m  [31mL[39m[33mY[39m [31mP[39m[33mL[39m [31mP[39m[33mQ[39m [31mE[39m  [33mS[39m [31mQ[39m[33mR[39m [31mK[39m[33mN[39m [31m*[39m[33mE[39m   [33mK[39m  [33mW[39m  [33mR[39m   [33mE[39m  [33mQ[39m  [33mL[39m   [33mG[39m  [33mQ[39m  [33mK[39m  [33mF[39m   [33mE[39m  [33mE[39m  [33mI[39m 
+   600  TTCGCTTGGA GAAACTGTGA TGAGAATGGG AGACCTTCAC TACCTCCAGA  GCAGAAATGA AAAGTGGCGA GAGCAATTGG GACAGAAATT TGAGGAAATA     700
+        AAGCGAACCT CTTTGACACT ACTCTTACCC TCTGGAAGTG ATGGAGGTCT  CGTCTTTACT TTTCACCGCT CTCGTTAACC CTGTCTTTAA ACTCCTTTAT
+        [34mN[39m  [34mA[39m  [34mQ[39m  [34mL[39m   [34mF[39m  [34mQ[39m  [34mS[39m   [34mS[39m  [34mF[39m  [34mP[39m   [34mL[39m  [34mG[39m  [34mE[39m  [34mS[39m   [34mG[39m  [34mG[39m  [34mS[39m    [34mC[39m  [34mF[39m  [34mH[39m   [34mF[39m  [34mT[39m  [34mA[39m  [34mL[39m   [34mA[39m  [34mI[39m  [34mP[39m   [34mV[39m  [34mS[39m  [34mI[39m   [34mQ[39m  [34mP[39m  [34mF[39m  [34mL[39m
+
+         [33mR[39m  [33mW[39m  [33mL[39m   [33mI[39m  [33mE[39m  [33mE[39m  [33mM[39m   [33mR[39m  [33mH[39m  [33mR[39m   [33mL[39m  [33mK[39m  [33mA[39m   [33mT[39m  [33mE[39m  [33mN[39m  [33mS[39m    [33mF[39m  [33mE[39m  [33mQ[39m   [33mI[39m  [33mT[39m  [33mF[39m   [33mM[39m  [33mQ[39m  [33mA[39m  [33mL[39m   [33mQ[39m  [33mL[39m  [33mL[39m   [33mL[39m  [33mE[39m  [33mV[39m  
+   700  AGGTGGTTGA TTGAAGAAAT GCGGCACAGA TTGAAAGCGA CAGAGAATAG  TTTCGAACAA ATAACATTTA TGCAAGCCTT ACAACTACTG CTTGAAGTAG     800
+        TCCACCAACT AACTTCTTTA CGCCGTGTCT AACTTTCGCT GTCTCTTATC  AAAGCTTGTT TATTGTAAAT ACGTTCGGAA TGTTGATGAC GAACTTCATC
+          [34mT[39m  [34mT[39m  [34mS[39m   [34mQ[39m  [34mL[39m  [34mF[39m   [34mA[39m  [34mA[39m  [34mC[39m  [34mI[39m   [34mS[39m  [34mL[39m  [34mS[39m   [34mL[39m  [34mS[39m  [34mY[39m    [34mN[39m  [34mR[39m  [34mV[39m  [34mF[39m   [34mL[39m  [4m[34mM[39m[24m                                     
+
+        [33mE[39m  [33mQ[39m  [33mE[39m  [33mI[39m   [33mR[39m  [33mA[39m  [33mF[39m   [33mS[39m  [33mF[39m  [33mQ[39m   [33mL[39m  [33mI[39m  [33m*[39m              
+   800  AACAAGAGAT AAGAGCTTTC TCGTTTCAGC TTATTTAATG ATAAAAAACA
+        TTGTTCTCTA TTCTCGAAAG AGCAAAGTCG AATAAATTAC TATTTTTTGT

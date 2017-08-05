@@ -1,0 +1,13 @@
+> fakeShort-mRNA-1
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+aaaaaaaaaaaaaaaaaaaaaaaaaaa
+> fakeShort-mRNA-2
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+cattacgactaaaaaaaaggaaaaa
+> fakeShort-mRNA-3
+# this one's got no clear poly-A tail.
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+cattacgactaaagtgaaaaaggaagctgtaaa

@@ -1,0 +1,18 @@
+23  Add comments listing ORFs of length 29 or more to DNA sequence records.
+-pe '$comment .= sprintf "# %2d %s\n", @$_[2,3]  for ORFs "m29"'	DNAwithPolyAtail.fasta
+> fakeShort-mRNA-1
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+aaaaaaaaaaaaaaaaaaaaaaaaaaa
+> fakeShort-mRNA-2
+# -2 MQRLAMLSRAHPPDENTKCMESSREWLIG*
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+cattacgactaaaaaaaaggaaaaa
+> fakeShort-mRNA-3
+# this one's got no clear poly-A tail.
+#  3 MHLVFSSGGCARDSIARRCITTKVKKEAV\
+# -1 MQRLAMLSRAHPPDENTKCMESSREWLIG*
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+cattacgactaaagtgaaaaaggaagctgtaaa

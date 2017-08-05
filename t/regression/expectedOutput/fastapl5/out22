@@ -1,0 +1,28 @@
+22  Add comments listing ORF fragments of length 29 or more to DNA sequence records.
+-pe '$comment .= sprintf "# %2d %s\n", @$_[2,3]  for ORFs 29'	DNAwithPolyAtail.fasta
+> fakeShort-mRNA-1
+#  1 DHRSITLLTTHGSSPCIWYFRLGGVHAIALRDAEKKKKKKKK\
+#  3 SQVYHPINHSRELSMHLVFSSGGCARDSIARR*
+# -1 FFFFFFFFFQRLAMLSRAHPPDENTKCMESSREWLIG*
+# -2 FFFFFFFFFSVSQCYRVHTPQTKIPNAWRAPVSG*
+# -3 FFFFFFFFSASRNAIACTPPRRKYQMHGELP*
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+aaaaaaaaaaaaaaaaaaaaaaaaaaa
+> fakeShort-mRNA-2
+#  1 DHRSITLLTTHGSSPCIWYFRLGGVHAIALRDAALRLKKRK\
+#  3 SQVYHPINHSRELSMHLVFSSGGCARDSIARRCITTKKKEK\
+# -1 FFLFFSRNAASRNAIACTPPRRKYQMHGELP*
+# -2 FSFFLVVMQRLAMLSRAHPPDENTKCMESSREWLIG*
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+cattacgactaaaaaaaaggaaaaa
+> fakeShort-mRNA-3
+# this one's got no clear poly-A tail.
+#  1 DHRSITLLTTHGSSPCIWYFRLGGVHAIALRDAALRLK*
+#  3 SQVYHPINHSRELSMHLVFSSGGCARDSIARRCITTKVKKEAV\
+# -1 FTASFFTLVVMQRLAMLSRAHPPDENTKCMESSREWLIG*
+# -3 YSFLFHFSRNAASRNAIACTPPRRKYQMHGELP*
+gatcacaggtctatcaccctattaaccactcacgggagctctccatgcat
+ttggtattttcgtctggggggtgtgcacgcgatagcattgcgagacgctg
+cattacgactaaagtgaaaaaggaagctgtaaa

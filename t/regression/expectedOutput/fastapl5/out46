@@ -1,0 +1,3 @@
+46  Count the number of start codons.  Works for RNA or DNA sequences, upper or lower case.
+-e '$c=()=/(?i)(A[UT]G)/g; say "$id $c"'	yeast_chrII.fa
+chrII 14458

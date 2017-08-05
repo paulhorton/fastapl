@@ -1,0 +1,3 @@
+45  Print regex to case insensitively match an adenine followed by six bases coding for amino acids sequence 'MA'
+-db 'say expandRegex "(?i)a<MA>"'	dummy
+(?i)aA[TU]GGC.

@@ -1,0 +1,4 @@
+42  Mark TATAT on forward strand red, allowing matches to overlap.
+-pe 'color red, matches "TATAT%"'	m.fa
+>m
+TTCATAATTAATTTTT[31mTATATATATATATAT[39mTATAATATTAATT[31mTATAT[39m

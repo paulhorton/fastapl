@@ -1,0 +1,3 @@
+05  Compute total sequence length.
+-e '$tot += length $seq'  --end 'print "total seq. length = $tot\n"'	proteins.fasta spaceyProteins.fasta
+total seq. length = 11358

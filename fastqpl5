@@ -1,0 +1,2017 @@
+#!/usr/bin/perl -w
+#  Author: Paul Horton
+#  Copyright (C) 2010, Paul Horton, All rights reserved.
+#  Creation Date: 2010.8.19
+#  Last Modification: $Date: 2013/10/20 09:53:13 $
+#
+#  Description: Fastq format stream processing utility.
+#               fastqpl Fastq Perl Loop (pronounced "fast Q-ple")
+#               See pod at bottom of file for more details.
+#
+#  Credits:
+#
+#    Kentaro Takahashi    Pointed out problem in _looksLikeFastqFile
+#
+
+
+# ===================  NOTES TO HELP UNDERSTAND THIS CODE  ==================
+
+# *------------------  Varible Naming and Use Conventions  ------------------*
+#
+#  Variables visible in the scope of the eval statements of user provided
+#  code {begin, record, end} scripts, should end in '_', e.g. $line_
+#  UNLESS they are intended to be available to users, e.g. $seq, @seq, etc.
+#
+#  The only subroutine purposely exposed to the user is 'pr()'
+#  Other subroutines should start in '_', e.g. _extractBlock().
+#
+#  A "flag" means an argument with a binary value, e.g. the '-p' flag
+#  Variables read from the command line SHOULD NOT BE MODIFIED THEREAFTER.
+#  Command line flags for documentation are placed in %docFlag
+#  Variables holding the value of other command line arguments should be
+#  named ending in '_arg_' or, if they are flags, '_flag_'.
+#
+#
+# *------------------      Unusual Code Constructs       -------------------*
+# 
+# SPECIAL COMMENTS FOR GENERATING STANDALONE PROGAM:
+#   This code has some special comments such as:
+#
+#     #= STANDALONE:BEG_SKIP
+#     ...
+#     #= STANDALONE:END_SKIP
+#
+#     @seq = undef;  #= STANDALONE:IF	$needSeqArray_
+#     ...
+#
+#   Also introduced for the -n|--generate-standalone option, these special
+#   comments are used to conditionally include parts of this file in the
+#   generated standalone program.  See sub _printCommonCode() for details.
+#
+
+# ===================  NOTES TO HELP UNDERSTAND THIS CODE  ==================
+
+
+use List::Util      qw(first max maxstr min minstr reduce shuffle sum);
+use List::MoreUtils ':all';
+
+$VERSION = '1.20';
+use strict;
+use Getopt::Long qw(:config posix_default bundling permute);
+use Pod::Usage;
+use Text::Balanced qw( extract_codeblock );  # to extract BEGIN, END blocks
+
+use constant;
+use feature qw(say);
+
+#  -----  Declare functions intended for use in user scripts  -----
+sub asHash;   #  Parse var=value in $head.
+sub pr;       #  Print record.
+sub rc;       #  Reverse complement in place.
+sub trim;     #  Trim off part of sequence and quality string.
+sub maxidx;   #  Returns argmax @_, ties go to left-most index.
+sub maxSeg;   #  Returns a maximal sum interval of @_, or (0,0,0).
+sub maxSegs;  #  Return the maximal sum intervals of @_ or ().
+sub fin();    #  Returns length($seq) - 1
+sub seqLen(); #  Returns length($seq)
+
+sub errProb; #  error() gives error probabilities as a list; errProb $i gives $ith one.
+sub errProb1;  sub errProb2; #  For sorting.
+
+sub Phred;   #  Phred() gives Phred scores at list; Phred $i gives $ith Phred score.
+sub Phred1;    sub Phred2;   #  For sorting.
+
+sub quality; #  $quality as one element per character list.
+sub quality1;  sub quality2; #  For sorting.
+
+
+#  -----  Declare commonly used private functions  -----
+sub _say2;
+sub _sayInputError;
+sub _sayUsageError;
+
+
+# -------------------------  Global Variables  -------------------------
+#  Some global variables not intended to be accessed by user scripts.
+
+my $usage_ = 'Usage:
+  fastqpl [opts] SCRIPT [fastq_input_file...]
+  fastqpl [opts] -n SCRIPT  >  prog.pl
+
+      SCRIPT  =>  script_file  |
+                  [-b beginScript]  -e script  [-f endScript]
+
+  fastqpl [--usage|--options|--help|--man]';
+
+my @rec_;  # Stores all records, only used with --sort
+
+my $podSource_;  # Pathname to pod source file, undef means use $0.
+
+my $fieldSeparator_arg_  =  '';  # Field separator used to compute @head.
+my $modules_arg_;  # Modules passed by user for use in script. Array ref.
+
+#  Scripts passed directly from command line.
+my $mainScript_arg_;  # Record script + (optionally) BEGIN and/or END blocks.
+my $begScript_arg_;   #  Begin script, alternative way to give BEGIN block.
+my $endScript_arg_;   #    End script, alternative way to give  END  block.
+
+my $printSeqOn1Line_flag_ =  0;  # If true, output sequence and quality on one line each.
+my $seqLineLength_arg_    =  0;  # Else use this length.  0 means guess from input.
+
+my $generateStandalone_flag_= 0;  # If true, output program with scripts embedded.
+my $grepMode_flag_          = 0;  # If true, print record iff user record script returns true.
+my $printEachRecord_flag_   = 0;  # If true, print each record after processing.
+my $printVersion_flag_      = 0;  # If true, just print version and exit.
+my $sortMode_flag_          = 0;  # If true, sort records by user given script.
+
+#  These will actually be eval'd
+my $begScript_ = '';  # Progam code to apply before processing records.
+my $recScript_ = '';  # Progam code to apply to each record.
+my $endScript_ = '';  # Progam code to apply after processing records.
+
+my $outputFile_arg_;  # Output filename. If omitted output goes to STDOUT.
+my $os_  =  *STDOUT;  # Output stream.
+
+my $needSeqArray_;    # True iff @seq is needed.
+
+
+{   # ----------  BEG: Process command line  ----------
+    my %docFlag = ();
+    my @commandLineOptionSpecs = (
+        'help',                   =>  \$docFlag{help},
+        'man',                    =>  \$docFlag{man},
+        'usage'                   =>  \$docFlag{usage},
+        'options'                 =>  \$docFlag{options},
+        'g|grep'                  =>  \$grepMode_flag_,
+        'n|generate-standalone'   =>  \$generateStandalone_flag_,
+        'p|print-each-record'     =>  \$printEachRecord_flag_,
+        '1|print-seq-on-1-line'   =>  \$printSeqOn1Line_flag_,
+        's|sort'                  =>  \$sortMode_flag_,
+#        v|verbose   Reserved for possible future addition.
+        'V|version'               =>  \$printVersion_flag_,
+        'F|field-separator=s'     =>  \$fieldSeparator_arg_,
+        'M|module=s@'             =>  \$modules_arg_,
+        'e|script=s'              =>  \$mainScript_arg_,
+        'b|begin=s'               =>  \$begScript_arg_,
+        'f|end=s'                 =>  \$endScript_arg_,
+        'l|line-length=i'         =>  \$seqLineLength_arg_,
+        'o|output-file=s'         =>  \$outputFile_arg_,
+        );
+
+
+    # ---------  Use Japanese usage messages, if LANG calls for that  ---------
+    if(  $ENV{LANG} =~ /^ja_JP/i  and  $ENV{LANG} =~ /utf[_-]*8$/i  ){
+
+        my $nihongoPodFilename  =  'fastqpl.ja.utf8.pod';  # constant.
+
+        my $pathToNihongoPod  =  `which $nihongoPodFilename`;
+        if(  $pathToNihongoPod  ){
+            $podSource_ = "$pathToNihongoPod/$nihongoPodFilename";
+        }
+        else{
+            if( -e "./$nihongoPodFilename" ){
+                $podSource_ = "./$nihongoPodFilename";
+            }
+        }
+    }
+
+
+    my $getOptionsRetval  =  GetOptions( @commandLineOptionSpecs );
+
+    $getOptionsRetval  or  _pod2usage();
+
+
+    # ----------  If -o|--output-file given, open output file and SELECT it ----------
+    if(  $outputFile_arg_  ){
+        -t STDOUT
+            or  _sayUsageError  "not sure whether to output to file '$outputFile_arg_' or STDOUT";
+        open  $os_, '>', $outputFile_arg_
+            or  _sayUsageError  "could not open output file '$outputFile_arg_', $!";
+    }
+
+    select $os_;   #  SELECT!  Redirects PRINT and SAY output to $os_  <<-----
+
+
+    # ----------  Process flags related to usage documentation  ----------
+    {
+        my $isDumbTerminal   =   exists($ENV{TERM})  &&  $ENV{TERM} eq 'dumb';
+
+        $docFlag{man}    and  _pod2usage( -verbose => 2,
+                                          -noperldoc => $isDumbTerminal );
+        $docFlag{help}   and  _pod2usage( -verbose => 1 );
+        $docFlag{usage}  and  _pod2usage( -verbose => 0 );
+
+        my @optionSummary  =  (
+            'g|grep                 Output record iff user script returns true',
+            'n|generate-standalone  Generate standalone program instead of processing input',
+            'p|print-each-record    Print each record after executing user script on it',
+            '1|print-seq-on-1-line  Do not linewrap sequence or quality strings in output',
+            's|sort                 Sort records according to user script',
+#            v|verbose   Reserved for possible future addition.
+            'V|version              Print version of fastqpl',
+            'F|field-separator x    Use x as field separator when computing @head',
+            'M|module x             Load module x before executing user scripts',
+            'e|script x             Execute script x on each record',
+            'b|begin x              Execute script x before reading input',
+            'f|end x                Execute script x after processing input',
+            'l|line-length x        Print sequence with line length x',
+            'o|output-file x        Print output of file x',
+            );
+
+        if(  $docFlag{options}  ){
+            say " $_"  for @optionSummary;
+            exit 1;
+        }
+
+    }   # ----------  END: Process flags related to usage documentation  ----------
+
+}   # ----------  END: Process command line  ----------
+
+
+if(  $printVersion_flag_  ){
+    say  "fastapl $::VERSION   Fasta Perl Loop   Copyright (C) 2010,2011 Paul Horton";
+    exit 1;
+}
+
+
+# ----------  Check for contradictory options  ----------
+_sayUsageError  'only one of {-g|--grep, -p|--print-each-record} allowed.'
+    if   $printEachRecord_flag_  &&  $grepMode_flag_;
+
+_sayUsageError  'only one of {-s|--sort, -f|--end} allowed.'
+    if   $sortMode_flag_  &&  $endScript_arg_;
+
+_sayUsageError  'only one of {-s|--sort, -p|--print-each-record} allowed.'
+    if   $sortMode_flag_  &&  $printEachRecord_flag_;
+
+
+_sayUsageError  "'l|line-length' and '1|print-seq-on-1-line' cannot both be chosen."
+    if   $printSeqOn1Line_flag_  &&  $seqLineLength_arg_;
+
+
+# ----------  Check number of command line args given  ----------
+{
+    my $numScriptFileArgsExpected  =  ( $mainScript_arg_ ?  0 : 1 );
+
+    if(  @ARGV < $numScriptFileArgsExpected  ){
+        #  Empty script is allowed with combination of -p and -l on command line.
+        $printEachRecord_flag_ && $seqLineLength_arg_
+            or  _sayUsageError  'expected more arguments.';
+    }
+}
+
+
+
+
+# ----------  Preload modules  ----------
+for my $module (@$modules_arg_){
+    eval "use $module";
+    die  "Error when loading module: $module; $@\n"   if $@;
+}
+
+
+# ----------  Read scripts in from command line or file  ----------
+
+if(  $mainScript_arg_  ){
+
+    #  If mainScript_arg_ is an existing file, someone's probably confused.
+    #  Newline clause is to avoid warning message when stat'ing with -e
+    if(  $mainScript_arg_ !~ /\n/  and  -e $mainScript_arg_  ){
+        _sayUsageError  "'-e' is used to input inline scripts directly from the command line, but a file named '$mainScript_arg_' exists, so I guess you probably did not need the '-e'.";
+    }
+
+    if(  $mainScript_arg_ =~ /^-/  ){
+        _sayUsageError  "fastapl thinks you are trying to run '$mainScript_arg_' as script, but it looks like an option.  Please check the order of options in your command line";
+    }
+
+    my $entireScript  =  $mainScript_arg_;
+
+    $begScript_  =  _extractBlock( \$entireScript, 'BEGIN' );
+
+    if(  $begScript_arg_  ){
+        $begScript_   and
+            _sayUsageError  "'b|--begin' given on command line, but BEGIN block also found in the inline script";
+        $begScript_  =  $begScript_arg_;
+    }
+
+    $endScript_    =  _extractBlock( \$entireScript, 'END' );
+
+    if(  $endScript_arg_  ){
+        $endScript_   and
+            _sayUsageError  "'-f|--end' given on command line, but END block also found in the inline script";
+        $endScript_  =  $endScript_arg_;
+    }
+
+    $recScript_  =  $entireScript;
+
+}
+else{  # -----  Script not given directly on the command line  -----
+    
+    _sayUsageError  "'-b|--begin' flag given without '-e'"    if  $begScript_arg_;
+    _sayUsageError  "'-f|--end' flag given without '-e'"      if  $endScript_arg_;
+
+    my $scriptFilename  =  shift @ARGV;
+
+    my $scriptFile;
+    if(  $scriptFilename  ){
+        unless(  -e $scriptFilename  ){
+            my $m  =  "script file '$scriptFilename' does not exist.";
+            $m  .=  "\nPerhaps you forgot the '-e'?"
+                if  $scriptFilename =~ /[\$@][a-zA-Z0-9_]/;  # looks like Perl code.
+
+            _sayUsageError $m;
+        }
+
+        if(  _looksLikeFastqFile( $scriptFilename )  ){
+            if(  $printEachRecord_flag_  &&  $seqLineLength_arg_  ){
+                #  Empty script is allowed with combination of -p and -l on command line.
+                unshift @ARGV, $scriptFilename;  # filename argument is input file not script file.
+                goto SCRIPT_ASSIGNED;
+            }
+            _sayUsageError
+                "filename '$scriptFilename' was given as a script file, but it looks like a fasta input file\nPerhaps you forgot to give the script or script file?";
+        }
+        
+        open  $scriptFile, '<', $scriptFilename
+            or   die  "could not open script file: '$scriptFilename',$!\n";
+
+        my $entireScript  =  do { local $/; <$scriptFile> };  # Slurp whole file.
+
+        $begScript_  =  _extractBlock( \$entireScript, 'BEGIN' );
+
+        $endScript_  =  _extractBlock( \$entireScript, 'END'   );
+
+        $recScript_  =  $entireScript;
+    } #  END: if $scriptFilename
+
+} #  END: read script from file.
+ SCRIPT_ASSIGNED:
+
+
+#  -----  Make sure there are no END blocks in sort mode  -----
+_sayUsageError 'sort mode does not accept END blocks.'
+    if   $endScript_  &&  $sortMode_flag_;
+
+# --------  Remove any leading and white space in scripts  --------
+$begScript_  =~  s{ ^\s* | \s*$ } {}gx;
+$endScript_  =~  s{ ^\s* | \s*$ } {}gx;
+$recScript_  =~  s{ ^\s* | \s*$ } {}gx;
+
+die  "Error; empty script\n"   if  $recScript_ =~ /^{}$/;
+
+# -----  Ensure non-empty scripts end in ';'  -----
+$recScript_  =~  s{  ([^;])$} {$1;}x;
+$begScript_  and  $begScript_ =~ s{  ([^;])$} {$1;}x;
+$endScript_  and  $endScript_ =~ s{  ([^;])$} {$1;}x;
+
+
+#  -----  Check if scripts appear well formed  -----
+die  "Error; record script does look like a sorting script.\n"
+    if  $sortMode_flag_ && !_looksLikeSortingScript();
+
+_dieIfScriptCompileError( $recScript_, 'record' );
+_dieIfScriptCompileError( $begScript_, 'BEGIN'  )   if  $begScript_;
+_dieIfScriptCompileError( $endScript_, 'END'    )   if  $endScript_;      
+
+
+#  -----  Determine if main script uses @seq  -----
+$needSeqArray_
+    =  $recScript_  =~  m{   @ \s* seq         }x   ?   1
+    :  $recScript_  =~  m{  \$ \s* seq \s* \[  }x   ?   1
+    :  $recScript_  =~  m{  \$ \#  seq \s* \W  }x   ?   1
+    :                                                   0;
+
+
+# ----------  Check and set field separator  ----------
+_sayUsageError  'field separator should not be multi-line.'
+    if  $fieldSeparator_arg_  =~  /\n/;
+
+#  Field separator used when computing @head.
+my $fs  =  $fieldSeparator_arg_ || '\t';
+
+
+if(  $generateStandalone_flag_  ){
+    _sayUsageError  "No arguments expected with -n flag. Extra argument: '$ARGV[0]'"   if @ARGV;
+
+    _printStandalone_thenExit();  #  <---------   EARLY EXIT POINT!   <--------
+}
+
+
+my @inputFilename_;  _setInputFilenames();
+
+
+# ----------  Declare variables intended for user  ----------
+
+my $head;        #  Head line (line starting with '@').
+my @head;        #  head line after id, split by $fs into array.
+my $id;          #  Record id (non-white-space string following the '>').
+my $seq;         #  Sequence as scalar.
+my @seq;         #  Sequence as array, one element per residue.
+
+my $plusLine;    #  Line starting with '+' that separates the sequence and quality lines.
+my $quality;     #  Quality scores as ascii string.
+my $quality1;    #  like $quality, used for record1 when comparing for sorting.
+my $quality2;    #  like $quality, used for record2 when comparing for sorting.
+
+
+# ----------   Private record variables  ----------
+
+my $noHeadSeenYet_  =  'true';  #  No record has yet been seen?
+my $lineLengthForPrinting_;  #  Will hold length of line to print, 0 means print all on one line.
+my $curInputFilename_;
+
+# ----------  Execute begin script  ----------
+{    no strict   'vars';
+     no warnings 'redefine';
+     local $SIG{__DIE__ }  =  &_runtimeErrorHandler( 'BEGIN' );
+     local $SIG{__WARN__}  =  &_runtimeErrorHandler( 'BEGIN' );
+     eval $begScript_;
+     die  "Error in BEGIN script; $@\n"   if $@;
+     undef $SIG{__DIE__};  undef $SIG{__WARN__};
+}
+
+
+# ----------  Execute record script on each record  ----------
+local $SIG{__DIE__ }  =  &_runtimeErrorHandler( 'record' );
+local $SIG{__WARN__}  =  &_runtimeErrorHandler( 'record' );
+
+_loopOverInputFilenames();
+
+undef $SIG{__DIE__};  undef $SIG{__WARN__};
+
+
+# ----------  Sort records or execute END script  ----------
+if( $sortMode_flag_ ){
+
+    local $SIG{__DIE__ }  =  \&_runtimeSortErrorHandler;
+    local $SIG{__WARN__}  =  \&_runtimeSortErrorHandler;
+
+    @rec_  =  sort _compareRecords @rec_;
+    _printSortedRecords();
+}
+else{
+    # ----------  Execute END script  ----------
+    {    no strict 'vars';
+         local $SIG{__DIE__ }  =  &_runtimeErrorHandler( 'END' );
+         local $SIG{__WARN__}  =  &_runtimeErrorHandler( 'END' );
+
+         eval $endScript_;
+         $@  and  die( "Error in END script; $@\n" );
+    }
+}
+
+exit 0; #  Return success to shell.
+
+
+# ============================  END MAIN PROGRAM  =============================
+
+
+
+#  Wrapper for pod2usage.  Used to support conditional use of non-English documentation.
+sub _pod2usage{
+    $podSource_ ?  pod2usage( @_, -input => $podSource_ )  :  pod2usage( @_ );
+}
+
+
+#  Extract first occurrence of code block labeled $blockLabel in $$scriptRef
+#  if successful 1) remove block from $$scriptRef.
+#                2) return the block.
+#  else   leave $$scriptRef unchanged and return "".
+sub _extractBlock{
+    ( my $scriptRef, my $blockLabel )  =  @_;
+
+    my $blockScript;  # to hold block contents and return.
+
+    if(  ( my $upToBlockLabel, my $rest ) = 
+         (  $$scriptRef  =~  / ^(.*?) $blockLabel \s* ({ .* ) /xs   )
+        ){
+        
+        if(   $blockScript  =  extract_codeblock( $rest, '{}' )   ){
+            $$scriptRef  =  $upToBlockLabel . $rest;
+        }
+
+        if(   $$scriptRef  =~  / $blockLabel \s* { /x  ){
+            _sayUsageError  "script only allowed one $blockLabel block";
+        }
+
+        return  $blockScript;
+    }
+
+    return  "";
+
+} #  END: _extractBlock( $scriptRef, $blockScript )
+
+
+
+sub _printStandalone_thenExit{
+
+    _printStandaloneHeader();
+
+    if(  $begScript_  ){
+        say  ''                                                                    ;
+        say  '# --------------------  BEG: User Begin Script  --------------------';
+        say   $begScript_                                                          ;
+        say  '# --------------------  END: User Begin Script  --------------------';
+    }
+
+    say  "\n\n_loopOverInputFilenames();";
+
+    if(  $sortMode_flag_  ){
+        say  '@rec_  =  sort _compareRecords @rec_;';
+        say  "\n_printSortedRecords();"             ;
+    }
+
+    if(  $endScript_  ){
+        say  ''                                                                  ;
+        say  '# --------------------  BEG: User End Script  --------------------';
+        say  "{   no warnings 'once';"                                           ;
+        say  "    $endScript_"                                                   ;
+        say  '}'                                                                 ;
+        say  '# --------------------  END: User End Script  --------------------';
+    }
+
+    say  "\n\n# ====================  End Main Program  ====================\n\n";
+
+    _printCommonCode();
+    _printStandaloneSubs();
+
+    exit 0; # return success.
+
+} # END _printStandalone_thenExit()
+
+
+
+#  Print beginning part of standard program -- up to where the BEGIN script goes.
+#  Only used with -n|--generate-standalone option.
+sub _printStandaloneHeader{
+
+    say  '#!/usr/bin/perl -w'                                                   ;
+    say  "#  This script was generated by fastqpl version '$::VERSION'"         ;
+    say  ''                                                                     ;
+    say  'use feature qw(say);'                                                 ;
+    say  ''                                                                     ;
+    say  '#  Conditionally include List::Util, often convenient when available.';
+    say  'BEGIN{'                                                               ;
+    say  "    eval 'use List::Util  qw(first max maxstr min minstr reduce shuffle sum)';";
+    say  "    eval 'use List::MoreUtils q(:all);'  }"                           ;
+    say  'our( $a, $b );    #  Supress warnings when using pairwise, etc.'      ;
+    say  ''                                                                     ;
+    say  '#  -----  Declare fastapl user functions  -----'                      ;
+    say  '#  Not necessarily used by this script'                               ;
+    say  'sub asHash;  #  Parse var=value in $head.'                            ;
+    say  'sub pr;      #  Print record.'                                        ;
+    say  'sub rc;      #  Reverse complement in place.'                         ;
+    say  'sub trim;    #  Trim off part of sequence and quality string.'        ;
+    say  'sub maxidx;  #  Returns argmax @_, ties go to left-most index.'       ;
+    say  'sub maxSeg;  #  Returns a maximal sum interval of @_, or (0,0,0).'    ;
+    say  'sub maxSegs; #  Return the maximal sum intervals of @_ or ().'        ;
+    say  'sub Phred;   #  Phred() gives Phred scores at list; Phred $i gives $ith Phred score.';
+    if(  $sortMode_flag_  ){
+        say  'sub errProb1;  sub errProb2;';
+        say  'sub Phred1;  sub Phred2;'    ;
+        say  'sub quality1;  sub quality2;';
+    }
+    else{
+       say  'sub errProb; # error() gives error probabilities as a list; errProb $i gives $ith one.';
+       say  'sub quality; #  $quality as one element per character list.';
+    }
+    say  ''                                                                     ;
+    say  '#  -----  Declare commonly used private functions  -----'             ;
+    say  'sub _say2;'                                                           ;
+    say  'sub _sayInputError;'                                                  ;
+    say  'sub _sayUsageError;'                                                  ;
+    say  ''                                                                     ;
+
+    for my $module (@$modules_arg_){
+        say  "\nuse $module;"                                                   ;
+        say qq{\$@   and   die  "Error when loading module: $module; \$@\\n";}  ;
+    }
+
+    say  ''                                                                     ;
+    say  'my $usage_  =  "Usage: $0 [fastqInputFile...]\n"'                     ;
+    say  '    .          "       $0  <  fastqInputFile";'                       ;
+
+    say  ''                                                                     ;
+    say  '#  Parameters normally read or configurable from fastqpl command line';
+    say  '#  In this generated standalone program they are constants.'          ;
+    say  "my \$printSeqOn1Line_flag_  =  $printSeqOn1Line_flag_;          #  If true, output sequences on one line.";
+    say  "my \$seqLineLength_arg_     =  $seqLineLength_arg_;         #   Else use this length.  0 means guess from input.";
+
+    say(  $sortMode_flag_?
+          'my $quality1;  #  quality scores of record1 as ascii string.' . "\n" .
+          'my $quality2;  #  quality scores of record2 as ascii string.'
+          :'my $quality;  #  quality scores as ascii string.'                      );
+    say  '';                                                                        ;
+    say  '# ----------  Open input and output files  ----------'                    ;
+    say  'my $os_  =  *STDOUT;   #  Output stream.'                                 ;
+    say  '_parseArgvOptions();'                                                     ;
+    say  ''                                                                         ;
+    say  'my @inputFilename_;  _setInputFilenames();'                               ;
+    say  ''                                                                         ;
+    say  '# ----------  Declare variables intended for user  ----------'            ;
+    say  ''                                                                         ;
+    say  "my \$fs = '$fs';     # field separator used when computing \@head."       ;
+    say  'my $head;        #  head line (line starting with ">").'                  ;
+    say  'my @head;        #  head line after id, split by $fs into array.'         ;
+    say  'my $id;          #  record id (non-white-space string following the ">").';
+    say  'my $seq  = "";   #  sequence as scalar.'                                  ;
+    say  'my $plusLine;    #  line starting with + that separates the sequence and quality lines.';
+
+    say  'my @seq;           #  sequence as array, one element per residue.'  if $needSeqArray_;
+
+    say  ''                                                                                   ;
+    say  '# ----------   Private global variables  ----------'                                ;
+    say  'my $noHeadSeenYet_  =  \'true\';  #  no record has yet been seen?'                  ;
+    say  'my $seqLineLengthForPrinting_;  #  will hold length of line to print.'              ;
+} #  END: _printStandaloneHeader()
+
+
+
+#  Print part of this file itself (slightly modified according to user options)
+#  as subroutines to use in standalone program,
+#  generated when -n|--generate-standalone option is stipulated.
+sub _printCommonCode{
+
+    #  ----------  Gather part of this file usually included  ----------
+
+    my $begRegex  =  qr/^#== BEG_INCLUDE-USUALLY/;
+    my $endRegex  =  qr/^#== END_INCLUDE-USUALLY/;
+
+    my @regionToInclude  =  _myLinesBetweenMarkers( $begRegex, $endRegex );
+
+
+    #  ----------  Include part of this file only used when sorting  ----------
+    if(  $sortMode_flag_  ){
+        $begRegex  =  qr/^#== BEG_INCLUDE-IF-SORTING/;
+        $endRegex  =  qr/^#== END_INCLUDE-IF-SORTING/;
+
+        push  @regionToInclude,  _myLinesBetweenMarkers( $begRegex, $endRegex );
+    }
+
+
+  LINE:
+    while(   my $line  =  shift @regionToInclude   ){
+
+        chop $line;
+
+        #  Skip single line.
+        next LINE
+            if(   $line  =~  /#== SKIP/   );
+
+        #  Skip block.
+        if(  $line =~ /#== BEG_SKIP/  ){
+            $line  =  shift @regionToInclude
+                while(  $line !~ /#== END_SKIP/  );
+            next;
+        }
+
+        #  ---------  Conditional Inclusion, one-line if statements  ---------
+
+        #  Comment in main program; but conditionally included in standalone program.
+        #
+        #                INDENTATION    #       IF        CONDITION        TEXT
+        if( $line =~  m{  ^ (\s+)      \#== \s+ IF \s* \t  ([^\t]+) \t \s* (.*) $  }x   ){
+            say  $1,$3   if(  eval $2  );
+            next LINE;
+        }
+
+        #  Real code in main program.  Also conditionally included in standalone program.
+        #                       TEXT    #       IF   CONDITION 
+        if(   $line  =~  m{  ^ ([^#]+) \#== \s+ IF \s+ (.*) $  }x   ){
+            say  $1   if(  eval $2  );
+            next LINE;
+        }
+
+
+        #  Directive to embed record script.
+        if(  $line =~ /#== EMBED-RECORD-SCRIPT/  ){
+
+            next LINE
+                if(  $sortMode_flag_  &&  ($line =~ /UNLESS-SORTING/)  );
+
+            say  _embeddedRecordScript(  $sortMode_flag_? 4 : 8  );
+
+            say  '            pr()  if $retVal;'    if        $grepMode_flag_;
+            say  '            pr();'                if $printEachRecord_flag_;
+
+            next LINE;
+        } #  END:= EMBED-RECORD-SCRIPT
+
+
+        #  Directive to embed apropriate code to store records for sorting.
+        if(  $line =~ /#== STORE-RECORD-IF-SORT-MODE/  ){
+            if(  $sortMode_flag_  ){
+                #  In sort mode, embed code to push record information onto @rec
+                my $spc  =  ' '  x  20;
+                print
+                    "$spc",  'push @rec_,'                         , "\n",
+                    "$spc",  '  [   $head,  [map {$_} @head],'     , "\n",
+                    "$spc",  '      $id,'                          , "\n",
+                    "$spc",  '      $seq,'                         , "\n",
+                    "$spc",  '      $plusLine,'                    , "\n",
+                    "$spc",  '      $quality,'                     , "\n",
+                    "$spc",  '  ];'                                , "\n";
+            }
+            next LINE;
+        } #  END:= STORE-RECORD-IF-SORT-MODE
+
+
+        #  Default case, just print $line and continue looping.
+        say  $line;
+
+    } #  next $line in @regionToInclude
+
+} #  END: _printCommonCode()
+
+
+#  Return $recScript_ in suitable form to embed in source code
+#  indented with $numSpaces spaces.
+sub _embeddedRecordScript{
+    my $numSpaces  =  shift;
+    my $spc   =   ' '  x  $numSpaces;  # leading space to indent code.
+    my $ms   =   $recScript_;
+    if(  $grepMode_flag_  ||  $sortMode_flag_  ){
+        $ms  =~  s/(^|\n)/$spc    $1/mg;    # extra indent in do block.
+        return  "${spc}my \$retVal  =  do{  #  User given record script\n$ms\n$spc};\n";
+    }
+    else{
+        $ms  =~  s/(^|\n)/$spc$1/mg;    # indented.
+        return  "${spc}#  User given record script.\n$ms\n";
+    }
+}
+
+
+#  Return lines in this file between $begRegex and $endRegex match pairs
+#  non-inclusive and also skipping the line right after the $begRegex match.
+sub _myLinesBetweenMarkers{
+    ( my $begRegex, my $endRegex )  =  @_;
+
+    open  my $myselfAsFile, '<', "$0"
+        or   die  "could not open fastqpl source file '$0', $!\n";
+
+    my @retVal;
+    ( my $prevLine1, my $prevLine2 )  =  ( "", "" );
+    my $skip  =  1;  # true.
+
+    while(  <$myselfAsFile>  ){
+        my $curLine   =  $_;
+        $skip = 0   if(  $prevLine2 =~ /$begRegex/  );
+        $skip = 1   if(  $curLine   =~ /$endRegex/  );
+        $skip  or  push @retVal, $curLine;
+        $prevLine2  =  $prevLine1;
+        $prevLine1  =  $curLine;
+    }
+
+    close $myselfAsFile;
+
+    return @retVal;
+
+} #  END: _myLinesBetweenMarkers( $begRegex, $endRegex )
+
+
+
+#  Print subroutines used only by automatically generated programs.
+#  Only used with -n|--generate-standalone option.
+sub _printStandaloneSubs{
+
+#   The following here document construct is used to print the following part
+#   of this file.  The leading |'s are just used to visually separate this data
+#   from code that is part of this program.  They are removed by the 's/^.//mg'.
+#
+$_  =  <<'_____END_STANDALONE_PART_____';   s/^.//mg;   print;
+|
+|#  Sets global $os_
+|sub _parseArgvOptions{
+|
+|    $ARGV[0]  or  return;  #  If no args given, do nothing.
+|
+|
+|    if(  $ARGV[0] =~ /^-o$|^--output-file$/  ){
+|        my $outputFilename  =  $ARGV[1];
+|        $outputFilename   or  _sayUsageError  "output file missing";
+|
+|        -t STDOUT
+|            or  _sayUsageError  "not sure whether to output to file '$outputFilename' or STDOUT";
+|
+|        open $os_, '>', $outputFilename
+|            or  _sayUsageError  "could not open output file '$outputFilename', $!";
+|
+|        splice  @ARGV, 0, 2;
+|    }
+|
+|}
+|
+_____END_STANDALONE_PART_____
+} #  End _printStandaloneSubs()
+
+
+
+#  Use eval to test if $script appears to be well-formed Perl.
+#  Die with warning if it fails.
+#  $scriptType (e.g. 'BEGIN'), is only used for diagnostic messages.
+sub _dieIfScriptCompileError{
+    my ( $script, $scriptType )  =  @_;
+
+    eval  "no strict qw(vars); use warnings; sub{ $script; }";
+    _dieScriptProblem( $scriptType, $@ )   if $@;
+
+} #  END: _dieIfScriptCompileError( $script, $scriptType )
+
+
+
+#  Generate subroutine suitable to handle exceptions when running $scriptType script.
+#  Generated dynamically to allow $scriptType to be substituted, which facilitates code reuse.
+sub _runtimeErrorHandler{
+    (my $scriptType)  =  @_;  #  'record', 'BEGIN', or 'END'
+    eval  #  qq is used to substitute $scriptType value.
+        qq{
+    sub{
+        my \$message  =  shift;
+        '$scriptType' eq 'record'  and  \$id
+            and   _say2  "Most recently read id: '\$id'";
+        _dieScriptProblem( '$scriptType', \$message );
+    }     };
+} #  END: _runtimeErrorHandler
+
+
+
+#  Generate subroutine suitable to handle exceptions when sorting.
+sub _runtimeSortErrorHandler{
+    my $message  =  shift;
+    
+    (  my $head1, my $headAref1, my $id1  )  =  @$a;
+    (  my $head2, my $headAref2, my $id2  )  =  @$b;
+
+    _say2  "Most recently compared ids: ( $id1, $id2 )"    if  $id1 && $id2;
+
+    _dieScriptProblem( 'record', $message );
+} #  END: _runtimeSortErrorHandler
+
+
+
+#   Called when $scriptType script has generated a runtime exception.
+#   Print information in error $message, part of the script and then exit.
+sub _dieScriptProblem{
+    (my $scriptType, my $message)  =  @_;
+    chomp $message;
+
+    my %whichScript  =
+        (
+        BEGIN   => \$begScript_,
+        record  => \$recScript_,
+        END     => \$endScript_
+        );
+
+    my $scriptRef  =  $whichScript{$scriptType}
+    or   die  "fastqpl Programming error;  Invalid scriptType: '$scriptType'";
+
+    (my $lineNo)  =  ($message  =~  / at \(eval \d+\) line (\d+)/);
+
+    #  ----------  Print information about error  ----------
+    if( defined $lineNo ){
+        $message  =~  s| \(eval \d+\)||;
+        _say2  "$message in $scriptType script, line $lineNo.\n";
+
+        my @scriptLine  =  split "\n", $$scriptRef;
+
+        #  -----  Print part of script near error  -----
+        my $begLineNo  =  max        0     , $lineNo-7;
+        my $endLineNo  =  min  $#scriptLine, $lineNo+7;
+
+        $begLineNo == 0              or  _say2  '    ...';
+
+        _say2(  $_ == $lineNo-1?   #  Count from zero.
+                "--> $scriptLine[$_]"  :
+                "    $scriptLine[$_]"  )    for  $begLineNo .. $endLineNo;
+
+        $endLineNo == $#scriptLine   or  _say2  '    ...';
+    }
+    else{   #  Just in case parsing $message for lineNo failed.
+        _say2(  "Problem in $scriptType script.\n",
+                "Diagnostic:\n\n",
+                _truncatedForDisplay( $message ),
+                "\n\nScript:\n\n",
+                _truncatedForDisplay( $$scriptRef )
+            );
+    }
+
+    say  "Perhaps you forgot the '-s|--sort' command line switch?"
+        if  !$sortMode_flag_ && _looksLikeSortingScript();
+
+    exit -1;
+} #  END: _dieScriptProblem( $scriptType, $message )
+
+
+
+#  Return $_[0], truncated if it was longer than 800 characters.
+sub _truncatedForDisplay{
+    length $_[0] < 800  ?   $_[0]   :   substr( $_[0], 795 ) . "...\n----  <snip>  ----\n\n";
+}
+
+
+#  return true if $recScript looks like a sorting script.
+sub _looksLikeSortingScript{
+    any  {$recScript_ =~ /\Q$_/}
+    qw($head1 $head2 @head1 @head2 $id1 $id2 $seq1 $seq2 @seq1 @seq2 errProb1 errProb2 quality1 quality2 Phred1 Phred2);
+}
+
+
+#== BEG_INCLUDE-IF-SORTING
+# =============================================================================
+
+#  Print records in @rec_.  Used after sorting.
+sub _printSortedRecords{
+
+    for my $recRef (@rec_){
+        say  "\@$recRef->[0]";   #  $head
+
+        $seq  =  $recRef->[3];
+
+        _printMultiline( $seq );
+
+        say  "+$recRef->[4]";   #  $plusLine
+
+        $quality          =  $recRef->[5];
+
+        _printMultiline( $quality );
+    }
+} #  END: _printSortedRecords()
+
+
+#  Compare records according to $recScript_.  Used to sort records.
+sub _compareRecords{
+    no warnings 'once';
+    no strict 'vars';
+
+    (  my $head1, my $headAref1, my $id1, my $seq1, $plusLine1, $q1  )   =   @$a;
+    (  my $head2, my $headAref2, my $id2, my $seq2, $plusLine2, $q2  )   =   @$b;
+
+    *head1 = \@$headAref1;
+    *head2 = \@$headAref2;
+
+    #  Place quality scores in globals $quality1, $quality2 for access
+    #  by Phred1() and Phred2()
+    $quality1 = $q1;  $quality2 = $q2;
+
+    if( $needSeqArray_ ){            #== SKIP
+        @seq1  =  split //, $seq1;   #== IF	$needSeqArray_
+        @seq2  =  split //, $seq2;   #== IF	$needSeqArray_
+    }                                #== SKIP
+
+    #== EMBED-RECORD-SCRIPT  =#
+    my $retVal  =  eval $recScript_;               #== SKIP
+    $@  and  die  "Error in record script; $@\n";  #== SKIP
+
+    return $retVal;
+
+} #  END: _compareRecords()
+
+
+
+# ===============  Versions of Phred and errProb for sorting  ===============
+#== BEG_INCLUDE-IF-SORTING
+
+sub Phred1{
+    $quality  =  $quality1;   return  Phred @_;
+}
+
+sub Phred2{
+    $quality  =  $quality2;   return  Phred @_;
+}
+
+sub quality1{
+    $quality  =  $quality1;   return  quality @_;
+}
+
+sub quality2{
+    $quality  =  $quality2;   return  quality @_;
+}
+
+# sub seq1{    $seq  =  $seq1;   return  seq @_;    }
+# sub seq2{    $seq  =  $seq2;   return  seq @_;    }
+
+sub errProb1{
+    $quality  =  $quality1;   return  errProb @_;
+}
+
+sub errProb2{
+    $quality  =  $quality2;   return  errProb @_;
+}
+# ===============  Versions of Phred and errProb for sorting  ===============
+
+
+#== END_INCLUDE-IF-SORTING
+# =============================================================================
+
+
+#== BEG_INCLUDE-USUALLY
+# =============================================================================
+
+#  Return hash holding any KEY=VALUE pairs present in @_
+#  @_ defaults to @head.
+sub asHash{
+    
+    @_   or   @_  =  @head;
+
+    my @keyValuePairs;
+
+    #                             KEY     =    VALUE
+    push  @keyValuePairs,  /^  ( [^=]+ )  =  ( [^=]+ )  $/x    for( @_ );
+
+    return @keyValuePairs;
+} # END: asHash()
+
+
+#  Return final index of $seq.
+sub fin(){
+    return  length($seq) - 1;
+}
+
+#  Return sequence length.
+sub seqLen(){
+    return  length $seq;
+}
+
+
+#  Return argmax @_
+#  The smallest index is returned in the case of ties.
+sub maxidx{
+    @_   or   die  "maxidx called with empy list";
+    my $maxIdx =  0;
+    my $max    =  $_[0];
+
+    for ( 1..$#_ ) {
+        ($maxIdx, $max)  =  ($_, $_[$_])   if  $_[$_] > $max;
+    }
+
+    wantarray?   ($maxIdx, $max)  :  $maxIdx;
+} # END: maxidx()
+
+
+
+#  Returns an interval (begin, end, maxSum), such that [begin, end] give the closed interval of a maximum positive sum (= maxSum) segment of @_.  Ties go to the left-most interval.
+#
+#  Example illustrating ties:
+#
+#      maxSeg  0 +2 -6 +2 -2 +2;   #  returns (1, 1, 2).
+#
+#  Returns (0, 0, 0) when no positive elements are found in @_.
+sub maxSeg{
+
+    wantarray   or   die  'maxSegment() called in non-list context';
+    @_          or   die  return 0, 0, 0;   #  empty list.
+
+    my $maxIdx;
+    my ($maxSum, $sum)  =  (0, 0);
+    for my $i (0..$#_) {
+        $sum  +=  $_[$i];
+        if(  $maxSum < $sum  ){   ($maxIdx, $maxSum)  =  ($i, $sum)   }
+        elsif(     0 > $sum  ){                $sum   =   0           }
+    }
+
+    $maxSum > 0   or   return 0, 0, 0;
+
+
+    #  At this point,
+    #  $maxIdx should hold the rightmost index of $maxSum, the maximum value in @_
+
+    $sum  =  0;
+    for my $i (reverse 0..$maxIdx) {
+        $sum += $_[$i];
+        return  $i, $maxIdx, $maxSum    if  $sum >= $maxSum;
+    }
+
+    die  'code should never reach here!';
+
+} # END: maxSeg()
+
+
+#  Returns a list of minimal length maximal positive scoring segments -- i.e. returns a list of all segments such that
+#    1)  The sum is positive
+#    2)  No extension can increase the sum
+#    3)  No retraction can attain an equal sum, i.e. zero-sum ends are not included.
+#
+#  Each element of the list is [$begin, $end, $maxSum] where [begin, end] are indices of a maximum sum segment of @_ and $maxSum its sum.
+#  When no positive elements exist in @_ the empty list is returned.
+sub maxSegs{
+
+    wantarray   or   die  "maxSegment() called in non-list context";
+    @_          or   return ();   #  empty list.
+
+    my @max;
+    my @retVal;
+
+    my ($maxIdx, $maxSum, $sum)  =  (undef, 0, 0);
+
+    #  Push all positive maximal segments, except the one at the end of @_
+    for  my $i  ( 0..$#_ )  {
+        $sum  +=  $_[$i];
+        if(  $maxSum <  $sum  ){
+            ($maxSum, $maxIdx)  =  ($sum, $i);
+        }
+        elsif(   0  >=  $sum  ){
+            #  sum went negative, so save info for most recent maxSeg and reset $sum, $maxSum.
+            push  @max,  [$maxIdx, $maxSum]    if  $maxSum > 0;
+            $sum  =  $maxSum  =  0;
+        }
+    }
+
+    push  @max,  [$maxIdx, $maxSum]    if  $maxSum > 0;
+
+    #  At this point, we know the sum and right hand end of each maximal region.
+    #  So we work back from the end to find the start.
+    for (@max) {
+        ($maxIdx, $maxSum)  =  @$_;
+
+        my $i  =  $maxIdx;
+        for(  $sum  =  $_[$i];
+              $sum != $maxSum;
+              $sum  +=  $_[--$i]
+            ){
+         }
+
+        push @retVal, [$i, $maxIdx, $maxSum];
+    }
+
+    return @retVal;
+
+    # die  'Execution should never reach here.';
+} # END: maxSegs()
+
+
+
+#  Reverse Complement in place.
+#    When called with no args it sets $seq to its reverse complement and reverses $quality as well (not allowed in sort mode).
+#    Otherwise it should be called with a list of sequences, and each one is replaced by its reverse complement.
+#    The conversion covers ambigous letters and partially covers RNA by mapping 'U' --> 'A'.
+#    But 'A' is still mapped to 'T'.
+sub rc{
+    die 'rc() called in non-void context.'  if  defined wantarray;
+
+    if(  @_ ){
+        _rc( \$_ )  for @_;
+    }
+    else{   #  No arguments passed to rc().
+        die  'rc() without arguments called when sorting'   if $sortMode_flag_;  #== SKIP
+
+        _rc( \$seq ); 
+        $quality  =  reverse $quality;
+
+        #  Synch @seq up with $seq.
+        #== IF	$needSeqArray_	@seq  =  split //, $seq;
+        @seq  =  split //, $seq   if $needSeqArray_;   #== SKIP
+    }
+}
+
+
+#  Internal function used by rc().  Reverse complement $$_[0] in place.
+sub _rc{
+    my $s  =  $_[0];
+    $$s  =  reverse $$s;
+    if(  $$s =~ tr/ACGTUNSWRYKMBDHVacgtunswrykmbdhv/TGCANASWYRMKVHDBtgcaanswyrmkvhdb/
+         !=  length $$s  ){
+        (my $offendingPart)  =  $$s =~ /([^ACGTUNSWRYKMBDHVacgtunswrykmbdhv]+)/;
+        die  "While attempting to reverse complement, encountered chars [$offendingPart] not defined for nucleic acid sequences";
+        }
+}    
+
+
+#  Shorten sequence and quality to maximum length $len, by removing from the end.
+#  Return length of sequence after trimming.
+sub trim{
+    my ($beg, $end)  =  @_;
+
+    defined $beg   or   die  'trim() requires at least one argument';
+
+    $end  //=  length($seq) - 1;
+
+    #  Convert negative coordinates to positive coordinates.
+    for ($beg, $end) {    $_  +=  length $seq    if  $_ < 0    }
+
+    die  "trim called with start ($beg) > end ($end)"   if $beg > $end;
+
+    my $lenToKeep  =  $end - $beg + 1;
+    $seq      =  substr  $seq    , $beg, $lenToKeep;
+    $quality  =  substr  $quality, $beg, $lenToKeep;
+    #== IF	$needSeqArray_	@seq  =  splice @seq, $beg, $lenToKeep;
+    @seq  =  splice @seq, $beg, $lenToKeep   if $needSeqArray_;   #== SKIP
+
+    return $lenToKeep;
+} # END: trim( $beg, $end )
+
+
+#  ---------------  BEGIN: auxillary functions for prob_to_qualChar_  ---------------
+#  Could use Math::Round instead.
+sub myRound_{
+    my $i  =  int $_[0];
+    return    $i   +   (  $_[0] - $i  >  0.5  );
+}
+
+
+#  error prob --> Phred score.
+sub toPhred_{
+    my $K  =  -10 / log 10;
+    myRound_  $K * log $_[0];
+}
+
+
+#  Phred score --> character.
+sub Phred_to_qualChar_{
+    my $Phred  =  shift;
+    
+    die  "Phred score '$Phred' is out of range"   if   $Phred < 0  ||  $Phred > 93;
+
+    return  chr 33 + $Phred;
+}
+
+
+#  error prob --> Phred score.
+sub prob_to_qualChar_{
+    my $prob  =  shift;
+    
+    die  "invalid probability ($prob)"    if   $prob < 0  ||  $prob > 1;
+
+    return  Phred_to_qualChar_ toPhred_ $prob;
+}
+#  ---------------    END: auxillary functions for prob_to_qualChar_  ---------------
+
+
+#  Convert error prob(s) into quality string.
+sub prob_to_qualStr{    join '',  map { prob_to_qualChar_   $_ }  @_;    }
+
+
+#  In wantarray context with no args; returns array of Phred scores.
+#  Caveat: Uses lots of memory when called this way on long sequences.
+#
+#  Phred($i) returns Phred score of $ith base.
+#  Uses global $quality.
+sub Phred{
+
+    if(  !@_  ){
+        return   map  { Phred $_ }    0  ..  length($quality) - 1;
+    }
+
+    # else return scalar
+    @_  ==  1   or   die  'expected one argument';
+
+    my $i  =  shift;
+
+    $i  <  length $quality   or   die  "index '$i' our of range";
+
+    my $curChar  =  substr( $quality, $i, 1 );
+    my $Phred    =  ord( $curChar ) - 33;
+
+    die  "Phred score implied by char:'$curChar' is out of range"
+        if   $Phred < 0  ||  $Phred > 93;
+
+    return $Phred;
+} #  END: Phred( $i )
+
+
+#  Return quality scores as a list or extract one element.
+sub quality{
+
+    my $numArgs  =  @_;
+
+    $numArgs   or   return  split //, $quality;
+
+    if(  $numArgs == 1  ){
+        my $idx  =  $_[0];
+        die  "In function quality(), index ($idx) out of range"   if  $idx  >=  length $quality;
+        return  substr $quality, $idx, 1;
+    }
+    
+    die  "function quality() expects no more than one argument but got $numArgs";
+}
+
+
+#  Return sequence as a list or extract one element.
+sub seq{
+
+    my $numArgs  =  @_;
+
+    $numArgs   or   return  split //, $seq;
+
+    if(  $numArgs == 1  ){
+        my $idx  =  $_[0];
+        die  "In function quality(), index ($idx) out of range"   if  $idx  >=  length $seq;
+        return  substr $seq, $idx, 1;
+    }
+    
+    die  "function seq() expects no more than one argument but got $numArgs";
+}
+
+
+
+#  In wantarray context with no args; returns error probabilities as array.
+#  Caveat: Uses lots of memory when called this way on long sequences.
+#
+#  errProb($i) returns errProb $ith base.
+#  Uses global $quality.
+
+#  Assumes the "error probability" encoded in the quality scores,
+#  is actually the probability that the measurement gave no information.
+#  In which case the base call is a random guess (wrong 3/4 of the time).
+sub errProb{
+
+    if(  $#_ ==  -1  ){
+        wantarray  or  die  'must be in wantarray context when called with no args';
+        return
+            map  {0.75 * 10 ** ( -0.1 * Phred $_ )}   0  ..  length($quality) - 1;
+    }
+
+    #  Else return scalar.
+    @_  ==  1   or   die  'expected one argument';
+    my $i  =  shift;
+
+    die  "index '$i' our of range"   if  $i > length $quality;
+
+    return  0.75 * 10 ** ( -0.1 * Phred $i );
+} #  END: errProb( $i )
+
+
+
+#  Print input parsing error and exit.
+sub _sayInputError{
+    _say2  "Error while parsing fastq from '$curInputFilename_', line:$.; $_[0]";
+    exit -1;
+}
+
+
+#  Print string in @_ to both STDERR and $os_, unless they are both connected to a terminal.
+sub _say2{
+    for my $message (@_){
+        say STDERR $message;
+        say  "fastqpl: $message"   unless  -t *STDERR && -t $os_;
+    }
+}
+
+
+#  Print $message to STDERR.
+#  if $os_ is a terminal:  print usage summary to it;  otherwise print $message to it.
+sub _sayUsageError{
+    my $message  =  "Command line parsing error; $_[0]";
+    say STDERR  $message;
+    say(    -t $os_  ?   $usage_   :   "fastapl: $message"    );
+    exit -1;
+
+} #  END: _sayUsageError( $message )
+
+
+
+#  Open and process each file found in global: @inputFilename_.
+sub _loopOverInputFilenames{
+
+    for (@inputFilename_){
+        $curInputFilename_  =  $_;
+
+        my $inputStream;
+
+        if(  $curInputFilename_ eq '-'  ){
+            $inputStream  =  *STDIN;
+        }else{
+            open  $inputStream, '<', $curInputFilename_
+                or   die  "could not open fastq file '$curInputFilename_', $!\n";
+        }
+
+        _processInputStream( $inputStream );
+
+    }  # END:  for $inputFilename (@inputFilename_)
+
+} # END:  _loopOverInputFilenames
+
+
+
+#  Set @inputFilename_ from @ARGV.
+sub _setInputFilenames{
+    my $numStdinArgs  =  0;
+    for my $filename (@ARGV){
+        push  @inputFilename_, $filename;
+        if(  $filename eq '-'  ){
+            _sayUsageError  'STDIN given as input twice'
+                if  $numStdinArgs++;
+            _sayUsageError  'STDIN stipulated for input, but is attached to a terminal'
+                if  -t *STDIN;
+        }
+        else{  # filename ne '-'
+            _looksLikeFastqFile( $filename )
+                or  _sayUsageError  "file '$filename' is not a fastq file";
+        }
+    }
+
+    if(  !@inputFilename_  ){
+        _sayUsageError  "STDIN stipulated for input, but is attached to a terminal.\nPerhaps you forgot to give a fasta input file?"    if  -t *STDIN;
+        push  @inputFilename_, '-';  # no input arg given, so use STDIN.
+    }
+} # END: _setFastqInputFilename( filenames... )
+
+
+
+#  Read records and run record script on contents of $fastqInputStream_
+sub _processInputStream{
+    my $fastqInputStream_  =  shift;
+
+    #  Read record head.
+    _processInputRecord( $fastqInputStream_ )
+        until(  eof $fastqInputStream_  );
+}
+
+
+
+#  Read a fastq record and run record script on its contents.
+sub _processInputRecord{
+    my $fastqInputStream_  =  shift;
+
+    my $line_;            #  Current input line.
+    my $seqLine1Length_;  #  Length of 1st sequence line.
+    my $seqLine2seen_;    #  True, if 2nd sequence line seen.
+
+    $line_ = <$fastqInputStream_>;
+    if(  $line_ !~ /^@/  ){
+        _sayInputError  "encountered empty line when looking for head line"   if  $line_ =~ /^\n$/;
+        _sayInputError  "expected head line, but got '$line_'";
+    }
+
+    $noHeadSeenYet_  =  0;
+    $head  =  substr $line_, 1, -1;  #  remove '>' and '\n'
+    ($id)  =  ( $head =~ /^ \s* (\S+) \s* (.*) $/x );
+    @head  =  $2 ?   split( $fs, $2 )  :  ();
+
+
+    #  Read seq line(s) and +line
+    while(  $line_ = <$fastqInputStream_>  ){
+        last  if(  $line_ =~ /^\+/  );
+        chop $line_;
+        if(  $seqLine1Length_  ){  $seqLine2seen_    =  1;               }
+        else                    {  $seqLine1Length_  =  length $line_;   }
+        $seq .= $line_;
+    }
+
+
+    $line_  or  _sayInputError  "stream terminated in sequence part of record";
+
+    #== IF	$needSeqArray_	@seq  =  split //, $seq;
+    @seq  =  split //, $seq   if $needSeqArray_;  #== SKIP
+
+    $lineLengthForPrinting_  =
+        $seqLineLength_arg_   ?   $seqLineLength_arg_   :
+        $printSeqOn1Line_flag_?   0                     :
+        ! $seqLine2seen_      ?   0
+        :                         $seqLine1Length_;
+
+    ($line_ =~ /^\+/)  or  _sayInputError  "expected +line but got: '$line_'";
+
+
+    $plusLine  =  substr $line_, 1, -1;  #  remove '+' and '\n'
+
+    my $seqLen_  =  length $seq;
+
+    #  Read quality score line(s).
+    while(  $line_ = <$fastqInputStream_>  ){
+        chop $line_;
+        $quality  .=  $line_;
+        my $qualLen_  =  length $quality;
+
+        _sayInputError  "quality line length ($qualLen_) longer than sequence line length ($seqLen_) for record: $head"
+            if  $qualLen_ > $seqLen_;
+
+        last   if  $qualLen_  ==  $seqLen_;
+    }
+
+    {
+        no strict 'vars';
+
+        my $printCurRecord_  =  $printEachRecord_flag_;  #== SKIP
+
+        #== EMBED-RECORD-SCRIPT-UNLESS-SORTING
+        #== STORE-RECORD-IF-SORT-MODE
+
+        #== BEG_SKIP
+        if(  $sortMode_flag_  ){
+            push @rec_,
+            [   $head,  [map {$_} @head],  $id,
+                $seq,
+                $plusLine,  $quality
+            ];
+        }
+
+        else{  # not sort mode.
+
+            undef $_;
+            if( $grepMode_flag_ ){  $printCurRecord_  =  eval $recScript_  }
+            else                 {                       eval $recScript_  }
+            $@   and   die  "Error in record script; $@";
+
+            pr()   if $printCurRecord_;
+        } #  END: if sort mode  or  else
+        #== END_SKIP
+    }
+
+
+    #  -----  Reinitialize for next record  -----
+    $head    =     "";
+    $seq     =     "";
+    @seq     =  undef;  #== IF	$needSeqArray_
+    $quality =     "";
+
+
+} # END: _processInputRecord( $fastqInputStream_ )
+
+
+#  Print current fastq record to $os_
+#  Reads globals $seq, $quality.
+sub pr{
+
+    my $lenS = length $seq;
+    my $lenQ = length $quality;
+    die  "sequence length ($lenS) not equal to quality scores string length ($lenQ)"
+        if  $lenS != $lenQ;
+
+    say  "\@$head";
+
+    _printMultiline( $seq );
+
+    say  "+$plusLine";
+
+    _printMultiline( $quality );
+
+}
+
+
+#  Print $s with appropriate length lines.
+sub _printMultiline{
+
+    my $s  =  shift;  # $seq or $quality
+
+    my $lineLen  =  $lineLengthForPrinting_;
+
+    if( !$lineLen ){  # 0 means no line-wrap.
+        say $s;
+        return;
+    }
+
+    my $sLen  =  length $s;
+
+    my $numLines  =  $sLen / $lineLen;    # number of completely full lines.
+
+    ++$numLines    if  $sLen % $lineLen;  # final line is only partially full.
+
+    say  substr( $s, $_ * $lineLen, $lineLen )    for  0 .. $numLines-1;
+
+} #  END: _printMultiline()
+
+
+
+#  Heuristic method to determine if file probably is a fastq format file
+#  Returns true iff first line starts with '@' and some following line starts with '+'
+#  Only used for command line parsing error diagnostics.
+sub _looksLikeFastqFile{
+    my $filename  =  shift;
+    open  my $file, '<', $filename
+        or  _sayUsageError  "could not open fastq file '$filename', $!";
+    my $retVal = 0;
+
+    $_  =  <$file>;
+
+    if(  /^[@]/  ){
+        while(  <$file>  ){
+            if(  /^[+]/  ){
+                $retVal = 1;  last;
+            }
+        }
+    }
+
+    close $file;
+    return $retVal;
+
+} #  END: _looksLikeFastqFile( $filename )
+
+
+
+#== END_INCLUDE-USUALLY
+# =============================================================================
+
+__END__
+
+=pod
+
+
+=head1  NAME
+
+fastqpl -- Fastq Perl Loop S<  aka  "fast-q-ple">
+
+
+=head1  SYNOPSIS
+
+B<fastqpl>  [I<-opts>] I<script_file> [I<fastq_file>...]
+
+B<fastqpl>  [I<-opts>] B<-e> I<script> [I<fastq_file>...]
+
+B<fastqpl>  [I<-opts>] [B<-b> I<beginScript>] B<-e> I<script> [B<-f> endScript] [I<fastq_file>...]
+
+B<fastqpl>  [I<-opts>] B<-n> [B<-b> I<beginScript>] B<-e> I<script> [B<-f> endScript]
+
+B<fastqpl>  [I<-opts>] B<-n> <script_file>
+
+B<fastapl>  B<--usage>|B<--options>|B<--help>|B<--man>
+
+
+=head1  DESCRIPTION
+
+B<fastqpl> (Fastq Perl Loop) helps people write quick scripts to manipulate fastq format data.  Programmers familier with the awk language or one-liner style Perl programming will recognize B<fastqpl> to be the same idea but with fastq records as the basic unit rather than lines.  B<fastqpl> is a companion program to B<fastapl>, designed for fasta format data.
+
+=head2  User Scripts
+
+B<fastqpl> is basically a wrapper around user supplied code to be executed on each record of a fastq file (or on each record pair compared when sorting), also optionally before and after reading the input stream.
+
+
+=head1  ARGUMENTS
+
+=over 8
+
+=item I<script_file>
+
+File containing Perl code to apply to each record (or to compare records when L<sorting|"s_sort">).  Normally a script must be given either with this I<script_file> or directly with B<L<-e|"e_script_script">>, but not both.
+
+(However the script can be omitted in this case:
+
+  % fastqpl  -pl 100  foo.fq
+
+when both B<L<-p|"p_print_each_record">> and B<L<-l|"l_line_length_length">> are given, in which case the records are simply reformatted).
+
+
+=for html <a name="begin_and_end"></a>
+
+Can optionally contain BEGIN (executed once at the beginning) and END (executed once just before termination) blocks.  For example, this script outputs the total number of residues in all sequences combined.
+
+  BEGIN{
+      $totSeqLen = 0;  # not really necessary, Perl vars default to 0.
+  }
+
+  $totSeqLen  +=  length( $seq );
+
+  END{
+     print "total = $totSeqLen\n";
+  }
+
+
+=item [I<fastq_file>]
+
+File containing input sequences in fastq format.  If this argument is omitted, standard input is used. Alternatively, "-" denotes standard input and can be mixed with input from files.  For example,
+
+
+  % fastqpl script.fpl  foo.fa goo.fa hoo.fa
+
+  % cat foo.fa goo.fa hoo.ha  |  fastqpl script-file
+
+  % cat goo.fa  |  fastqpl script.fastqpl  foo.fa - hoo.fa
+
+All do the same thing.
+
+
+See L<"FASTQ INPUT FORMAT"> for details about
+the input format.
+
+=back
+
+
+
+=head1  OPTIONS
+
+=over 8
+
+
+=item B<-e|--script> I<script>
+
+Inline script to execute on each record.  May optionally contain L<BEGIN and/or END blocks|"begin_and_end"> as well.  Mnemonic: like C<perl -e>.
+
+
+=item B<-b|--begin> I<script>
+
+Script to execute once at beginning.  Mutually exclusive alternative to including a L<BEGIN block|"begin_and_end"> in the main script.  Can only be used with inline scripts given with the B<-e> flag.  Mnemonic: B<-b> for B<b>egin.
+
+
+=item B<-f|--end> I<script>
+
+Script to execute once at end.  Mutually exclusive alternative to including an L<END block|"begin_and_end"> in the main script.  Can only be used with inline scripts given with the B<-e>|B<main-script> flag.  Mnemonic: B<-f> for B<f>inal.
+
+
+=item B<-F|--field-separator> I<fieldSeparator>
+
+Regular expression field separator used when computing B<L<@head|"@head">>.  Visible in user scripts as the variable B<L<$fs|"$fs">>.  Defaults to the tab character.
+
+For example, to compute a histogram of the first field, treating the part of the L<head line|"FASTQ INPUT FORMAT"> past the id as a white space separated list:
+
+  % fastqpl  -F '\s+'  -e '++$f{ $head[0] }'  -f 'print "$_:$f{$_}\n" for( keys %f )'
+
+Mnemonic: like C<perl -F> or C<awk -F>.
+
+
+=item B<-n|--generate-standalone>
+
+Instead of processing an input stream, generate a specialized standalone program with the user script embedded and output this to stdout.  The fastq input file is not needed when this option is stipulated.
+
+  % fastqpl  -np  -e '$seq = lc $seq'  >  fastqDowncaser.pl
+
+Creates a program which downcases sequences, which can be used like:
+
+  % perl fastqDowncaser.pl foo.fa  >  fooDowncased.fa
+
+This option is useful for debugging user scripts.  Standalone scripts also may run slightly faster.  Standalone scripts do not suppress warnings such as "only used once".  This is intentional.  Mnemonic: like C<make -n>.
+
+
+=item B<-g|--grep>
+
+Print record when user record script returns true.  For example, to print sequences not starting with 'n' use:
+
+  % fastqpl -ge '$seq != /^n/'
+
+
+=item B<-l|--line-length> I<length>
+
+Line length to use when printing sequences and quality score strings.  Default is to use the length of the input lines.
+
+
+=item B<-M|--module> I<module>
+
+Convenience option for preloading non-builtin modules.  Performs S<eval "use module";> before executing any scripts.  Alternative to using S<B<-b> "use module">.  Mnemonic: like C<perl -m>.  Can be used multiple times in one command line. For example,
+
+
+ % fastqpl                                   \
+     -e  '@p=Phred; $s = sum @p[0..19];      \
+          say "$id avg. Phred: ",$s/20'
+
+prints, for each record, the id and average Phred score over the first 20 bases.  (The sum function is automatically loaded from List::Util).
+
+
+=item B<-o|--output-file>
+
+Output file. Defaults to stdout.
+
+
+=item B<-p|--print-each-record>
+
+print each record after the record user script is executed.  Mnemonic: like C<perl -p>.  For example, to truncate sequences to length 36 use:
+
+  % fastqpl -pe '$seq = substr( $seq, 0, 36 ); $quality = substr( $quality, 0, 36 );'
+
+
+=item B<-s|--sort>
+
+Sort the records, using the user L<script|"e_script_script"> to compare record pairs.  The same L<record variables|"record variables"> are available as usual, but with "1" or "2" appended.  For example, to sort records by id use:
+
+  % fastqpl  -se '$id1 cmp $id2'
+
+To sort by sequence length use:
+
+  % fastqpl -se 'length $seq1 <=> length $seq2'
+
+Quality score based comparison can also be done through: B<$quality1>, B<$quality2>, B<quality1>, B<quality2>, B<Phred1()>, B<Phred2()>, B<errProb1>() and B<errProb2>().
+
+B<Warning:> this option uses a lot of memory.  Roughly as much as a few times the input file size.
+
+
+=item B<-V|--version>
+
+Print version and exit.
+
+=back
+
+
+=head1  VARIABLES/FUNCTIONS PROVIDED TO SCRIPTS
+
+=head2  Record Variables
+
+=over 8
+
+=item B<$head>
+
+The line starting with '@', but excluding the '@' character.
+
+
+=item B<@head>
+
+The array obtained by considering the part of the head line after the id as a tab separated field list (more precisely L<$fs|"$fs"> separated fields).
+
+
+=item B<$id>
+
+Sequence id (record name) as found in the head line.  More precisely:
+
+  ($id)  =  ( $head =~ /^\s*(\S+)/ );
+
+
+=item B<$seq>
+
+Sequence as a scalar.
+
+=item B<@seq>
+
+Sequence as an array, each residue is one element.  Upon reading each record, B<@seq> is set with: C<@seq  =  split //, $seq>.
+
+B<Warning:> modifying @seq does not affect the output of B<L<pr()|"pr">>.
+
+=item B<$plusLine>
+
+Line starting with '+', directly after the sequence lines.  B<$plusLine> does not include the '+'.
+
+=item B<$quality>
+
+String holding the ascii representation of the quality scores.  Should be the same length as B<$seq>.
+
+=back
+
+
+=head2  Other Variables
+
+=over 8
+
+=item B<$fs>
+
+Field separator used to compute B<L<@head|"@head">> and B<L<%head|"%head">>.  Can be stipulated on command line with the B<L<-F|"f_field_separator_fieldseparator">> argument.  Defaults to the tab character "\t".  Mnemonic: like FS varible in C<awk>, abbreviation of "B<F>ield B<S>eparator".
+
+=back
+
+
+=head2  Subroutines
+
+=over 8
+
+=item B<asHash [I<@a>]
+
+Returns the hash containing any elements of B<@a> which look like "I<name>B<=>I<value>" pairs.  When omitted, B<@a> defaults to B<L<@head|"@head">>.  For example, if L<$fs|"$fs"> stipulates space separated fields and B<L<$head|$head>> holds: 'id temp=451 dummy 3s=36,24,36'; B<asHash()> should return: ('temp', '451', '3s', '36,24,36').
+
+
+=item B<maxidx>(> I<list> B<)>
+
+Return argmax of I<list>.  Ties go to smallest index.
+
+
+=item B<maxSeg(> I<list> B<)>
+
+Returns an interval (I<begin>, I<end>, I<maxSum>), such that [I<begin>, I<end>] give the closed interval of a maximum positive sum (= I<maxSum>) segment of I<array>.  Zero-sum ends are never included.  Ties go to the left-most interval.
+
+Example illustrating ties:
+
+   maxSeg  0 +2 -6 +2 -2 +2;   #  returns (1, 1, 2).
+
+Returns (0, 0, 0) when no positive elements are found in @_.
+
+
+=item B<maxSegs(> I<list> B<)>
+
+Returns a list of minimal length maximal positive scoring segments -- i.e. returns a list of all segments such that
+   1)  The sum is positive
+   2)  No extension can increase the sum
+   3)  No retraction can attain an equal sum, i.e. zero-sum ends are not included.
+
+Each element of the list is [I<begin>, I<end>, I<maxSum>] where [I<begin>, I<end>] are indices of a maximum sum segment of @_ and I<maxSum> its sum.  When no positive elements exist in @_ the empty list is returned.
+
+Example:
+
+   @r  =  maxSeg  0 +2 -6 +2 -2 +2;
+   print "@$_|" for @r;   #  Prints  1 1 2|3 3 2|5 5 2|
+
+
+=item B<pr()>
+
+Prints current record.  Output line length is set to the stipulated line length if given with B<L<-l|"l_line_length_length">>, otherwise the length of the first sequence line of the current input record is used.
+
+Usually B<pr()> does not need to be called explicitly because it can be called implicitly with the B<L<-p|"p_print_each_record">> and B<L<-g|"g_grep">> options.  Mnemonic: abbreviation of "B<P>rint B<R>ecord".
+
+
+=item B<quality()>
+
+  B<quality()>         returns B<$quality> as list, one element per character.
+  B<quality(> $i B<)>  returns the ith quality character.
+
+=item B<rc(> [I<sequence>] B<)>
+
+Reverse complement I<sequence> in place.  When called with no arguments, it reverse complements B<$seq>, and reverses B<$quality> accordingly.  Mnemonic: abbreviation of "B<R>everse B<C>omplement".
+
+  % fastqpl -pe rc   #  Prints records with sequences reverse complemented.
+
+  % fastqpl -e '$r = $seq; rc $r; say $r'   #  Prints reverse complement of sequence.
+  % fastqpl -e 'rc; say $seq'               #  Prints reverse complement of sequence.
+
+To reverse complement RNA you must clean up with C<tr/tT/uU/>.
+
+  % fastqpl -e 'rc; $seq =~ tr/tT/uU/; say $seq'     #  Prints reverse complement of an RNA sequence.
+
+
+=item B<trim(> I<beg>, [I<end>] B<)>
+
+Trim B<$seq>, keeping the closed interval [I<beg>, I<end>].  Negative coordinates count from the end of the sequence (-1 is the final base of the sequence).  If I<end> is omitted, it is treated as the end of the string.  B<$quality> and B<@seq> are also trimmed to maintain consistency.
+
+
+
+=head3  Quality score related
+
+=item B<errProb> [I<i>]
+
+Returns probability of error score of I<i>th base, or returns a list of all the error probabilities of the current record if I<i> is omitted.  Assumes the "error probability" encoded in the quality scores, is actually the probability that the measurement gave no information.  In which case the base call is a random guess (wrong 3/4 of the time).
+
+
+=item B<Phred> [I<i>]
+
+Returns Phred score of I<i>th base, or returns a list of all the Phred scores of the current record if I<i> is omitted.
+
+
+=item B<prob_to_qualStr> I<@p>
+
+Returns quality string corresponding to the error probabilities given in I<@p>.
+
+
+
+=back
+
+
+=head1  FASTQ INPUT FORMAT
+
+The fastq format can be viewed as an extension of the fasta format with the additional ability to give quality scores.  A fastq stream consists of fastq records concatenated together.  A fastq record starts with head line analogous to the fasta head line but marked by an initial '@' character instead of '>'.  The following lines give the sequence, as in fasta format, until a line starting with '+' is encountered.  This line is essentially another head line, which we refer to as the "plusLine".  It is legal (and perhaps sensible) to keep this line blank, but it is common practice to repeat the head line information instead.  The following lines contain quality scores encoded as ascii characters, one per base.  The string encoding this information should be the same length as the sequence.
+
+There are three slightly different mappings from quality score character to error probability, but we currently only support "Sanger standard" encoding which encodes Phred quality scores of 0-93 with ascii characters in the range 33-126. The Phred score is defined as:
+
+  -10 log Perr
+
+where Perr is the probability of error and the log is to base 10.
+
+Several other tools can be used to convert other encodings to Sanger standard.  For example, using the C<seqret> program from the EMBOSS suite one can convert from the Illumina format to the Sanger standard format with this command line:
+
+  % seqret  -sformat fastq-illumina  -osformat fastq-sanger  in.fastq out.fastq
+
+
+=head2  Example FASTQ Record
+
+B<fastqpl> would parse the record:
+
+  @FSRRS4401BE7HA length=40 gc=36.46
+  tcagTTAAGATGGGATAATA
+  GCCCGTTTGTCGATATTTGt
+  +FSRRS4401BE7HA length=40 gc=36.46
+  FFFDDDDDDDA666?688FF
+  D???:3104/76=:5...4.
+
+as:
+
+  $id        ->  'FSRRS4401BE7HA'
+  $head      ->  'length=40 gc=36.46'
+  $seq       ->  'FSRRS4401BE7HA tcagTTAAGATGGGATAATAGCCCGTTTGTCGATATTTGt'
+  $plusLine  ->  'FSRRS4401BE7HA length=160 gc=36.46'
+  $quality   ->  'FFFDDDDDDDA666?688FFD???:3104/76=:5...4.'
+
+
+=head2  Issues
+
+In my opinion the fastq format is really poorly designed.  One of the problems being that the characters '@' and '+' are used to mark parts of the record, but are also legal characters in the quality score string.  Multiple, mutually indistinguishable, encodings of the error probability as a quality score character is another problem.  More details are available in an article describing the fastq format: I<Nucleic Acids Research>, B<38>, 1176-71, 2010.
+
+Given the problems with the fastq format I decided to treat it more simply than fasta. B<fastapl> supports comment lines starting with '#', but B<fastqpl> does not.  This is because '#' is a legal quality score character and so (unlike fasta format) extending the fastq format with the use of '#' comments seems ill advised.
+
+
+
+=head1  PREREQUISITES
+
+This program requires the following modules:
+
+  Getopt::Long    for argv parsing.
+  Pod::Usage      for --usage|--help|--man message processing.
+  Text::Balanced  for extracting BEGIN and END blocks from user scripts.
+
+
+=head1  OSNAMES
+
+Currently only tested on linux.
+
+
+=head1  SCRIPT CATEGORIES
+
+Scientific/Bioinformatics
+
+
+=head1  BUGS
+
+No known bugs.
+
+
+=head1  ISSUES
+
+The errors in user scripts are hard to debug.  Currently the best workaround is to generate a specialized program with the B<L<-n|"n_generate-standalone">> option and debug that program directly.
+
+Not optimized for speed. L<Sorting|"s_sort"> is slow and memory intensive (proportional to input file size, with a fairly large constant factor).
+
+
+=head1  LICENSE
+
+You may use this program under the GNU public license. 
+
+
+=head1  AUTHOR
+
+Paul Horton <paulh@iscb.org>
+
+
+=head1  COPYRIGHT
+
+Copyright (C) 2010, 2011, 2017.
+
+=cut

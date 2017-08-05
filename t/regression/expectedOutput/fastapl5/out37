@@ -1,0 +1,12 @@
+37  Print bases 100 bases starting at position 5000 (counting from zero) in each record with ruler track.
+-Re 'say "$id 5000,5100"; ps 5000,5100'	mitoGenomes.fa
+chrM_yeast 5000,5100
+5000 .    1    .    2    .    3    .    4    .    
+ACCATTTATATATTCCATTATATATATATATTTAATAAAAATAATAATAT
+5050 .    6    .    7    .    8    .    9    .    
+CATTTATATATTTTATTATATATTATATATATTTTATATAAAATAATAAT
+chrM_human 5000,5100
+5000 .    1    .    2    .    3    .    4    .    
+AATCTTAGCATACTCCTCAATTACCCACATAGGATGAATAATAGCAGTTC
+5050 .    6    .    7    .    8    .    9    .    
+TACCGTACAACCCTAACATAACCATTCTTAATTTAACTATTTATATTATC

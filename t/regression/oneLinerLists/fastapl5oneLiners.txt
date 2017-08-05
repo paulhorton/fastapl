@@ -1,0 +1,161 @@
+# This file contains a series of fastapl one-liner records
+# The structure of each record is:
+#
+#     serial-no  Description of the fastapl one-liner
+#     command-line-args \t input-filename
+#
+
+$INPUT_DIR  = ../input
+$OUTPUT_DIR = ../expectedOutput/fastapl5
+
+BEG_CKSUMS
+   469208288  13145  proteins.fasta
+  2366348325    369  semicolonHeadFields.fasta
+  2511849157    108  shortDNA.fasta
+   143677059    281  spaceyProteins.fasta
+  2998101780    490  DNAwithPolyAtail.fasta
+  3781708135  13677  InfluenzaA_H1N1_Iwate200903.fa
+  2897600033     54  ids.txt
+  2873928132     53  m.fa
+   616640513 104422  mitoGenomes.fa
+  2016913646 829455  yeast_chrII.fa
+  3897810183  14286  proteinsHashHeaders.fasta
+END_CKSUMS
+
+01  Truncate sequences to length 39.
+-pe 'trim 0,38'	proteins.fasta
+
+02  Reverse complement DNA sequences.
+-p  -e '$seq = reverse $seq; $seq =~ tr/acgtACGT/tgcaTGCA/'	shortDNA.fasta
+
+03  Compute fraction of sequences matching regex L$.
+-e '++$tot; ++$m if( $seq =~ /L$/ );'  -f 'say "$m/$tot"'	proteins.fasta
+
+04  Print records of sequences *not* starting with 'M'.
+-g  -e '$seq !~ /^M/'	proteins.fasta
+
+05  Compute total sequence length.
+-e '$tot += length $seq'  --end 'print "total seq. length = $tot\n"'	proteins.fasta spaceyProteins.fasta
+
+06  Compute residue composition of collection of sequences.
+-e '++$tot, $a{$_}+=100 for @seq'  --end 'printf "%s: %5.2f\n", $_, $a{$_}/$tot  for sort keys %a'	proteins.fasta
+
+07  Same but skip initial residue of each sequence.
+-e '++$tot, $a{$_}+=100 for @seq[1..fin]'  --end 'printf "%s: %5.2f\n", $_, $a{$_}/$tot  for sort keys %a'	proteins.fasta
+
+08  Compute residue composition of each sequence.
+-e '%a=(); $a{$_}+=100 for @seq;  print $id;  printf " $_:%4.2f", $a{$_}/len  for sort keys %a;  say ""'	proteins.fasta
+
+09  Randomly shuffle sequences.
+-b 'srand 7'  -pe '$seq = join "", shuffle @seq'	proteins.fasta
+
+10  Trim poly-A tail allowing for some miscalled bases.
+-p  -e '$s = 0; $p = 0; $m = -9; for $i (reverse 0..$#seq){ $s += $seq[$i] eq "a" ? 1 : -2; if( $s > $m ){ $m = $s; $p = $i }} $m < 8 or substr( $seq, $p ) = ""'	DNAwithPolyAtail.fasta
+
+11  Sort records by id.
+--sort -e '$id1 cmp $id2'	proteins.fasta
+
+12  Sort records by sequence length.
+-se 'len1 <=> len2'	proteins.fasta
+
+13  Reformat records so that sequence line lengths are 100 (at most).
+-pl 100	proteins.fasta
+
+14  Print first 3 records.
+-ge '$c++ < 3'	proteins.fasta
+
+15  Select records matching given ids.
+-b '%keep = qw(Q12154|GET3_YEAST 1 P24583|KPC1_YEAST 1 P38179|ALG3_YEAST 1)' -ge '$keep{$id}'	proteins.fasta
+
+16  Select records matching an id in ids.txt, ids.txt holds one id per line.
+-b '%keep = map {chop;$_,1} <STDIN>' -ge '$keep{$id}'	proteins.fasta	ids.txt
+
+17  Reformat records so that record sequences are printed on one line
+-p -1	proteins.fasta
+
+18  Extract records with first field after ID matching /mito/.
+-ge '$head[1] =~ /mito/'	proteins.fasta
+
+19  Print forward and reverse complementary strands with appropriate change to ids.
+-pe '$id .= "_Crick"; pr; rc; $id =~ s/Crick$/Watson/'	shortDNA.fasta
+
+20  Convert DNA sense strand to RNA transcript sequence.
+-pe '$seq =~ tr/tT/uU/'	shortDNA.fasta
+
+21  Dump 6 possible frame translations of DNA sequence.
+-e 'say $id;  say "  $_"  for translations'	DNAwithPolyAtail.fasta
+
+22  Add comments listing ORF fragments of length 29 or more to DNA sequence records.
+-pe '$comment .= sprintf "# %2d %s\n", @$_[2,3]  for ORFs 29'	DNAwithPolyAtail.fasta
+
+23  Add comments listing ORFs of length 29 or more to DNA sequence records.
+-pe '$comment .= sprintf "# %2d %s\n", @$_[2,3]  for ORFs "m29"'	DNAwithPolyAtail.fasta
+
+24  Upcase sequences.
+-pe '$seq = uc;'	DNAwithPolyAtail.fasta
+
+25  Print 2-mer frequences for each seq.
+-e 'say hstr kmers 2'	mitoGenomes.fa
+
+26  Print 2-mer frequences for each seq in compact format.
+-e 'say  "$id\t",  hstrf ": ", kmers 2'	mitoGenomes.fa
+
+27  Print cumulative 2-mer frequences of sequences, one 2-mer per line.
+-e 'addKmers %c, 2' -f 'say hstr %c'	mitoGenomes.fa
+
+28  Print table of homopolymer runs of length 20 or more.
+-e '$m = runs 20;  say  join "\t",  $a, $b, $b-$a, seq $a  while $m->ab'	yeast_chrII.fa
+
+29  Color matches to 'CACA' on either strand red, also underline the matches on the reverse strand; show all of these on the forward strand.
+-H -pe 'color red, matches "CACA=1"; ul matches "CACA_1"'	shortDNA.fasta
+
+30  Print sequences in format of 100 bases per line.
+-pl 100	proteins.fasta
+
+31  Count the number of records with first field 'E.R.'.
+-ce '$head[1] eq "E.R."'	proteins.fasta
+
+32  Print information encode in header as key=value pairs
+-e 'say "  $id"; say hstr asHash'	proteinsHashHeaders.fasta
+
+33  Print aromatic residues in bold with rule.
+-r -pe 'bold matches "[YWF]"'	proteins.fasta
+
+34  Print DNA as double stranded
+-P	shortDNA.fasta
+
+35  Colorize final four residues in xterm format.
+-pe 'colorize -4,0'	proteins.fasta
+
+36  Print sequence as double stranded with inline ruler and ORF colored ORF track in xterm format.
+--ORF a110m80c  -Pr  -l100	InfluenzaA_H1N1_Iwate200903.fa
+
+37  Print bases 100 bases starting at position 5000 (counting from zero) in each record with ruler track.
+-Re 'say "$id 5000,5100"; ps 5000,5100'	mitoGenomes.fa
+
+38  Print entries with residues colorized.
+-C	proteins.fasta
+
+39  Print entries with residues colorized as DNA.
+-Cd	shortDNA.fasta
+
+40  Dump final field of each head, treating header line as semicolon separated fields.
+'-F;' -e 'say $head[-1]'	semicolonHeadFields.fasta
+
+41  For circular genome, print the reverse strand sequence seqment of length 10 centered on the origin.
+-Oe 'say seg 5, -5'	mitoGenomes.fa
+
+42  Mark TATAT on forward strand red, allowing matches to overlap.
+-pe 'color red, matches "TATAT%"'	m.fa
+
+43  Mark matches to 'GAATAT' on either strand in inverse video, for circular DNA
+-OPe 'iv matches "GAATAT="'	mitoGenomes.fa
+
+44  Downcase $seq, then upcase matches to 'tata[at]a'.  Note the -d flag.
+-dpe '$seq = lc; upcase matches "tatawa"'	yeast_chrII.fa
+
+45  Print regex to case insensitively match an adenine followed by six bases coding for amino acids sequence 'MA'
+-db 'say expandRegex "(?i)a<MA>"'	dummy
+
+46  Count the number of start codons.  Works for RNA or DNA sequences, upper or lower case.
+-e '$c=()=/(?i)(A[UT]G)/g; say "$id $c"'	yeast_chrII.fa

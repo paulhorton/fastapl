@@ -1,0 +1,78 @@
+32  Print information encode in header as key=value pairs
+-e 'say "  $id"; say hstr asHash'	proteinsHashHeaders.fasta
+  P52923|AIF1_YEAST
+annotation	Apoptosis-inducing factor 1. Normally localizes to the mitochondria, translocates to the nucleus during apoptotic stress.
+lastUpdate	PH:2010/01/05
+location	mito_nucl
+species	S.Cerevisiae
+  P50515|VATL_SCHPO
+location	vacu
+species	S.Pombe
+  P52918|MSN5_YEAST
+annotation	Protein MSN5. Nuclear exportor and importer.
+lastUpdate	PH:2010/12/15
+localization	cyto_nucl
+species	S.Cerevisiae
+  P35169|TOR1_YEAST
+annotation	Serine/threonine-protein kinase TOR1. Associated with secretory path and vacuolar membranes.
+lastUpdate	PH:2010/12/14
+localization	cyto
+species	S.Cerevisiae
+  P23202|URE2_YEAST
+annotation	Protein URE2.
+lastUpdate	PH:2010/12/14
+localization	cyto
+species	S.Cerevisiae
+  P24583|KPC1_YEAST
+annotation	Protein kinase C-like 1.
+lastUpdate	PH:2010/12/09
+localization	cyto_nucl
+species	S.Cerevisiae
+  P17967|PDI_YEAST
+annotation	Protein disulfide-isomerase.
+lastUpdate	PH:2010/12/09
+localization	E.R.
+species	S.Cerevisiae
+  Q12154|GET3_YEAST
+annotation	ATPase GET3. Peripheral to E.R. and Golgi. Part of Tail Anchor assembly process.
+lastUpdate	PH:2010/12/07
+localization	cyto
+species	S.Cerevisiae
+  P38179|ALG3_YEAST
+annotation	Dolichyl-P-Man:Man(5)GlcNAc(2)-PP-dolichyl mannosyltransferase. multi-pass membrane.
+lastUpdate	PH:2010/12/07
+localization	E.R.
+species	S.Cerevisiae
+  P50076|ALG10_YEAST
+annotation	Alpha-1,2 glucosyltransferase ALG10. Multi-pass membrane.
+lastUpdate	PH:2010/12/07
+localization	E.R.
+species	S.Cerevisiae
+  P41546|HAC1_YEAST
+annotation	Transcriptional activator HAC1.
+lastUpdate	PH:2010/12/07
+localization	nucl
+species	S.Cerevisiae
+  P53037|PSD2_YEAST
+annotation	Phosphatidylserine decarboxylase proenzyme 2. Also Golgi.
+lastUpdate	PH:2010/12/07
+localization	vacu
+species	S.Cerevisiae
+  P39006|PSD1_YEAST
+annotation	Phosphatidylserine decarboxylase proenzyme 1, mitochondrial.
+lastUpdate	PH:2010/12/07
+localization	mito
+species	S.Cerevisiae
+  P39722|GEM1_YEAST
+annotation	Mitochondrial Rho GTPase 1. Single pass type IV membrane.
+lastUpdate	PH:2010/12/07
+localization	mito
+  P40215|NDH1_YEAST
+annotation	External NADH-ubiquinone oxidoreductase 1, mitochondrial. Intermembrane space.
+lastUpdate	PH:2010/11/23
+localization	mito
+species	S.Cerevisiae
+  P38825|TOM71_YEAST
+annotation	Protein TOM71. Single pass outer membrane protein. 49% identity with TOM70_YEAST
+localization	mito
+species	S.Cerevisiae

@@ -1,0 +1,3 @@
+40  Dump final field of each head, treating header line as semicolon separated fields.
+'-F;' -e 'say $head[-1]'	semicolonHeadFields.fasta
+ Dumbo

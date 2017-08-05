@@ -1,0 +1,1405 @@
+#!/usr/bin/perl -w
+#  Author: Paul Horton
+#  Copyright (C) 2010, Paul Horton, All rights reserved.
+#  Creation Date: 2010.8.19
+#  Last Modification: $Date: 2013/10/20 10:09:17 $
+#
+#  License: TO BE DECIDED!!
+#
+#  Description: Fasta format stream processing utility.
+#               Fasta Perl Loop  or fastapl (pronounced "fast apple")
+#               See pod at bottom of file for more details.
+#
+#  Credits:
+#    minor code improvements: Martin Frith
+#    early testers: The above + Junko Tsuji
+#    -M module loading argument suggested by Edward Wijaya.
+#
+
+# ===================  NOTES TO HELP UNDERSTAND THIS CODE  ==================
+
+# *------------------  Variable Naming and Use Conventions  ------------------*
+#
+#  Variables visible in the scope of the eval statements of user provided
+#  code {begin, record, end} scripts, should end in '_', e.g. $line_
+#  UNLESS they are intended to be available to users, e.g. $seq, @seq, etc.
+#
+#  A 'flag' means an argument with a binary value, e.g. the '-p' flag
+#  Variables read from the command line SHOULD NOT BE MODIFIED THEREAFTER.
+#  Command line flags for documentation are placed in %docOpt
+#  Variables holding the value of other command line arguments should be
+#  named ending in '_arg_' or, if they are flags, '_flag_'.
+#
+#
+# *------------------      Unusual Code Constructs       -------------------*
+# 
+# SPECIAL COMMENTS FOR GENERATING STANDALONE PROGAM:
+#   This code has some special comments such as:
+#
+#     #== BEG_SKIP
+#     ...
+#     #== END_SKIP
+#
+#     @seq = undef;  #== IF	$needSeqArray_
+#     ...
+#
+#   Also introduced for the -n|--generate-standalone option, these special
+#   comments are used to conditionally include parts of this file in the
+#   generated standalone program.  See sub _printBlockOfThisFile() for details.
+#
+
+# ===================  NOTES TO HELP UNDERSTAND THIS CODE  ==================
+
+
+$VERSION = '1.20';
+use strict;
+use Pod::Usage;
+use Text::Balanced qw(extract_codeblock);  #To extract BEGIN, END blocks
+
+#== BEG:COMMON_DECLS_BEFORE_ARGV_PARSE
+use feature qw(say);
+use Carp;
+use List::Util qw(first max maxstr min minstr reduce shuffle sum);
+use List::MoreUtils ':all';
+use POSIX qw(ceil floor);
+use fastaplAmino;
+use Fastapl;
+use fastaplUtils;
+#== END:COMMON_DECLS_BEFORE_ARGV_PARSE
+
+
+our $usage_ = 'Usage:
+  fastapl [opts] SCRIPT [fasta_input_file...]
+  fastapl [opts] -n SCRIPT  >  prog.pl
+
+      SCRIPT  =>  script_file  |
+                  [-b beginScript]  -e script  [-f endScript]
+
+  fastapl [--usage|--options|--help|--man]';
+
+my $podSource_;  # Pathname to pod source file, false means use $0.
+
+
+# ━━━━━━━━━━  BEG: Assign and check command line options  ━━━━━━━━━━
+my %docOpt = ();
+
+# ──────────  Use Japanese usage messages, if LANG calls for that  ──────────
+if(  $ENV{LANG} =~ /^ja_JP/i  and  $ENV{LANG} =~ /utf[_-]*8$/i  ){
+
+    my $nihongoPodFilename  =  'fastapl.ja.utf8.pod';
+
+    my $pathToNihongoPod  =  `which $nihongoPodFilename`;
+    if(  $pathToNihongoPod  ){
+      $podSource_ = "$pathToNihongoPod/$nihongoPodFilename";
+    }else{
+      $podSource_ = './$nihongoPodFilename'  if -e './$nihongoPodFilename';
+    }
+}
+
+
+my @docARGVSpec  =  (
+    'help'                    =>  \$docOpt{help},
+    'man'                     =>  \$docOpt{man},
+    'usage'                   =>  \$docOpt{usage},
+    'options'                 =>  \$docOpt{options},
+    'V|version'               =>  \$docOpt{printVersion},
+);
+
+my @ARGVorig  =  @ARGV;
+ PARSE_ARGS:
+
+
+my $getOptionsRetval  =  Fastapl::parseCommandLineOptions( \@ARGV, @docARGVSpec )
+    or  _pod2usage();
+
+
+# ──────────  Process flags related to usage documentation  ──────────
+{
+    $docOpt{man}    and  _pod2usage( -noperldoc =>   $ENV{TERM}  &&  $ENV{TERM} eq 'dumb',
+                                     -verbose => 2 );
+    $docOpt{help}   and  _pod2usage( -verbose => 1 );
+    $docOpt{usage}  and  _pod2usage( -verbose => 0 );
+
+    my @optionSummary  =  (
+        'C|color                Color sequence based on %color',
+        'g|grep                 Output record iff user script returns true',
+        'n|generate-standalone  Generate standalone program instead of processing input',
+#            h|help      Reserved for possible future addition.
+        'p|print-each-record    Print each record after executing user script on it',
+        'P|print-each-record-ds Print each record as double stranded DNA after executing user script on it',
+        'q|grep-quiet           Quiet version of grepMode.  If matching record found returns 0, otherwise 1',
+        '1|print-seq-on-1-line  Print sequence part of record all on one line',
+        's|sort                 Sort records according to user script',
+#            v|verbose   Reserved for possible future addition.
+#            w|warn      Reserved for possible future addition.
+        'F|field-separator X    Use X as field separator when computing @head',
+        'H|html                 Print records or sequences in html format; html options may be given',
+        'Q|valid-seq-chars X    Characters not matching X ignored in sequence',
+        'V|version              Print version of fastapl',
+        'M|module X             Load module X before executing user scripts',
+        'c|count                Output number of records returning true, similar to grep',
+        'e|script X             Execute script X on each record',
+        'b|begin X              Execute script X before reading input',
+        'f|end X                Execute script X after processing input',
+        'l|line-length X        Print sequence with line length X',
+        'o|output-file X        Print output of file X',
+        'r|ruler-inline         Include inline ruler when printing sequences',
+        'R|ruler-track          Include ruler as separate track when printing sequences',
+        );
+
+    if(  $docOpt{options}  ){
+        say " $_"   for @optionSummary;
+        exit 1;
+    }
+
+}   # ──────────  END: Process flags related to usage documentation  ──────────
+
+
+if(  $docOpt{printVersion}  ){
+    say  "fastapl $::VERSION   Fasta Perl Loop   Copyright (C) 2010-2016 Paul Horton";
+    exit 0;
+}
+
+
+my $printEachRec_  =   $opt_{printEachRecSS_P} || $opt_{printEachRecDS_P}  ||  $opt_{colorizeP} && !$opt_{mainScript};
+my $emptyRecScriptOK   =   $printEachRec_  ||  $opt_{countP};
+
+if(   @ARGV  <  ($opt_{mainScript}? 0 : 1)   ){
+    $emptyRecScriptOK  or  $opt_{begScript}  or   _dieWithUsage  'expected more arguments.';
+}
+
+my $grepishMode_  =  $opt_{countP} || $opt_{grepP} || $opt_{grepQuietP};
+
+
+
+# ──────────  Check for contradictory options  ──────────
+_dieWithUsage  'print each record was stipulated as both single and double stranded.'
+    if  $opt_{printEachRecSS_P} && $opt_{printEachRecDS_P};
+
+if(  $printEachRec_ && $grepishMode_  ){
+    my $msg  =  'only one of {-c|--count, -g|--grep, -p|--print-each-record, -q|--quiet} type flags allowed.';
+    $msg .=  "\n(if you meant color, use '-C|color')"
+        if $opt_{countP}  and  none {/count/} @ARGVorig;
+    _dieWithUsage  $msg;
+}
+
+_dieWithUsage  'only one of {-s|--sort, -f|--end} allowed.'
+    if   $opt_{sortP}  &&  $opt_{endScript};
+
+_dieWithUsage  'only one of {-s|--sort, -p|--print-each-record} allowed.'
+    if   $opt_{sortP}  &&  $printEachRec_;
+
+_dieWithUsage  "'l|line-length' and '1|print-seq-on-1-line' cannot both be chosen."
+    if   $opt_{printSeqOn1LineP}  &&  $opt_{seqLineLen};
+
+
+# ──────────  Check for invalid command line option values  ──────────
+_dieWithUsage  "expected integer for 'l|line-length', but got $opt_{seqLineLen}."
+    if   $opt_{seqLineLen} !~ /^[0-9]+$/;
+
+_dieWithUsage  "At most one of {'r|ruler-inline', 'R|ruler-track'} should be set, but both were"
+    if  $opt_{rulerInlineP} && $opt_{rulerTrackP};
+
+
+# ━━━━━━━━━━  END: Assign and check command line options  ━━━━━━━━━━
+
+
+# ──────────  Preload modules  ──────────
+for my $module  ( @{$opt_{modules}} ){
+    eval  "use $module";
+    $@   and   die  "Error when loading module: $module; $@\n";
+}
+
+
+my $numTrueRecords_  =  0;
+
+
+# ──────────────────────────────  Global Variables  ──────────────────────────────
+#  Some global variables not intended to be accessed by user scripts.
+
+
+my @rec_;  # Stores all records, only used with -s|--sort.
+
+
+
+#  These will actually be eval'd
+my $begScript_  =  '';  #Progam code to apply before processing records.
+my $recScript_  =  '';  #Progam code to apply to each record.
+my $endScript_  =  '';  #Progam code to apply after processing records.
+
+my $needSeqArray_;    #True iff @seq is needed.
+
+
+
+# ──────────  Read scripts in from command line or file  ──────────
+
+if(  exists $opt_{mainScript}  ){
+
+    #  If opt_{mainScript} is an existing file, someone's probably confused.
+    #  Newline clause is to avoid warning message when stat'ing with -e
+    if(  $opt_{mainScript} !~ /\n/  &&  -e $opt_{mainScript}  ){
+        _dieWithUsage
+            _looksLikeFastaFile( $opt_{mainScript} )?
+            "'-e' given without inline script."  :
+            "'-e' given without inline script; perhaps '$opt_{mainScript}' is a script file and you did not need the -e?";
+    }
+
+    if(  $opt_{mainScript} =~ /^-/  ){
+        _dieWithUsage  "fastapl thinks you are trying to run '$opt_{mainScript}' as script, but it looks like an option.  Please check the order of options in your command line";
+    }
+
+    my $entireScript  =  $opt_{mainScript};
+
+    $begScript_  =  _extractBlock( \$entireScript, 'BEGIN' );
+    if(  $opt_{begScript}  ){
+        $begScript_   and
+            _dieWithUsage  "'b|--begin' given on command line, but BEGIN block also found in the inline script";
+        $begScript_  =  $opt_{begScript};
+    }
+
+    $endScript_    =  _extractBlock( \$entireScript, 'END' );
+    if(  $opt_{endScript}  ){
+        $endScript_   and
+            _dieWithUsage  "'-f|--end' given on command line, but END block also found in the inline script";
+        $endScript_  =  $opt_{endScript};
+    }
+
+    $recScript_  =  $entireScript;
+
+}
+else{  #─────  Script not given directly on the command line  ─────
+
+    _dieWithUsage  "'-f|--end' flag given without '-e'"      if  $opt_{endScript};
+
+    my $scriptFilename  =  shift @ARGV;
+    length $scriptFilename
+        or   $begScript_  =  $opt_{begScript}
+        or   $emptyRecScriptOK
+        or   _dieWithUsage  'Did not find record script or filename of script';
+
+    if(  length $scriptFilename  ){
+        unless(  -e $scriptFilename  ){
+            my $looksLikeScriptFunc  =  $opt_{sortP}? \&_looksLikeSortScript : \&_looksLikeScript;
+            if(  &$looksLikeScriptFunc( $scriptFilename )  ){
+                my $i  =  firstidx {$_ eq $scriptFilename} @ARGVorig;
+                @ARGV  =  ( @ARGVorig[0..$i-1], '-e', @ARGVorig[$i..$#ARGVorig] );
+                goto PARSE_ARGS;
+            }
+            _dieWithUsage  "script file '$scriptFilename' does not exist."
+        }
+
+        if(  _looksLikeFastaFile $scriptFilename  ){
+            if(  $emptyRecScriptOK  ){
+                $recScript_  =  '1;';
+                unshift @ARGV, $scriptFilename;   #Filename argument is input file not script file.
+
+                $begScript_  =  $opt_{begScript};
+
+                #  Assume [-p|-P] intended, otherwise colorizing with empty script would be useless.
+                if(  $opt_{colorizeP}  ){
+                    $opt_{printEachRecDS_P}   or   $opt_{printEachRecSS_P} = 1;
+                    $printEachRec_  =  1;
+                }
+                goto SCRIPT_ASSIGNED;
+            }
+            _dieWithUsage
+                "filename '$scriptFilename' was given as a script file, but it looks like a fasta input file\nPerhaps you forgot to give the script or script file?";
+        }
+        
+        open  my $scriptFile, '<', $scriptFilename
+            or   die  "could not open script file: '$scriptFilename', $!\n";
+
+        my $entireScript  =  do { local $/; <$scriptFile> };  #Slurp whole file.
+
+        $begScript_   =  _extractBlock( \$entireScript, 'BEGIN' );
+
+        $endScript_   =  _extractBlock( \$entireScript, 'END'   );
+
+        $recScript_  =  $entireScript;
+    }#END IF $scriptFilename set.
+
+}#END  ELSE read script from file.
+ SCRIPT_ASSIGNED:
+
+
+# ─────  Make sure there are no END blocks in sort mode  ─────
+_dieWithUsage  'sort mode does not accept END blocks.'
+    if   $endScript_  &&  $opt_{sortP};
+
+# ─────  Remove any leading and white space in scripts  ─────
+$begScript_  =~  s{ ^\s* | \s*$ } {}gx;
+$endScript_  =~  s{ ^\s* | \s*$ } {}gx;
+$recScript_  =~  s{ ^\s* | \s*$ } {}gx;
+
+die  "Error; empty record script\n"    if  $recScript_ =~ /^{}$/ && !$emptyRecScriptOK;
+
+# ─────  Ensure non-empty scripts end in ';'  ─────
+$recScript_  =~  s{  ([^;])$} {$1;}x;
+$begScript_  and  $begScript_ =~ s{  ([^;])$} {$1;}x;
+$endScript_  and  $endScript_ =~ s{  ([^;])$} {$1;}x;
+
+
+# ─────  Check if scripts appear well formed  ─────
+die  "Error; record script does look like a sorting script.\n"
+    if   $opt_{sortP}  &&  !_looksLikeSortScript( $recScript_ );
+
+local $SIG{__WARN__}  =  _makeCompileCheckErrorHandler( 'record' );
+_dieIfScriptCompileError( $recScript_, 'record' );
+
+if(  $begScript_  ){
+    local $SIG{__WARN__}  =  _makeCompileCheckErrorHandler( 'BEGIN' );
+    _dieIfScriptCompileError( $begScript_, 'BEGIN'  );
+}
+
+if(  $endScript_  ){
+    local $SIG{__WARN__}  =  _makeCompileCheckErrorHandler( 'END'   );
+    _dieIfScriptCompileError( $endScript_, 'END'    );
+}
+
+undef $SIG{__WARN__};
+
+
+#  ─────  Determine if main script uses @seq  ─────
+$needSeqArray_
+    =  $recScript_  =~  m{   @ \s* seq         }x   ?   1
+    :  $recScript_  =~  m{  \$ \s* seq \s* \[  }x   ?   1
+    :  $recScript_  =~  m{  \$ \#  seq \s* \W  }x   ?   1
+    :                                                   0;
+
+
+# ──────────  Check and set field separator  ──────────
+_dieWithUsage  'field separator should not be multi-line.'
+    if  $opt_{fieldSeparator}  =~  /\n/;
+
+
+if(  $opt_{generateStandaloneP}  ){
+    _dieWithUsage  "No arguments expected with -n flag. Extra argument: '$ARGV[0]'"   if @ARGV;
+    Fastapl::redirectSTDOUT()    if $opt_{outputFilename};
+    _printStandalone();
+    exit 1;                                         # <---  PROGRAM EXIT POINT!
+}
+
+@ARGV = ('-')    unless  @ARGV  or  $begScript_ && !$recScript_;
+Fastapl::checkInputFilenames( @ARGV );
+
+Fastapl::redirectSTDOUT()    if $opt_{outputFilename};
+
+
+# ───────────────  Execute begin script  ───────────────
+{    no strict   'vars';
+     no warnings 'redefine';
+     local $SIG{__DIE__ }  =  _makeRuntimeErrorHandler( 'BEGIN' );
+     local $SIG{__WARN__}  =  _makeRuntimeErrorHandler( 'BEGIN' );
+     eval $begScript_;
+     die  "Error in BEGIN script; $@\n"   if $@;
+     undef $SIG{__DIE__};  undef $SIG{__WARN__};
+}
+
+
+# ───────────────  Execute record script on each record  ───────────────
+local $SIG{__DIE__ }  =  _makeRuntimeErrorHandler( 'record' );
+local $SIG{__WARN__}  =  _makeRuntimeErrorHandler( 'record' );
+
+_loopOverARGVInputFilenames();   #  <---  Most of the work of fastapl!
+
+undef $SIG{__DIE__};  undef $SIG{__WARN__};
+
+
+# ───────────────  Sort records or execute END script  ───────────────
+if(  $opt_{sortP}  ){
+
+    local $SIG{__DIE__ }  =  \&_runtimeSortErrorHandler;
+    local $SIG{__WARN__}  =  \&_runtimeSortErrorHandler;
+
+    @rec_  =  sort _compareRecords @rec_;
+    _printSortedRecords();
+}
+else{
+    # ──────────  Execute END script  ──────────
+    {    no strict 'vars';
+         local $SIG{__DIE__ }  =  _makeRuntimeErrorHandler( 'END' );
+         local $SIG{__WARN__}  =  _makeRuntimeErrorHandler( 'END' );
+
+         eval $endScript_;
+         $@   and   die  "Error in END script; $@\n";
+
+         Fastapl::HTMLdo 'cloz'   if $opt_{htmlP};
+    }
+}#END: if/else sortP
+
+exit 1                        if $opt_{grepQuietP};
+say  $numTrueRecords_         if $opt_{countP};
+exit ($numTrueRecords_? 0:1)  if $opt_{countP} || $opt_{grepP};
+exit 0;  #Return success to shell.
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━  END MAIN PROGRAM  ━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+#  Wrapper for pod2usage.  Used to support conditional use of non-English documentation.
+sub _pod2usage{
+    $podSource_ ?  pod2usage( @_, -input => $podSource_ )  :  pod2usage( @_ );
+}
+
+
+
+#  Extract first occurrence of code block labeled $blockLabel in $$scriptRef
+#  IF successful: 1) remove block from $$scriptRef.
+#                 2) return the block.
+#  ELSE  just return the empty string.
+sub _extractBlock{
+    my( $scriptRef, $blockLabel )  =  @_;
+
+
+    if(my(               $upToBlockLabel,              $rest        )=
+         (  $$scriptRef  =~  / ^(.*?) $blockLabel \s* ({ .* ) /xs   )
+        ){
+
+        $$scriptRef  =  $upToBlockLabel . $rest
+            if   my $blockScript  =  extract_codeblock( $rest, '{}' );
+        
+        _dieWithUsage  "script only allowed one $blockLabel block"
+            if   $$scriptRef  =~  / $blockLabel \s* { /x;
+
+        return  $blockScript;
+    }
+
+    return  '';
+
+}#END: _extractBlock( $scriptRef, $blockLabel )
+
+
+#  Auxillary function of _printStandalone.   Print part of this file in block $blockName,
+#  Slightly modifying the contents according to user options.
+#  Used to generate standalone program when the -n|--generate-standalone option is stipulated.
+sub _printBlockOfThisFile{
+    my  $blockName  =  $_[0];
+
+    my $begRegex  =  qr/^#== BEG:$blockName/;
+    my $endRegex  =  qr/^#== END:$blockName/;
+
+    my @line  =  _myLinesBetweenMarkers( $begRegex, $endRegex );
+
+    LINE:  while(  @line  ){
+        my $line  =  shift @line;
+
+        #  Skip single line.
+        next LINE    if  $line  =~  /#== SKIP/;
+
+        #  Skip block.
+        if(  $line =~ /#== BEG_SKIP/  ){
+            $line  =  shift @line    while  $line !~ /#== END_SKIP/;
+            next LINE;
+        }
+
+        #  ──────────  Conditional Inclusion, one-line if statements  ──────────
+        my ($indentation, $condition, $code);
+
+        #  Comment in main program; but conditionally included in standalone program.
+        if(  ($indentation, $condition, $code)  =
+             $line =~  m{^  (\s+)     \#== \s+ IF \s* \t  ([^\t]+) \t \s* (.*) $  }x   ){
+            #            INDENTATION   #==     IF        CONDITION        CODE
+            say  $indentation,$code    if  eval $condition;
+            next LINE;
+        }
+
+        #  Real code in main program.  Also conditionally included in standalone program with trailing ';'
+        if(  ($code)  =
+             $line  =~  m{^ ([^#]+) \#== \s+ IF; $  }x   ){
+            #                CODE    #==     IF;
+
+            $line  =  shift @line;
+
+            ($condition)   =   $line  =~   m{^ \s* if \s* ([^;]+) \s* ;$ }x
+            #                                      if    CONDITION
+                or   die  "fastapl Programming error;  expected postfix if statement with no trailing comment in line after #== IF; directive but got line:'$line'";
+
+            $code  =~  s/\s+$//;   # Remove trailing white space.
+            if(  eval $condition  ){
+                say  "$code;"
+            }
+            else{
+                ($_ = shift @line)   and   die  "expected blank line but got '$_'";
+            }
+            next LINE;
+        }
+
+
+        #  Real code in main program.  Also conditionally included in standalone program.
+        if( ($code, $condition)  =
+            $line  =~  m{  ^ (\s*[^#]+.*) \#== \s+ IF \s+ (.*) $  }x   ){
+            #                    CODE      #==     IF   CONDITION 
+            say  $code   if eval $condition;
+            next LINE;
+        }
+
+
+        #  Directive to embed record script.
+        if(  $line =~ /#== EMBED-RECORD-SCRIPT/  ){
+
+            next LINE    if $opt_{sortP}  xor  $line =~ /#== EMBED-RECORD-SCRIPT-SORT/;
+
+            my  $indent  =  ' ' x ($opt_{sortP}? 4 : 12);
+            say  $indent, '$_ = $seq;'    unless $opt_{sortP};
+            say  _embeddedRecordScript(  $indent  );
+
+            say  $indent, 'exit 0  if $scriptRetVal'                 if  $opt_{grepQuietP};
+            say  $indent, '++$numTrueRecords_  if  $scriptRetVal;'   if  $opt_{countP};
+            say  $indent, 'pr  if $scriptRetVal;'                    if  $opt_{grepP};
+            say  $indent, 'pr;'                                      if  $printEachRec_;
+
+            ($_ = shift @line)   and   die  "expected blank line but got '$_'";
+            next LINE;
+        }#END  if EMBED-RECORD-SCRIPT directive
+
+
+        $line !~ /#==/   or   die  "unparsed directive: '$line'";
+
+        #  Default case, just print $line and continue looping.
+        say  $line;
+
+    }#END: for each $line
+
+}#END: _printBlockOfThisFile()
+
+
+sub _printStandalone{
+    binmode STDOUT, ':utf8';
+    say  '#!/usr/bin/perl -w'                                                    ;
+    say  "#  This script was generated by fastapl version '$::VERSION'"          ;
+
+    _printBlockOfThisFile 'COMMON_DECLS_BEFORE_ARGV_PARSE';
+
+    say  ''                                                                      ;
+    for my $module  ( @{$opt_{modules}} ){
+        say  "\nuse $module;"                                                    ;
+        say qq{\$@   and   die  "Error when loading module: $module; \$@\\n";}   ;
+    }
+    say  ''                                                                      ;
+    say  'my $usage_  =  "Usage: $0 [-o outputFile] [fastaInputFile...]";'       ;
+    say  ''                                                                      ;
+    if(  Fastapl::optionsForStandalone()  ){
+        say  '#Command line options stipulated when generated this program.'            ;
+        say  'Fastapl::parseCommandLineOptions( ',Fastapl::optionsForStandalone,' );'   ;
+        say  ''                                                                         ;
+    }
+    say  'my $numTrueRecords_  =  0;'                                   if $grepishMode_;
+    say  ''                                                                             ;
+    say  '#  -----  Parse command line options.  -----'                                 ;
+    say  'if(   @ARGV  &&  $ARGV[0] =~ /^-o$|^--output-file$/   ){'                     ;
+    say  '    $opt_{outputFilename}  =  $ARGV[1]'                                       ;
+    say  '        or   die  "\'$ARGV[0]\' option given without output file";'           ;
+    say  '    splice  @ARGV, 0, 2;'                                                     ;
+    say  '}'                                                                            ;
+    say  '';                                                                            ;
+    say  '@ARGV  or  @ARGV = (\'-\');'     unless  $opt_{begScript} && !$opt_{recScript};
+    say  'Fastapl::checkInputFilenames( @ARGV );'                                       ;
+    say  ''                                                                             ;
+    say  'Fastapl::redirectSTDOUT()    if $opt_{outputFilename};'                       ;
+    say  ''                                                                             ;
+    if(  $begScript_  ){
+        say  ''                                                                         ;
+        say  '# --------------------  BEG: User Begin Script  --------------------'     ;
+        say   $begScript_                                                               ;
+        say  '# --------------------  END: User Begin Script  --------------------'     ;
+        say  ''                                                                         ;
+    }
+    say  '_loopOverARGVInputFilenames();'                                               ;
+    if(  $opt_{sortP}  ){
+        say  ''                                                                         ;
+        say  '@rec_  =  sort _compareRecords @rec_;'                                    ;
+        say  '_printSortedRecords();'                                                   ;
+    }
+    if(  $endScript_  ){
+        say  ''                                                                         ;
+        say  '# --------------------  BEG: User End Script  --------------------'       ;
+        say  "{   no warnings 'once';"                                                  ;
+        say  "    $endScript_"                                                          ;
+        say  '}'                                                                        ;
+        say  '# --------------------  END: User End Script  --------------------'       ;
+    }
+    say  "Fastapl::HTMLdo 'cloz';"        if $opt_{htmlP}                               ;
+    say  ''                                                                             ;
+    say  'exit 1;'                        if $opt_{grepQuietP}                          ;
+    say  'say $numTrueRecords_;'          if $opt_{countP}                              ;
+    say  'exit ($numTrueRecords_? 0:1);'  if $opt_{countP} || $opt_{grepP}              ;
+    say  'exit 0;   #  Return success to shell.'                                        ;
+    say  '# ====================  End Main Program  ===================='               ;
+    say  ''                                                                             ;
+
+    _printBlockOfThisFile 'SUBS_FOR_SORTING'    if $opt_{sortP};
+    _printBlockOfThisFile 'COMMON_SUBS';
+
+    binmode STDOUT, ':bytes';
+}#END: _printStandalone
+
+
+
+
+#  Return $recScript_ in suitable form to embed in source code
+#  indented with $numSpaces spaces.
+sub _embeddedRecordScript{
+    my $spc  =  $_[0];   #  Leading space to indent code.
+    my $ms   =   $recScript_;
+    if(  $grepishMode_  ||  $opt_{sortP}  ){
+        $ms  =~  s/(^|\n)/$spc    $1/mg;    # extra indent in do block.
+        return  "${spc}my \$scriptRetVal  =  do{  #  User given record script\n$ms\n$spc};\n";
+    }
+    else{
+        $ms  =~  s/(^|\n)/$spc$1/mg;    # indented.
+        return  "\n${spc}#  User given record script.\n$ms\n";
+    }
+}
+
+
+{   #Extra scope so that $myselfAsFile is only initiated once.
+    my $myselfAsFile;
+
+    #Return lines in $0 between $begRegex and $endRegex match pairs non-inclusive.
+    #Achtung!  Begins reading $0 where previous call left off.
+    sub _myLinesBetweenMarkers{
+        my( $begRegex, $endRegex )  =  @_;
+
+        if(  !$myselfAsFile  ){
+            open  $myselfAsFile, '<', "$0"
+                or   die  "could not open fastapl source file '$0', $!\n";
+            binmode $myselfAsFile, ':utf8';
+        }
+
+        my @retVal;
+        my $skip = 1;
+
+        while(  <$myselfAsFile>  ){
+            last                   if /$endRegex/;
+            do{ $skip = 0; next }  if /$begRegex/;
+            next                   if $skip;
+            chomp;
+            push @retVal, $_;
+        }
+
+        return @retVal;
+    }#END: _myLinesBetweenMarkers( $begRegex, $endRegex )
+}#END Scope of $myselfAsFile
+
+
+#  ────────────────────  Error handling related subs   ────────────────────
+
+#  Use eval to test if $script appears to be well-formed Perl.
+#  Die with warning if it fails.
+#  $scriptType (e.g. 'BEGIN'), is only used for diagnostic messages.
+sub _dieIfScriptCompileError{
+    my( $script, $scriptType )  =  @_;
+
+    eval   "no strict 'vars'; no indirect; use warnings; sub{"
+        .  $script
+        .  "\n}";   #Achtung!  "\n" here prevents script ending in a comment line from hiding the closing bracket in sub{ SCRIPT }
+
+    $@   and   die  "$@ in $scriptType\n";
+}#END: _dieIfScriptCompileError( $script, $scriptType )
+
+
+#  Return true iff $_[0] appears to be a fastapl script.
+sub _looksLikeScript{
+    my $s  =  $_[0];
+
+    return 1    if  $s eq 'say';
+
+    return 1    if  $s =~ /[\$@][a-zA-Z0-9_]/;
+
+    return 1    if  any {$s =~ /\Q$_/}  qw|ps() Ps()|;
+
+    return 0    if  $s !~ / /;   #Most scripts contain white space.
+
+    #  If white space found, look for fastapl commands.
+    return 1    if   any {$s =~ /\Q$_/}  qw|bold color matches ps( length len|;
+
+    return 0;
+}
+
+
+#  Return true iff $_[0] appears to be a fastapl sort script.
+sub _looksLikeSortScript{
+    my $s  =  $_[0];
+
+    any  {$s =~ /\Q$_/}  qw($head1 $head2 @head1 @head2 $id1 $id2 $seq1 $seq2 @seq1 @seq2 len1 len2);
+}
+
+
+#  Called when $scriptType script has generated a runtime exception.
+#  Print information in error $message, part of the script and then exit.
+sub _dieScriptProblem{
+    my( $scriptType, $message )  =  @_;
+    chomp $message;
+
+    my %whichScript  =
+        (
+        BEGIN   => \$begScript_,
+        record  => \$recScript_,
+        END     => \$endScript_
+        );
+
+    my $scriptRef  =  $whichScript{$scriptType}
+    or   die  "fastapl Programming error;  Invalid scriptType: '$scriptType'";
+
+    (my $lineNo)  =  ($message  =~  / at \(eval \d+\) line (\d+)/);
+
+
+    #  ──────────  Print information about error  ──────────
+    if(  defined $lineNo  ){
+        $message  =~  s| \(eval \d+\)||;
+        say2  "$message in $scriptType script, line $lineNo.\n";
+
+        my @scriptLine  =  split "\n", $$scriptRef;
+
+        #  ─────  Print part of script near error  ─────
+        my $begLineNo  =  max        0     , $lineNo-7;
+        my $endLineNo  =  min  $#scriptLine, $lineNo+7;
+
+        $begLineNo == 0   or   say2  '    ...';
+
+        say2(  $_ == $lineNo-1?   #Count from zero.
+               "--> $scriptLine[$_]"  :
+               "    $scriptLine[$_]"  )    for  $begLineNo .. $endLineNo;
+
+        if(   my ($num1,$num2)  =  ($message =~ /Number found where operator expected at.*"(\d+) (\d+)"/)   ){
+            say  "\nTry replacing '$num1 $num2' with '$num1, $num2'?";
+        }
+
+
+        $endLineNo == $#scriptLine   or   say2  '    ...';
+    }
+    else{   #No line number, perhaps die("...\n") intentionally called for errors such as sequence segment out of range.
+        say2  "Error encountered when executing $scriptType script.",  substr $message, 0, 1024;
+    }
+
+    say  "Perhaps you forgot the '-s|--sort' command line switch?"
+        if  !$opt_{sortP} && _looksLikeSortScript($$scriptRef);
+
+    exit -1;
+}#END: _dieScriptProblem( $scriptType, $message )
+
+
+#  Generate subroutine suitable to handle exceptions when running $scriptType script.
+#  Generated dynamically to allow $scriptType to be substituted.
+sub _makeCompileCheckErrorHandler{
+    my ($scriptType)  =  @_;  #  'record', 'BEGIN', or 'END'
+    eval  #qq is used to substitute $scriptType value.
+        qq{
+    sub{
+        my \$message  =  shift;
+        _dieScriptProblem( '$scriptType', "When compiling; \$message" );
+    }     };
+}#END: _makeCompileCheckErrorHandler
+
+
+#  Returns subroutine suitable to handle exceptions when running $scriptType script.
+#  Generated dynamically to allow $scriptType to be substituted and conditionally print context info.
+sub _makeRuntimeErrorHandler{
+    my $scriptType  =  $_[0];  #'record', 'BEGIN', or 'END'
+    eval  #qq is used to substitute $scriptType value.
+        qq{
+    sub{
+        my \$message  =  shift;
+        '$scriptType' eq 'record'  and  \$id
+            and   say2  "Most recently read id: '\$id'";
+        _dieScriptProblem( '$scriptType', \$message );
+    }     };
+}#END: _makeRuntimeErrorHandler
+
+
+
+#  Subroutine suitable to handle exceptions when sorting.
+sub _runtimeSortErrorHandler{
+    my $message  =  $_[0];
+
+    my( $head1, $headAref1, $id1 )  =  @$a;
+    my( $head2, $headAref2, $id2 )  =  @$b;
+
+    say2  "Most recently compared ids: ( $id1, $id2 )"    if  $id1 && $id2;
+
+    _dieScriptProblem( 'record', $message );
+}#END: runtimeSortErrorHandler
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#== BEG:SUBS_FOR_SORTING
+
+#  Print records in @rec_.  Used after sorting.
+sub _printSortedRecords{
+
+    print  $commentAtStartOfStream;
+    for my $recRef (@rec_){
+        say    ">$recRef->[0]";   #  $head
+        print    $recRef->[3];    #  comment
+        $seq  =  $recRef->[4];
+        ps();
+    }
+}#END: _printSortedRecords()
+
+
+#  Compare records according to $recScript_.  Used to sort records.
+sub _compareRecords{
+    no warnings 'once';
+    no strict 'vars';
+
+    my ($head1, $headAref1, $id1, $comment1);
+    my ($head2, $headAref2, $id2, $comment2);
+
+    ( $head1, $headAref1, $id1, $comment1, $seq1 )  =  @$a;
+    ( $head2, $headAref2, $id2, $comment2, $seq2 )  =  @$b;
+
+    *head1 = \@$headAref1;
+    *head2 = \@$headAref2;
+
+    do{  @seq1 = split //, $seq1;  @seq2 = split //, $seq2  }   #== IF;
+    if  $needSeqArray_;
+
+    #== EMBED-RECORD-SCRIPT-SORT
+
+    my $scriptRetVal  =  eval $recScript_;         #== SKIP
+    die  "Error in sorting script; $@\n"   if $@;  #== SKIP
+
+    return $scriptRetVal;
+
+}#END: _compareRecords()
+
+
+#== END:SUBS_FOR_SORTING
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#== BEG:COMMON_SUBS
+
+#  Read records and run record script on contents of $fastaInputStream
+sub _processInputStream{
+    my( $streamName, $fastaInputStream )  =  @_;
+
+    my $curLine_;   #Current input line.
+    $seq = undef;  #undef indicates no record has been read yet.
+    
+    while( 1 ){  #Process up to first record head.
+        $curLine_ = <$fastaInputStream>  ||  return;   #<-- LOOP & SUBROUTINE EXIT POINT!
+        last    if  $curLine_ =~ /^>/;                 #<-- LOOP EXIT POINT.
+        $curLine_ =~ /^#/   or   die  "First non-comment line of fasta input stream '$streamName' does not start with '>';\nLINE:$curLine_";
+        $commentAtStartOfStream  .=  $curLine_;
+    }
+
+
+    # Process records until end of stream.  Progress in continue block.  Exit point in the middle!
+    # This unusual loop structure could be avoided by using ungetc, but ungetc is SLOW.
+    while( 1 ){
+
+        if(   defined $seq  and  !defined $curLine_ || $curLine_ =~ /^>/   ){
+            # 1. a record has accumulated  and  2. we have read past it (to the next record or EOF)
+
+            $numSeqLines_
+                or  Fastapl::sayInputError(  "no sequence found in entry $id with head line:\n>$head"  );
+
+            $seq =~ s/[^$opt_{validSeqChars}]//g;
+
+            Fastapl::setORFtrack()    #== IF;
+                if defined $Fastapl::printORFs_arg;
+
+            @seq  =  split //, $seq    #== IF;
+                if $needSeqArray_ && !$opt_{sortP};
+
+            #== EMBED-RECORD-SCRIPT
+
+            push  @rec_,   [  $head,  [map {$_} @head],  $id,  $comment,  $seq  ]    #== IF;
+                if $opt_{sortP};
+
+            #== BEG_SKIP
+            unless(  $opt_{sortP}  ){
+                no strict 'vars';
+                no warnings 'reserved';
+
+                my $printCurRecord_  =  $printEachRec_;
+
+                local $SIG{__DIE__ }  =  _makeRuntimeErrorHandler( 'record' );
+                local $SIG{__WARN__}  =  _makeRuntimeErrorHandler( 'record' );
+
+                $_  =  $seq;
+                if(  $grepishMode_   ){
+                    if(  eval $recScript_  ){
+                        exit 0                 if   $opt_{grepQuietP};
+                        ++$numTrueRecords_     if   $opt_{countP};
+                        $printCurRecord_ = 1   if   $opt_{grepP};
+                    }
+                }else{
+                    eval $recScript_;
+                }                        
+                $@   and   die  "Error in record script; $@\n";
+                undef $SIG{__DIE__};  undef $SIG{__WARN__};
+
+                pr   if $printCurRecord_;
+            }
+            #== END_SKIP
+        }
+
+
+        #Return if no more records to read (i.e. if we are at EOF)
+        defined $curLine_   or   return;    #<-- SUBROUTINE EXIT POINT!
+
+
+        if(  $curLine_ =~ /^>/  ){
+            #─────  Parse record data  ─────
+            $head  =  substr $curLine_, 1;  #Remove >
+            Fastapl::processHead();
+            $comment =  '';   $seq =  '';   $numSeqLines_ =  0;
+
+            @seq  =  undef;   #== IF  $needSeqArray_
+            Fastapl::clearMarkup();
+        }
+        else{   #Add $curLine_ to accumulating record.
+            if(  $curLine_ =~ /^#/  ){   $comment .= $curLine_;  next   }
+
+            chomp $curLine_;
+            $curLine_  &&  ++$numSeqLines_;  #Empty lines in body silently ignored.
+            $seq  .=  $curLine_;
+            $maxSeqLineLenSeen_  =  max( $maxSeqLineLenSeen_, length $curLine_ );   #== IF  !$opt_{printSeqOn1LineP};
+        }
+
+    }continue{  $curLine_ = <$fastaInputStream>  }
+
+}#END: _processInputStream( $streamName, $fastaInputStream )
+
+
+#  Open and process each file found in @ARGV
+sub _loopOverARGVInputFilenames{
+    for my $filename (@ARGV){
+        if(  $filename eq '-'  ){
+            _processInputStream '*STDIN', *STDIN;
+        }
+        else{
+            open my $inputStream, '<', $filename   or   die  "could not open fasta file '$filename', $!\n";
+            _processInputStream $filename, $inputStream;
+        }
+    }
+}#END: _loopOverARGVInputFilenames
+#== END:COMMON_SUBS
+
+
+__END__
+=pod
+
+
+=head1  NAME
+
+fastapl -- Fasta Perl Loop S<  aka  "fasta apple">
+
+
+=head1  SYNOPSIS
+
+B<fastapl>  [I<-opts>] I<script_file> [I<fasta_file>...]
+
+B<fastapl>  [I<-opts>] B<-e> I<script> [I<fasta_file>...]
+
+B<fastapl>  [I<-opts>] [B<-b> I<beginScript>] B<-e> I<script> [B<-f> endScript] [I<fasta_file>...]
+
+B<fastapl>  [I<-opts>] B<-n> [B<-b> I<beginScript>] B<-e> I<script> [B<-f> endScript]
+
+B<fastapl>  [I<-opts>] B<-n> <script_file>
+
+B<fastapl>  B<--usage>|B<--options>|B<--help>|B<--man>
+
+
+=head1  DESCRIPTION
+
+B<fastapl> (Fasta Perl Loop) helps people write quick scripts to manipulate fasta format files.  Programmers familier with the awk language or one-liner style Perl programming will recognize B<fastapl> to be the same idea but with fasta records as the basic unit rather than lines.
+
+=head2  User Scripts
+
+B<fastapl> is basically a wrapper around user supplied code to be executed on each record of a fasta file (or on each record pair compared when sorting), also optionally before and after reading the input stream.
+
+
+=head1  ARGUMENTS
+
+=over 8
+
+=item I<script_file>
+
+File containing Perl code to apply to each record (or to compare records when L<sorting|"s_sort">). Normally a script must be given either with this I<script_file> or directly with B<L<-e|"e_script_script">>, but not both.
+
+(However the script can be omitted in special cases like this:
+
+  % fastapl  -pl 100  foo.fa
+
+in which B<L<-p|"p_print_each_record">> and either B<L<-1E<verbar>--print-seq-on-1-line|--print-seq-on-1-line>> or B<L<-lE<verbar>--line-length|"l_line_length_length">> are given; in which case the records are simply reformatted).
+
+
+=for html <a name="begin_and_end"></a>
+
+Can optionally contain BEGIN (executed once at the beginning) and END (executed once just before termination) blocks.  For example, this script outputs the total number of residues in all sequences combined.
+
+  BEGIN{
+      #Poor example perhaps, as this initialization is not actually necessary.
+      #Perl vars default to undef which is treated as zero in numerical contexts, sometimes with a warning.
+      #However fastapl intentionally turns off warning for use of uninitialized variables, as that setting is more convenient for one-liners.
+      $totSeqLen = 0;
+  }
+
+  $totSeqLen  +=  length( $seq );
+
+  END{
+     say  "total = $totSeqLen";
+  }
+
+
+=item [I<fasta_file>]
+
+File containing input sequences in fasta format.  If this argument is omitted, standard input is used. Alternatively, "-" denotes standard input and can be mixed with input from files.  For example,
+
+  % fastapl script.fpl  foo.fa goo.fa hoo.fa
+
+  % cat foo.fa goo.fa hoo.ha  |  fastapl script.fpl
+
+  % cat goo.fa  |  fastapl script.fpl  foo.fa - hoo.fa
+
+All do the same thing.
+
+
+See L<"FASTA INPUT FORMAT"> for details about
+the input format.
+
+=back
+
+
+
+=head1  OPTIONS
+
+=over 8
+
+
+=item B<-e|--script> I<script>
+
+Inline script to execute on each record.  May optionally contain L<BEGIN andE<sol>or END blocks|"begin_and_end"> as well.  Mnemonic: like C<perl -e>.
+
+
+=item B<-b|--begin> I<script>
+
+Script to execute once at beginning.  Mutually exclusive alternative to including a L<BEGIN block|"begin_and_end"> in the main script.  Can only be used with inline scripts given with the B<-e> flag.  Mnemonic: B<-b> for B<b>egin.
+
+
+=item B<-f|--end> I<script>
+
+Script to execute once at end.  Mutually exclusive alternative to including an L<END block|"begin_and_end"> in the main script.  Can only be used with inline scripts given with the B<-e>|B<--main-script> flag.  Mnemonic: B<-f> for B<f>inal.
+
+
+=item B<-F|--field-separator> I<fieldSeparator>
+
+Regular expression field separator used when computing B<L<@head|"@head">>.  Defaults to the tab character.
+
+For example, to compute a histogram of the first field, treating the part of the L<head line|"FASTA INPUT FORMAT"> past the id as a white space separated list:
+
+  % fastapl  -F '\s+'  -e '++$f{ $head[0] }'  -f 'print "$_:$f{$_}\n" for( keys %f )'
+
+Mnemonic: like C<perl -F> or C<awk -F>.
+
+
+=item B<-h|--html> I<script>
+
+Output in html format, the default is xterm format.
+
+
+=item B<-n|--generate-standalone>
+
+Instead of processing an input stream, generate a specialized standalone program with the user script embedded and output this to stdout.  The fasta input file is not needed when this option is stipulated.
+
+  % fastapl  -np  -e '$seq = lc $seq'  >  fastaDowncaser.pl
+
+Creates a program which downcases sequences, which can be used like:
+
+  % perl fastaDowncaser.pl foo.fa  >  fooDowncased.fa
+
+This option is useful for debugging user scripts.  Standalone scripts also may run slightly faster.  Standalone scripts do not suppress warnings such as "only used once".  This is intentional.  Mnemonic: like C<make -n>.
+
+
+=item B<-g|--grep>
+
+Print record when user record script returns true. For example, to print sequences starting with 'M' use:
+
+  % fastapl -ge '$seq ~= /^M/'
+
+
+=item B<-l|--line-length> I<length>
+
+Sequence line length to use when printing records.  Mutually exclusive to B<L<--print-seq-on-1-line|"1_print_seq_on_1_line">>.  If neither of these is stipulated, an attempt is made to mimic the input record format (see B<L<pr()|"pr">>).
+
+
+=item B<-M|--module> I<module>
+
+Convenience option for preloading non-builtin modules.  Performs S<eval "use module";> before executing any scripts.  Alternative to using S<B<-b> "use module">. Mnemonic: like C<perl -m>.  Can be used multiple times in one command line. For example,
+
+
+ % fastapl                                    \
+     -M  'List::Util qw(sum)'                 \
+     -M   fastaplAmino                        \
+     -b  '%h = properties("Kyte Doolittle")'  \
+     -e  '$hyd = sum( @h{@seq[1..19]} );  say "av. hyd: $hyd/19"'
+
+
+prints, for each sequence, the average hydrophobicity of the second through 19th residue.  (Actually, as a special case, List::Util is so useful it is automatically loaded).
+
+
+=item B<-o|--output-file>
+
+Output file. Defaults to stdout.
+
+
+=item B<-p|--print-each-record>
+
+Print each record after the record user script is executed.  Mnemonic: like C<perl -p>.  For example, to reverse complement DNA sequences use:
+
+  % fastapl -pe '$seq = reverse $seq; $seq =~ tr/acgtACGT/tgcaTGCA/'
+
+
+=item B<-1|--print-seq-on-1-line>
+
+When printing records, always output sequences on one line.  Mutually exclusive to B<L<--line-length|"l_line_length_length">>.  If neither of these is stipulated, an attempt is made to mimic the input record format (see B<L<pr()|"pr">>).
+
+=item B<-s|--sort>
+
+Sort the records, using the user L<script|"e_script_script"> to compare record pairs.  The same L<record variables|"record variables"> are available as usual, but with "1" or "2" appended. For example, to sort records by id use:
+
+  % fastapl  -se '$id1 cmp $id2'
+
+To sort by sequence length use:
+
+  % fastapl  -se 'length $seq1 <=> length $seq2'
+
+B<Warning:> this option uses a lot of memory. Roughly as much as the input file size.
+
+
+=item B<-c|--valid-sequence-chars>
+
+Characters allowed to be included in sequences. Other characters in record body are silently ignored. Defaults to '[-a-zA-Z]'.  This enables input formatted like this
+
+  > HBA_HUMAN Hemoglobin subunit alpha
+  MVLSPADKTN VKAAWGKVGA HAGEYGAEAL ERMFLSFPTT KTYFPHFDLS HGSAQVKGHG  60
+  KKVADALTNA VAHVDDMPNA LSALSDLHAH KLRVDPVNFK LLSHCLLVTL AAHLPAEFTP 120
+  AVHASLDKFL ASVSTVLTSK YR*                                         142
+
+to be handled correctly.
+
+
+=item B<-V|--version>
+
+Print version and exit.
+
+=back
+
+
+=head1  VARIABLES/FUNCTIONS PROVIDED TO SCRIPTS
+
+=head2  Record Variables
+
+=over 8
+
+=item B<$head>
+
+The line starting with '>', but excluding the '>' character.
+
+B<Note:> historically this line has been referred to as the "comment line" (despite the fact that it is required for multifasta format).  We define L<comment lines|"comment lines"> to be truly optional lines starting with '#'.
+
+
+=item B<@head>
+
+The array obtained by considering the part of the head line after the id as a tab separated field list (more precisely B<L<$fs|"$fs">> separated fields).
+
+
+=item B<$id>
+
+Sequence id (record name) as found in the head line.  More precisely:
+
+  ($id)  =  ( $head =~ /^\s*(\S+)/ );
+
+
+=item B<$seq>
+
+Sequence as a scalar.
+
+=item B<@seq>
+
+Sequence as an array, each residue is one element.  Upon reading each record, B<@seq> is set with: C< @seq  =  split //, $seq>.
+
+B<Warning:> modifying @seq does not affect the output of B<L<pr()|"pr">>.
+
+
+=item B<$comment>
+
+Record L<comment lines|"comment lines">.
+
+
+=back
+
+
+=head2  Other Variables
+
+=over 8
+
+=item B<$fs>
+
+Field separator used to compute B<L<@head|"@head">>.  Can be stipulated on command line with the B<L<-F|"f_field_separator_fieldseparator">> argument.  Defaults to the tab character "\t". Mnemonic: like FS varible in C<awk>, abbreviation of "B<F>ield B<S>eparator".
+
+=back
+
+
+=head2  Subroutines
+
+=over 8
+
+=item B<asHash(> [I<@a>] B<)>
+
+Returns the hash containing any elements of B<@a> which look like "I<name>B<=>I<value>" pairs.  When omitted, B<@a> defaults to B<L<@head|"@head">>.  For example, if L<$fs|"$fs"> stipulates space separated fields and B<L<$head|$head>> holds: 'id temp=451 dummy 3s=36,24,36'; B<asHash()> should return: ('temp', '451', '3s', '36,24,36').
+
+
+=item B<maxidx>(> I<list> B<)>
+
+Return argmax of I<list>.  Ties go to smallest index.
+
+
+=item B<maxSeg(> I<list> B<)>
+
+Returns an interval (I<begin>, I<end>, I<maxSum>), such that [I<begin>, I<end>] give the closed interval of a maximum positive sum (= I<maxSum>) segment of I<array>.  Zero-sum ends are never included.  Ties go to the left-most interval.
+
+Example illustrating ties:
+
+   maxSeg  0 +2 -6 +2 -2 +2;   #  returns (1, 1, 2).
+
+Returns (0, 0, 0) when no positive elements are found in @_.
+
+
+=item B<maxSegs(> I<list> B<)>
+
+Returns a list of minimal length maximal positive scoring segments -- i.e. returns a list of all segments such that
+   1)  The sum is positive
+   2)  No extension can increase the sum
+   3)  No retraction can attain an equal sum, i.e. zero-sum ends are not included.
+
+Each element of the list is [I<begin>, I<end>, I<maxSum>] where [I<begin>, I<end>] are indices of a maximum sum segment of @_ and I<maxSum> its sum.  When no positive elements exist in @_ the empty list is returned.
+
+Example:
+
+   @r  =  maxSeg  0 +2 -6 +2 -2 +2;
+   print "@$_|" for @r;   #  Prints  1 1 2|3 3 2|5 5 2|
+
+
+=item B<pr()>
+
+Prints current record.  If neither B<L<--print-seq-on-1-line|"1_print_seq_on_1_line>> nor B<L<--line-length|"l_line_length_length">> are stipulated, an attempt is made to mimic the input record format.  More precisely, if the current input record's sequence is all on one line, the output sequence is placed entirely on one line.  Otherwise, the length of the first sequence line of the current input record is used.
+
+Comment lines are printed after the head line, before any sequence lines.
+
+Usually B<pr()> does not need to be called explicitly because it can be called implicitly with the B<L<-p|"p_print_each_record">> and B<L<-g|"g_grep">> options.  Mnemonic: abbreviation of "B<P>rint B<R>ecord".
+
+
+=item B<rc(> [I<sequence>] B<)>
+
+Reverse complement I<sequence> in place.  When called with no arguments, it reverse complements B<$seq>.  Mnemonic: abbreviation of "B<R>everse B<C>omplement".
+
+  % fastapl -pe rc   #  Prints records with sequences reverse complemented.
+
+  % fastapl -e '$r = $seq; rc $r; say $r'   #  Prints reverse complement of sequence.
+  % fastapl -e 'rc; say $seq'               #  Prints reverse complement of sequence.
+
+To reverse complement RNA you must clean up with C<tr/tT/uU/>.
+
+  % fastapl -pe 'rc; $seq =~ tr/tT/uU/'     #  Prints reverse complement of an RNA sequence.
+
+
+=item B<trim(> I<beg>, [I<end>] B<)>
+
+Trim B<$seq>, keeping the closed interval [I<beg>, I<end>].  Negative coordinates count from the end of the sequence (-1 is the final base of the sequence).  If I<end> is omitted, it is treated as the end of the string.  B<@seq> is also trimmed to maintain consistency.
+
+
+=back
+
+
+=head1  FASTA INPUT FORMAT
+
+The input format is a slight generalization of multifasta. Lines starting with ">" denote the first line of a record.  We call this line the "head".  Other lines form the body of each record. The "sequence" is the concatenation of these lines, ignoring L<comment lines|"comment lines"> and non-valid sequence characters.  A consequence of this is that the sequences of "*" terminated records are read okay but the trailing "*" is stripped when output.  If "*" terminated records are needed try:
+
+  % fastapl  -pe '$seq .= "*"'  input.fa  >  output.fa
+
+
+=head2  Comment Lines
+
+Formalizing a practice already used by some, we consider lines starting with "#" to be comment lines.  We further divide comments into three sub-categories:
+
+  stream comments  --  "# lines" before the first head line of a stream.
+  record comments  --  "# lines" inside a record (before a sequence line).
+  other            --  "# lines" after the final sequence line of a record.
+                +  non-"#-lines" that lack any valid sequence characters.
+
+Here is an example illustrating our classification of lines starting with "#".
+
+    #  Comment associated with whole stream
+    > id1
+    #  Comment associated with record X.
+    MDLAFDPHFRPOENDGFSDOREAERFLKAWAE
+    #  Another comment associated with record X.
+    ITYKCEESFVKIPGEKDSVICLKGSQWSDIEE
+    #  Stray comment, will be silently ignored
+    > id2
+    ...
+
+Stream comments are associated with the stream as a whole, so B<fastapl> prints them at the beginning of any non-empty output.  Record comments are associated with the record which contains them, so they are printed along their record when/if it is printed.  Other comments are ignored (quietly skipped during input and never printed).
+
+
+=head1  PREREQUISITES
+
+This program requires the following modules:
+
+  indirect.pm     Warn when scripts are (presumably unintentionally) parsed as indirect objects.
+  Getopt::Long    for argv parsing.
+  Pod::Usage      for --usage|--help|--man message processing.
+  Text::Balanced  for extracting BEGIN and END blocks from user scripts.
+
+
+=head1  COREQUISITES
+
+  List::Util      for functions like shuffle(), useful in user scripts.
+  fastaplAmino    for amino acid properties, etc.
+
+
+=head1  OSNAMES
+
+Currently only tested on linux.
+
+
+=head1  SCRIPT CATEGORIES
+
+Scientific/Bioinformatics
+
+
+=head1  BUGS
+
+No known bugs.
+
+
+=head1  ISSUES
+
+Errors in user scripts are hard to debug.  Currently the best workaround is to generate a standalone program with the B<L<-n|"n_generate-standalone">> option and debug that program directly.
+
+Not optimized for speed. L<Sorting|"s_sort"> is especially slow.
+
+Does not try to preserve record formatting (for example, record comment lines are always grouped together when output.  A unmaintained version which does -- at the cost of being slower and using more memory -- is available from the author.
+
+
+=head1  LICENSE
+
+You may use this program under the GNU General Public License (GPLv3).
+
+
+=head1  AUTHOR
+
+Paul Horton <paulh@iscb.org>
+
+
+=head1  COPYRIGHT
+
+Copyright (C) 2010, 2011, 2017.
+
+=cut

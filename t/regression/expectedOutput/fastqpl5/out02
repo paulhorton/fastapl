@@ -1,0 +1,12 @@
+02  For each record: print (id, p), where p is the probability that all bases are correct.
+-e '$p = 1;  $p *= (1 - $_) for( errProb() ); print "$p\n"'	longreads_original_sanger.fastq
+2.11813643284443e-07
+0.00246327571326134
+0.0230599831215955
+0.0420954517383672
+3.60357016970864e-17
+9.94919290176955e-14
+0.0321776735795677
+0.00180747080564597
+0.114365833723995
+0.0246282391802227

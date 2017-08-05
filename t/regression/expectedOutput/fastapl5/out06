@@ -1,0 +1,22 @@
+06  Compute residue composition of collection of sequences.
+-e '++$tot, $a{$_}+=100 for @seq'  --end 'printf "%s: %5.2f\n", $_, $a{$_}/$tot  for sort keys %a'	proteins.fasta
+A:  6.06
+C:  1.41
+D:  5.80
+E:  6.35
+F:  4.98
+G:  4.46
+H:  2.15
+I:  6.71
+K:  6.94
+L: 11.19
+M:  2.18
+N:  5.65
+P:  4.31
+Q:  4.02
+R:  4.38
+S:  7.76
+T:  5.44
+V:  5.48
+W:  1.35
+Y:  3.39
