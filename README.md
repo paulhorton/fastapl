@@ -196,3 +196,8 @@ Runs on a linux box under several version of perl (e.g. v5.18.2).  Not tested el
 
 ### See Also
 perltab
+
+
+### Author
+
+Paul Horton.  Copyright 2010,...,2017.

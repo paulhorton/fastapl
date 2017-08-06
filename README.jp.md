@@ -195,3 +195,8 @@ Linux環境下でv5.18.2などいくつかのPerlバージョンでの動作確�
 
 ### 関連ツール
 perltab
+
+
+### 開発者
+
+Paul Horton.  Copyright 2010,...,2017.
