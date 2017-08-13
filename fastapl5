@@ -4,7 +4,7 @@
 #  Creation Date: 2010.8.19
 #  Last Modification: $Date: 2013/10/20 10:09:17 $
 #
-#  License: TO BE DECIDED!!
+#  License: GNU General Public License
 #
 #  Description: Fasta format stream processing utility.
 #               Fasta Perl Loop  or fastapl (pronounced "fast apple")
