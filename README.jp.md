@@ -193,10 +193,15 @@ Linux環境下でv5.18.2などいくつかのPerlバージョンでの動作確�
 `fastqpl5 -ge '($beg,$end,$max) = maxSeg apply {$_ -= 15} Phred;  trim $beg,$end;  $max'  longreads_with_dummy.fastq`
 
 
+
+### 依存モジュール
+fastapl, fastqplは`List::MoreUtils`や`indirect`等、いくつかの標準モジュールに依存しているが、システムによってはそのモジュールは必ずしも既にインストールしてあるとは限らない。もしfastaplを初めて動かそうとした時にエラーがすぐ出てしまったら、エラー・メッセージの内容を確認してください。場合によっては依存モジュールを自分でインストールする必要がある。
+
+
+
 ### 関連ツール
 perltab
 
 
 ### 開発者
-
 Paul Horton.  Copyright 2010,...,2017.

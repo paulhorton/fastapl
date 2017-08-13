@@ -194,10 +194,15 @@ Runs on a linux box under several version of perl (e.g. v5.18.2).  Not tested el
 `fastqpl5 -ge '($beg,$end,$max) = maxSeg apply {$_ -= 15} Phred;  trim $beg,$end;  $max'  longreads_with_dummy.fastq`
 
 
+
+### Dependencies
+fastapl, fastqpl depend on several standard modules which may or may not already be installed on your system.  For example `List::MoreUtils` and `indirect`.  If you get an immediate error message when you first try to run fastapl, please read the error message to see if it is complaining about not being able to find a module.
+
+
+
 ### See Also
 perltab
 
 
 ### Author
-
 Paul Horton.  Copyright 2010,...,2017.
