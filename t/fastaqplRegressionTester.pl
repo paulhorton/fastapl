@@ -36,6 +36,7 @@ my %cksumDone;  #$cksumDone{FILE} TRUE iff cksum done on FILE when reading the o
 
 my $directOnly_flag       =  0;  #Only test directly without generating standalone programs?
 my $printExpected_flag    =  0;  #Print expected output file pathname.
+my $opt_abortOnErrorP     =  undef;  #Abort immediately upon error? 
 my $absolutePathnames_flag=  0;  #Print pathnames as absolute pathnames?
 my $justPrint_flag        =  0;  #Print but do not execute commands?
 my $verbose_flag          =  0;  #Print commands before executing?
@@ -58,6 +59,7 @@ $| = 1;  #Do not buffer output.
         'man'                 =>  \$docFlag{man},
         'options'             =>  \$docFlag{options},
         'usage'               =>  \$docFlag{usage},
+        'a|abortOnErrorP'     =>  \$opt_abortOnErrorP,
         'A|absolute-pathnames'=>  \$absolutePathnames_flag,
         'd|direct-only'       =>  \$directOnly_flag,
         'e|print-expected'    =>  \$printExpected_flag,
@@ -81,6 +83,7 @@ $| = 1;  #Do not buffer output.
 
 
     my @optionSummary = (
+        'a|abortOnErrorP       Abort immediately upon error',
         'A|absolute-pathnames  Print pathnames as absolute pathnames',
         'd|direct-only         Only run fastapql directly, do not try standalone',
         'e|print-expected      Print expected output file pathname',
@@ -267,8 +270,9 @@ while( <$oneLinerFile> ){  #Loop through one-liners file lines
         chop(   my $expectedOutputLine1  =  `head -1 $expectedOutputPathname`   );
 
         if(  $expectedOutputLine1 ne $oneLinerNumberLine ){
-            warn  "In one-liners file number line was:\n    '$oneLinerNumberLine'\n";
-            warn  "but in expected output file is:\n    '$expectedOutputLine1'\n";
+            warn  "In one-liners file number one-liner description line was:\n    '$oneLinerNumberLine'\n";
+            warn  "but the first line in the expected output file is:\n    '$expectedOutputLine1'\n";
+            die  'aborting...'    if $opt_abortOnErrorP;
         }
 
         chop(   my $expectedOutputLine2  =  `head -2 $expectedOutputPathname | tail -n +2`   );
@@ -276,6 +280,7 @@ while( <$oneLinerFile> ){  #Loop through one-liners file lines
         if(  $expectedOutputLine2 ne $oneLinerCoreLine  ){
             warn  "In one-liners file core line was:\n    '$oneLinerCoreLine'\n";
             warn  "but in expected output file '$expectedOutputPathname' was:\n    '$expectedOutputLine2'\n";
+            die  'aborting...'    if $opt_abortOnErrorP;
         }
     }
 
