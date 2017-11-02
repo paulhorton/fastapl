@@ -1,4 +1,4 @@
-29  Color where matches 'CACA' on either strand red, also underline the matches on the reverse strand; show all of these on the forward strand.
+29  Color matches to 'CACA' on either strand red, also underline the matches on the reverse strand; show all of these on the forward strand.
 -H -pe 'color red, matches "CACA=1"; ul matches "CACA_1"'	shortDNA.fasta
 <PRE>>chrM
 GAT<FONT color="CD0000">CACA</FONT>GGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCAT
