@@ -58,7 +58,7 @@ $| = 1;  #Do not buffer output.
         'man'                 =>  \$docFlag{man},
         'options'             =>  \$docFlag{options},
         'usage'               =>  \$docFlag{usage},
-        'a|absolute-pathnames'=>  \$absolutePathnames_flag,
+        'A|absolute-pathnames'=>  \$absolutePathnames_flag,
         'd|direct-only'       =>  \$directOnly_flag,
         'e|print-expected'    =>  \$printExpected_flag,
         'n|just-print'        =>  \$justPrint_flag,
@@ -81,7 +81,7 @@ $| = 1;  #Do not buffer output.
 
 
     my @optionSummary = (
-        'a|absolute-pathnames  Print pathnames as absolute pathnames',
+        'A|absolute-pathnames  Print pathnames as absolute pathnames',
         'd|direct-only         Only run fastapql directly, do not try standalone',
         'e|print-expected      Print expected output file pathname',
         'n|just-print          Do not run commands, just print them'
