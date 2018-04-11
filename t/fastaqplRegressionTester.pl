@@ -34,9 +34,9 @@ my @oneLinersToRun        =  ();  #To hold one-liners to run, if stipulated on c
 
 my %cksumDone;  #$cksumDone{FILE} TRUE iff cksum done on FILE when reading the one-liner header.
 
-my $directOnly_flag       =  0;  #Only test directly without generating standalone programs?
-my $printExpected_flag    =  0;  #Print expected output file pathname.
-my $opt_abortOnErrorP     =  undef;  #Abort immediately upon error? 
+my $generatePrograms_flag=   0;  #If given, also test programs generated with fastapl -n option.
+my $printExpected_flag=      0;  #Print expected output file pathname.
+my $opt_abortOnErrorP=   undef;  #Abort immediately upon error? 
 my $absolutePathnames_flag=  0;  #Print pathnames as absolute pathnames?
 my $justPrint_flag        =  0;  #Print but do not execute commands?
 my $verbose_flag          =  0;  #Print commands before executing?
@@ -61,7 +61,7 @@ $| = 1;  #Do not buffer output.
         'usage'               =>  \$docFlag{usage},
         'a|abortOnErrorP'     =>  \$opt_abortOnErrorP,
         'A|absolute-pathnames'=>  \$absolutePathnames_flag,
-        'd|direct-only'       =>  \$directOnly_flag,
+        'g|generate-programs' =>  \$generatePrograms_flag,
         'e|print-expected'    =>  \$printExpected_flag,
         'n|just-print'        =>  \$justPrint_flag,
         'v|verbose'           =>  \$verbose_flag,
@@ -311,8 +311,11 @@ while( <$oneLinerFile> ){  #Loop through one-liners file lines
     print  'direct test...';
     assertCommandOutputMatchesExpected( $command );
 
-    if(  $directOnly_flag  ){    say '';  next;    }
+    unless(  $generatePrograms_flag  ){
+        say '';  next;    #Go to next one-liner
+    }
 
+    
     #  ───────────────  Test program made with '-n' flag  ───────────────
     $command  =  "$fastaqplPath -n $commandArgs";
 
@@ -428,10 +431,9 @@ input filename is given.  This is best shown by example:
   01  Truncate sequences to length 39.
   -p  --main '$seq = substr( $seq, 0, 39 )'	fastaFiles/proteins.fasta
 
-This program runs each one-liner script one by one, both directly in
-the default mode of B<fastapl> and indirectly by first generating a
-standalone program with the B<-n>|B<--just-print> option of
-B<fastapl>.
+This program runs each one-liner script one by one, running fastaqpl directly each time.
+When the B<-g|--generate-programs> flag is given, fastaqpl -n is used to also
+generate standalone programs implementing the one lines and testing those as well.
 
 The output is compared with the expected output stored in the
 expectedOutput directory. The expected output of the first one-liner
@@ -479,9 +481,9 @@ File containing information on one-liners to test.
 
 Use absolute pathnames for fastapql input files.  Useful if you want to know where the input files are.
 
-=item B<-d|--direct-only>
+=item B<-g|--generate-programs>
 
-Only test directly without generating standalone programs.
+Also test programs generated with fastapql -n.
 
 =item B<-n|--just-print>
 
