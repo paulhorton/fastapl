@@ -11,8 +11,7 @@
 #               See pod at bottom of file for more details.
 #
 #  Credits:
-#    minor code improvements: Martin Frith
-#    early testers: The above + Junko Tsuji
+#    Martin Frith and Junko Tsuji commented on early versions of fastapl
 #    -M module loading argument suggested by Edward Wijaya.
 #
 
@@ -452,7 +451,7 @@ sub _extractBlock{
 
 
     if(my(               $upToBlockLabel,              $rest        )=
-         (  $$scriptRef  =~  / ^(.*?) $blockLabel \s* ({ .* ) /xs   )
+         (  $$scriptRef  =~  / ^(.*?) $blockLabel \s* (\{ .* ) /xs   )
         ){
 
         $$scriptRef  =  $upToBlockLabel . $rest
