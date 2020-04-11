@@ -477,7 +477,11 @@ File containing information on one-liners to test.
 
 =over 8
 
-=item B<-a|--absolute-pathnames>
+=item B<-a|--abortOnErrorP>
+
+Abort immediately when an error is encountered.
+
+=item B<-A|--absolute-pathnames>
 
 Use absolute pathnames for fastapql input files.  Useful if you want to know where the input files are.
 
