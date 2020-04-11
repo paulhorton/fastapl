@@ -99,7 +99,7 @@ my $usage_ = 'Usage:
   fastqpl [opts] -n SCRIPT  >  prog.pl
 
       SCRIPT  =>  script_file  |
-                  [-b beginScript]  -e script  [-f endScript]
+                  [-b beginScript]  -e script  [-z endScript]
 
   fastqpl [--usage|--options|--help|--man]';
 
@@ -238,7 +238,7 @@ if(  $printVersion_flag_  ){
 _sayUsageError  'only one of {-g|--grep, -p|--print-each-record} allowed.'
     if   $printEachRecord_flag_  &&  $grepMode_flag_;
 
-_sayUsageError  'only one of {-s|--sort, -f|--end} allowed.'
+_sayUsageError  'only one of {-s|--sort, -z|--end} allowed.'
     if   $sortMode_flag_  &&  $endScript_arg_;
 
 _sayUsageError  'only one of {-s|--sort, -p|--print-each-record} allowed.'
@@ -298,7 +298,7 @@ if(  $mainScript_arg_  ){
 
     if(  $endScript_arg_  ){
         $endScript_   and
-            _sayUsageError  "'-f|--end' given on command line, but END block also found in the inline script";
+            _sayUsageError  "'-z|--end' given on command line, but END block also found in the inline script";
         $endScript_  =  $endScript_arg_;
     }
 
@@ -308,7 +308,7 @@ if(  $mainScript_arg_  ){
 else{  # -----  Script not given directly on the command line  -----
     
     _sayUsageError  "'-b|--begin' flag given without '-e'"    if  $begScript_arg_;
-    _sayUsageError  "'-f|--end' flag given without '-e'"      if  $endScript_arg_;
+    _sayUsageError  "'-z|--end' flag given without '-e'"      if  $endScript_arg_;
 
     my $scriptFilename  =  shift @ARGV;
 
@@ -1607,9 +1607,9 @@ B<fastqpl>  [I<-opts>] I<script_file> [I<fastq_file>...]
 
 B<fastqpl>  [I<-opts>] B<-e> I<script> [I<fastq_file>...]
 
-B<fastqpl>  [I<-opts>] [B<-b> I<beginScript>] B<-e> I<script> [B<-f> endScript] [I<fastq_file>...]
+B<fastqpl>  [I<-opts>] [B<-b> I<beginScript>] B<-e> I<script> [B<-z> endScript] [I<fastq_file>...]
 
-B<fastqpl>  [I<-opts>] B<-n> [B<-b> I<beginScript>] B<-e> I<script> [B<-f> endScript]
+B<fastqpl>  [I<-opts>] B<-n> [B<-b> I<beginScript>] B<-e> I<script> [B<-z> endScript]
 
 B<fastqpl>  [I<-opts>] B<-n> <script_file>
 
@@ -1691,9 +1691,9 @@ Inline script to execute on each record.  May optionally contain L<BEGIN and/or 
 Script to execute once at beginning.  Mutually exclusive alternative to including a L<BEGIN block|"begin_and_end"> in the main script.  Can only be used with inline scripts given with the B<-e> flag.  Mnemonic: B<-b> for B<b>egin.
 
 
-=item B<-f|--end> I<script>
+=item B<-z|--end> I<script>
 
-Script to execute once at end.  Mutually exclusive alternative to including an L<END block|"begin_and_end"> in the main script.  Can only be used with inline scripts given with the B<-e>|B<main-script> flag.  Mnemonic: B<-f> for B<f>inal.
+Script to execute once at end.  Mutually exclusive alternative to including an L<END block|"begin_and_end"> in the main script.  Can only be used with inline scripts given with the B<-e>|B<main-script> flag.  Mnemonic: B<-z> is final letter in the alphabet.
 
 
 =item B<-F|--field-separator> I<fieldSeparator>
@@ -1702,7 +1702,7 @@ Regular expression field separator used when computing B<L<@head|"@head">>.  Vis
 
 For example, to compute a histogram of the first field, treating the part of the L<head line|"FASTQ INPUT FORMAT"> past the id as a white space separated list:
 
-  % fastqpl  -F '\s+'  -e '++$f{ $head[0] }'  -f 'print "$_:$f{$_}\n" for( keys %f )'
+  % fastqpl  -F '\s+'  -e '++$f{ $head[0] }'  -z 'print "$_:$f{$_}\n" for( keys %f )'
 
 Mnemonic: like C<perl -F> or C<awk -F>.
 

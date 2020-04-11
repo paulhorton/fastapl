@@ -85,7 +85,7 @@ my @ARGVSpec = (
     'C|colorize'              =>  \$opt_{colorizeP},
     'd|dna'                   =>  \$opt_{dnaP},
 #   'e|script=s'              =>  \$mainScript_arg_,
-    'f|end=s'                 =>  \$opt_{endScript},
+    'z|end=s'                 =>  \$opt_{endScript},
     'F|field-separator=s'     =>  \$opt_{fieldSeparator},
     'g|grep'                  =>  \$opt_{grepP},
     'H|html'                  =>  \$opt_{htmlP},

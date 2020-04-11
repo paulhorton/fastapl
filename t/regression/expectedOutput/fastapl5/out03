@@ -1,3 +1,3 @@
 03  Compute fraction of sequences matching regex L$.
--e '++$tot; ++$m if( $seq =~ /L$/ );'  -f 'say "$m/$tot"'	proteins.fasta
+-e '++$tot; ++$m if( $seq =~ /L$/ );'  -z 'say "$m/$tot"'	proteins.fasta
 4/15

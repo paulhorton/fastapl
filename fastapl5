@@ -72,7 +72,7 @@ our $usage_ = 'Usage:
   fastapl [opts] -n SCRIPT  >  prog.pl
 
       SCRIPT  =>  script_file  |
-                  [-b beginScript]  -e script  [-f endScript]
+                  [-b beginScript]  -e script  [-z endScript]
 
   fastapl [--usage|--options|--help|--man]';
 
@@ -182,7 +182,7 @@ if(  $printEachRec_ && $grepishMode_  ){
     _dieWithUsage  $msg;
 }
 
-_dieWithUsage  'only one of {-s|--sort, -f|--end} allowed.'
+_dieWithUsage  'only one of {-s|--sort, -z|--end} allowed.'
     if   $opt_{sortP}  &&  $opt_{endScript};
 
 _dieWithUsage  'only one of {-s|--sort, -p|--print-each-record} allowed.'
@@ -259,7 +259,7 @@ if(  exists $opt_{mainScript}  ){
     $endScript_    =  _extractBlock( \$entireScript, 'END' );
     if(  $opt_{endScript}  ){
         $endScript_   and
-            _dieWithUsage  "'-f|--end' given on command line, but END block also found in the inline script";
+            _dieWithUsage  "'-z|--end' given on command line, but END block also found in the inline script";
         $endScript_  =  $opt_{endScript};
     }
 
@@ -268,7 +268,7 @@ if(  exists $opt_{mainScript}  ){
 }
 else{  #─────  Script not given directly on the command line  ─────
 
-    _dieWithUsage  "'-f|--end' flag given without '-e'"      if  $opt_{endScript};
+    _dieWithUsage  "'-z|--end' flag given without '-e'"      if  $opt_{endScript};
 
     my $scriptFilename  =  shift @ARGV;
     length $scriptFilename
@@ -995,9 +995,9 @@ B<fastapl>  [I<-opts>] I<script_file> [I<fasta_file>...]
 
 B<fastapl>  [I<-opts>] B<-e> I<script> [I<fasta_file>...]
 
-B<fastapl>  [I<-opts>] [B<-b> I<beginScript>] B<-e> I<script> [B<-f> endScript] [I<fasta_file>...]
+B<fastapl>  [I<-opts>] [B<-b> I<beginScript>] B<-e> I<script> [B<-z> endScript] [I<fasta_file>...]
 
-B<fastapl>  [I<-opts>] B<-n> [B<-b> I<beginScript>] B<-e> I<script> [B<-f> endScript]
+B<fastapl>  [I<-opts>] B<-n> [B<-b> I<beginScript>] B<-e> I<script> [B<-z> endScript]
 
 B<fastapl>  [I<-opts>] B<-n> <script_file>
 
@@ -1081,9 +1081,9 @@ Inline script to execute on each record.  May optionally contain L<BEGIN andE<so
 Script to execute once at beginning.  Mutually exclusive alternative to including a L<BEGIN block|"begin_and_end"> in the main script.  Can only be used with inline scripts given with the B<-e> flag.  Mnemonic: B<-b> for B<b>egin.
 
 
-=item B<-f|--end> I<script>
+=item B<-z|--end> I<script>
 
-Script to execute once at end.  Mutually exclusive alternative to including an L<END block|"begin_and_end"> in the main script.  Can only be used with inline scripts given with the B<-e>|B<--main-script> flag.  Mnemonic: B<-f> for B<f>inal.
+Script to execute once at end.  Mutually exclusive alternative to including an L<END block|"begin_and_end"> in the main script.  Can only be used with inline scripts given with the B<-e>|B<--main-script> flag.  Mnemonic: B<-z> is final letter in the alphabet.
 
 
 =item B<-F|--field-separator> I<fieldSeparator>
@@ -1092,7 +1092,7 @@ Regular expression field separator used when computing B<L<@head|"@head">>.  Def
 
 For example, to compute a histogram of the first field, treating the part of the L<head line|"FASTA INPUT FORMAT"> past the id as a white space separated list:
 
-  % fastapl  -F '\s+'  -e '++$f{ $head[0] }'  -f 'print "$_:$f{$_}\n" for( keys %f )'
+  % fastapl  -F '\s+'  -e '++$f{ $head[0] }'  -z 'print "$_:$f{$_}\n" for( keys %f )'
 
 Mnemonic: like C<perl -F> or C<awk -F>.
 
