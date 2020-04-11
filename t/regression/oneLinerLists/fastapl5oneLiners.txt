@@ -29,7 +29,7 @@ END_CKSUMS
 -p  -e '$seq = reverse $seq; $seq =~ tr/acgtACGT/tgcaTGCA/'	shortDNA.fasta
 
 03  Compute fraction of sequences matching regex L$.
--e '++$tot; ++$m if( $seq =~ /L$/ );'  -f 'say "$m/$tot"'	proteins.fasta
+-e '++$tot; ++$m if( $seq =~ /L$/ );'  -z 'say "$m/$tot"'	proteins.fasta
 
 04  Print records of sequences *not* starting with 'M'.
 -g  -e '$seq !~ /^M/'	proteins.fasta
@@ -101,7 +101,7 @@ END_CKSUMS
 -e 'say  "$id\t",  hstrf ": ", kmers 2'	mitoGenomes.fa
 
 27  Print cumulative 2-mer frequences of sequences, one 2-mer per line.
--e 'addKmers %c, 2' -f 'say hstr %c'	mitoGenomes.fa
+-e 'addKmers %c, 2' -z 'say hstr %c'	mitoGenomes.fa
 
 28  Print table of homopolymer runs of length 20 or more.
 -e '$m = runs 20;  say  join "\t",  $a, $b, $b-$a, seq $a  while $m->ab'	yeast_chrII.fa
