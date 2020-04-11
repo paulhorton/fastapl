@@ -7,11 +7,13 @@
 #  Description: utils used by fastapl which might be useful in other contexts as well.
 #
 package fastaplUtils;
+use List::Util qw(sum pairmap);
+use List::MoreUtils qw(pairwise);
 use Exporter 'import';
 
 use feature 'say';
 
-@EXPORT  =  qw(astr astrf hstr hstrf maxidx maxSeg maxSegs say2 printinHtml printinXterm);
+@EXPORT  =  qw(astr astrf hstr hstrf maxidx maxSeg maxSegs say2 addTo makeSum1 printinHtml printinXterm);
 
 =pod
 
@@ -28,6 +30,8 @@ fastaplUtils - utils used by fastapl which might be useful in other contexts as 
   sub maxidx;        #Returns argmax of list; or in list context (argmax, max).
   sub maxSeg;        #Returns a maximal sum interval of @_, or (0,0,0).
   sub maxSegs;       #Returns the maximal sum intervals of @_ or ().
+  sub addTo;         #add numerical values to values in an array or hash.
+  sub makeSum1;      #Linearly adjust values of array or hash, so that they sum to one.
   sub say2;          #say to STDERR, and also STDOUT unless both are connected to a terminal.
   
   #  Print with markup; e.g. printin( 'blue,ul', @arg ) prints "@arg" in blue, underlined text.
@@ -43,6 +47,7 @@ sub hstrf;         #Like hstf(), but with customizable format stipulated by firs
 sub maxidx;        #Returns argmax of list; or in list context (argmax, max).
 sub maxSeg;        #Returns a maximal sum interval of @_, or (0,0,0).
 sub maxSegs;       #Returns the maximal sum intervals of @_ or ().
+sub makeSum1;      #makeSum1( container );  Linearly adjusts values in CONTAINER so that they sum to one.
 sub say2;          #say to STDERR, and also STDOUT unless both are connected to a terminal.
 
 #  Print with markup; e.g. printin( 'blue,ul', @arg ) prints "@arg" in blue, underlined text.
@@ -74,9 +79,9 @@ sub astrf{
         return  _astrf( $sep1, \@a );
     }
 
-    my $retVal  =  '';
+    my $retVal= '';
 
-    my $count  =  0;
+    my $count= 0;
     my $prevWasArray;
     for my $elem (@elem){
         my $elemType  =  ref $elem;
@@ -273,10 +278,76 @@ sub maxSegs{
     }
 
     return @retVal;
-
-    die  'Execution should never reach here.';
 }#END: maxSegs()
 
+
+#  addTo( container, addendLIST )   adds addendLIST to numbers in CONTAINER
+#  Usage:  Adding a single value
+#    addTo @array, 3;       # Adds 3 to all elements in the @array.
+#    addTo %hash,  3;       # Adds 3 to all values in %hash
+#
+#    addTo @array, x₁,…,xₙ; 
+#    # For @array of size n,  Does vector addition version of:  @array += x₁,…,xₙ
+#    # Error if @array has non-empty size not equal to n.
+#    # If @array is empty, does  @array= x₁,…,xₙ
+#
+#
+#    addTo %hash, key₁, val₁, ...;  # Does $hash{keyᵢ} += valᵢ for all key,val pairs.
+#    
+#  ToConsider: silently ignore non-numerical values, instead of letting an "isn't numerical (+)" error happen.
+sub addTo( \[@%]@ ){
+    @_ > 1  or   die  'addTo expected at least 2 arguments, but got "@_"';
+    my $container=  $_[0];
+    my $hashP=  ref $_[0] eq 'HASH';
+    if(  @_ == 2   ){
+            if(  $hashP  ){   $_ += $_[1]    for values %{$container}  }
+            else{             $_ += $_[1]    for        @{$container}  }
+    }
+    else{
+        shift;
+        if(  $hashP  ){
+            @_ % 2 == 0   or  die  "addTo( HASH, LIST ) expects associative list, but LIST has uneven length '@_'\n";
+            pairmap{  $container->{$a} += $b  }  @_;
+        }
+        else{
+            if(  @{$container}  ){
+                @{$container} == @_   or   die  'addTo (ARRAY, ARRAY) called with unequal lengths ('.@{$container}.', '.@_.')';
+                pairwise{  $a += $b  }  @{$container}, @_;
+            }
+            else{
+                @{$container}= @_;
+            }
+        }
+    }
+}# addTo
+
+
+#  Linearly adjust values of array or hash, so that they sum to one.
+#
+#  makeSum1( numberContainer )
+#  linearly normalizes values in number numberContainer to sum to one.
+#
+#  Currently supported numberContainer types are:
+#  makeSum1( @number );   Array containing numbers
+#  makeSum1( %number );   Hash with numerical values
+#
+#  Prototype used for easy of typing one-liners; e.g.  makeSum1( %h )
+#
+#  To consider: ignore non-numerical entries (currently gives error)
+#               add optional [filter] argument to selected values; e.g. those with keys matching a regex.
+sub makeSum1( \[@%] ){
+    @_   or   die  'makeSum1 expected arguments';
+
+    my $sum;
+    if(  'ARRAY'  eq  ref $_[0]  ){
+        $sum=  sum @{$_[0]};
+        $_ /= $sum   for @{$_[0]};
+    }
+    else{
+        $sum=  sum values %{$_[0]};
+        $_ /= $sum   for values %{$_[0]};
+    }
+}
 
 
 #  Print string in @_ to STDERR and also STDOUT unless both are connected to a terminal.
