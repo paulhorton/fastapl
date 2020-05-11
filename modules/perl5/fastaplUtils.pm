@@ -13,7 +13,7 @@ use Exporter 'import';
 
 use feature 'say';
 
-@EXPORT  =  qw(astr astrf hstr hstrf maxidx maxSeg maxSegs say2 addTo makeSum1 printinHtml printinXterm);
+@EXPORT  =  qw(lg astr astrf hstr hstrf maxidx maxSeg maxSegs say2 addTo makeSum1 printinHtml printinXterm);
 
 =pod
 
@@ -23,6 +23,7 @@ fastaplUtils - utils used by fastapl which might be useful in other contexts as 
 
 =head1 SYNOPSIS
 
+  sub lg;            #Logarithmic base 2
   sub astr;          #Convert list or array to a tab separated string.
   sub astrf;         #Like astr(), but with customizable separator given by the first arg.
   sub hstr;          #Convert hash reference or even-length list to string.
@@ -40,6 +41,7 @@ fastaplUtils - utils used by fastapl which might be useful in other contexts as 
 
 =cut
 
+sub lg;            #Logarithmic base 2
 sub astr;          #Convert list or array to a tab separated string.
 sub astrf;         #Like astr(), but with customizable separator given by the first arg.
 sub hstr;          #Convert hash reference or even-length list to string.
@@ -54,6 +56,8 @@ sub say2;          #say to STDERR, and also STDOUT unless both are connected to 
 sub printinHtml;   #printin using HTML tags
 sub printinXterm;  #printin xterm escape cods
 
+
+sub lg(_){  1.44269504089 * log $_[0]  }
 
 #  Convert LIST or ARRAY to a tab separated string.
 sub astr{   astrf "\t\n", @_;   }
