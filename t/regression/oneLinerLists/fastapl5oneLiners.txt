@@ -159,3 +159,7 @@ END_CKSUMS
 
 46  Count the number of start codons.  Works for RNA or DNA sequences, upper or lower case.
 -e '$c=()=/(?i)(A[UT]G)/g; say "$id $c"'	yeast_chrII.fa
+
+47  Print cumulative 2-mer frequences of sequences, one 2-mer per line.
+-e 'addKmers %c, 2' -z 'say hstr %c'	mitoGenomes.fa
+
