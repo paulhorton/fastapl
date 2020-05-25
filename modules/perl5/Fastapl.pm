@@ -2966,13 +2966,13 @@ sub kmers{
 
     if(  @_  ){
         my $regex= shift;
-        for  my $i  (0..fin-$k-1){
+        for  my $i  (0..fin+1-$k){
             my $kmer =  substr $seq, $i, $k;
             ++$freq{$kmer}   if  $kmer=~m/$regex/;
         }
     }
     else{
-        ++$freq{substr $seq, $_, $k}   for  0..fin-$k-1;
+        ++$freq{substr $seq, $_, $k}   for  0..fin+1-$k;
     }
 
     return  %freq;
@@ -2995,13 +2995,13 @@ sub addKmers( \%@ ){
     if(  @_ == 3  ){
         my $regex=  qr/$_[2]/;
         my $kmer;
-        for  my $i  (0..fin-$k-1){
+        for  my $i  (0..fin+1-$k){
             $kmer =  substr $seq, $i, $k;
             ++$hRef->{$kmer}   if  $kmer=~m/$regex/;
         }
     }
     else{
-            ++$hRef->{substr $seq, $_, $k}   for 0..fin-$k-1;
+            ++$hRef->{substr $seq, $_, $k}   for 0..fin+1-$k;
     }
 }#END: addKmers(\%@)
 
