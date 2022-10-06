@@ -58,7 +58,7 @@ use Text::Balanced qw(extract_codeblock);  #To extract BEGIN, END blocks
 #== BEG:COMMON_DECLS_BEFORE_ARGV_PARSE
 use feature qw(say);
 use Carp;
-use List::Util qw(first max maxstr min minstr reduce shuffle sum);
+use List::Util qw(first max maxstr min minstr pairmap reduce shuffle sum);#  Some are for convenience in user scripts.
 use List::MoreUtils ':all';
 use POSIX qw(ceil floor);
 use fastaplAmino;
