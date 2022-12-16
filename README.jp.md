@@ -12,9 +12,6 @@
 ## 要約
 fastaplは断片的なPerlコードでfasta形式の配列データの様々な処理を便利にする。fastqplは、fastaplの姉妹プログラムでfastq形式のデータを扱う。fastaplはユーザが提供するコードを包んでPerlで実行するラッパですが、逆相補鎖の計算(rc)や塩基配列のアミノ酸配列への翻訳(translate, translations)など配列処理を便利にする関数も提供する。また、fastaplコマンド行で利用する地味なツールではあるが、xterm端末またはhtml形式で太字や色を使った表示はできる。例えば、color red, matches "CACA=1"でCACAに一致する配列領域を赤にして表示する。このmatchesのように配列領域を扱うfastaplの関数はDNAが二本鎖を持ち、場合によっては冠状であることを考慮して設計してあり、いろなケースに対応できる。
 
-### 注意点
-Linux環境下でv5.18.2などいくつかのPerlバージョンでの動作確認はしているが、それ以外の環境での検証は行われていない。
-
 
 ### 使用例
 
@@ -193,10 +190,16 @@ Linux環境下でv5.18.2などいくつかのPerlバージョンでの動作確�
 `fastqpl5 -ge '($beg,$end,$max) = maxSeg apply {$_ -= 15} Phred;  trim $beg,$end;  $max'  longreads_with_dummy.fastq`
 
 
+### fasta形式への変換
+fastaplは入力としてfasta形式しか受け入れられないです。各行に１本の配列という形式をfasta形式に変換する場合、やはりperlが便利です。<br>
+`% perl -pE 'say ">seq$."' seqs.text > seqs.fasta`
 
 ### 依存モジュール
 fastapl, fastqplは`List::MoreUtils`や`indirect`等、いくつかの標準モジュールに依存しているが、システムによってはそのモジュールは必ずしも既にインストールしてあるとは限らない。もしfastaplを初めて動かそうとした時にエラーがすぐ出てしまったら、エラー・メッセージの内容を確認してください。場合によっては依存モジュールを自分でインストールする必要がある。
 
+
+### 注意点
+Linux環境下でv5.18.2などいくつかのPerlバージョンでの動作確認はしているが、それ以外の環境での検証は行われていない。
 
 
 ### 関連ツール
