@@ -191,7 +191,7 @@ fastapl facilitates manipulation of fasta format sequence data via snippets of p
 
 
 ### Conversion to fasta format
-fastapl only accepts fasta format files.  If you have a text file of sequences, one per line, you can convert them to fasta format with perl like this:
+fastapl only accepts fasta format files.  If you have a text file of sequences, one per line, you can convert them to fasta format with perl like this:<br>
 `% perl -pE 'say ">seq$."' seqs.text > seqs.fasta`
 
 ### Dependencies
