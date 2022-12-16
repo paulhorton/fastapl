@@ -191,7 +191,7 @@ fastaplは断片的なPerlコードでfasta形式の配列データの様々な�
 
 
 ### fasta形式への変換
-fastaplは入力としてfasta形式しか受け入れられないです。各行に１本の配列という形式をfasta形式に変換する場合、やはりperlが便利です。<br>
+fastaplは入力としてfasta形式しか受け入れられない。各行に１本の配列という形式をfasta形式に変換する場合、やはりperlが便利。<br>
 `% perl -pE 'say ">seq$."' seqs.text > seqs.fasta`
 
 ### 依存モジュール
