@@ -12,11 +12,6 @@
 ## Summary
 fastapl facilitates manipulation of fasta format sequence data via snippets of perl code.  The sister program fastqpl is similar, but for fastq format data.  fastapl is basically just wraps user provided code to execute in Perl, but it also provides some convenient functions such as reverse complementation (rc) and translation from nucleotide to amino acid sequence (translate, translations).  Although fastapl is a command line tool, it can be used to mark sequence regions of interest in bold or color in an xterm terminal or in html format.  For example, color red, matches "CACA=1" displays matches to CACA in red.  fastapl functions like these are designed with the understanding that DNA has two strands and sometimes is circular, so that those functions flexibly handle various use cases.
 
-
-### Caveats.
-Runs on a linux box under several version of perl (e.g. v5.18.2).  Not tested elsewhere.
-
-
 ### Examples
 
 #### fastapl Examples
@@ -195,9 +190,15 @@ Runs on a linux box under several version of perl (e.g. v5.18.2).  Not tested el
 
 
 
+### Conversion to fasta format
+fastapl only accepts fasta format files.  If you have a text file of sequences, one per line, you can convert them to fasta format with perl like this:
+`% perl -pE 'say ">seq$."' seqs.text > seqs.fasta`
+
 ### Dependencies
 fastapl, fastqpl depend on several standard modules which may or may not already be installed on your system.  For example `List::MoreUtils` and `indirect`.  If you get an immediate error message when you first try to run fastapl, please read the error message to see if it is complaining about not being able to find a module.
 
+### Caveats.
+Runs on a linux box under several version of perl (e.g. v5.18.2).  Not tested elsewhere.
 
 
 ### See Also
