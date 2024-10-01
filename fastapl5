@@ -31,7 +31,7 @@
 #
 #
 # *------------------      Unusual Code Constructs       -------------------*
-# 
+#
 # SPECIAL COMMENTS FOR GENERATING STANDALONE PROGAM:
 #   This code has some special comments such as:
 #
@@ -304,7 +304,7 @@ else{  #─────  Script not given directly on the command line  ──�
             _dieWithUsage
                 "filename '$scriptFilename' was given as a script file, but it looks like a fasta input file\nPerhaps you forgot to give the script or script file?";
         }
-        
+
         open  my $scriptFile, '<', $scriptFilename
             or   die  "could not open script file: '$scriptFilename', $!\n";
 
@@ -456,7 +456,7 @@ sub _extractBlock{
 
         $$scriptRef  =  $upToBlockLabel . $rest
             if   my $blockScript  =  extract_codeblock( $rest, '{}' );
-        
+
         _dieWithUsage  "script only allowed one $blockLabel block"
             if   $$scriptRef  =~  / $blockLabel \s* { /x;
 
@@ -527,7 +527,7 @@ sub _printBlockOfThisFile{
         #  Real code in main program.  Also conditionally included in standalone program.
         if( ($code, $condition)  =
             $line  =~  m{  ^ (\s*[^#]+.*) \#== \s+ IF \s+ (.*) $  }x   ){
-            #                    CODE      #==     IF   CONDITION 
+            #                    CODE      #==     IF   CONDITION
             say  $code   if eval $condition;
             next LINE;
         }
@@ -877,7 +877,7 @@ sub _processInputStream{
 
     my $curLine_;   #Current input line.
     $seq = undef;  #undef indicates no record has been read yet.
-    
+
     while( 1 ){  #Process up to first record head.
         $curLine_ = <$fastaInputStream>  ||  return;   #<-- LOOP & SUBROUTINE EXIT POINT!
         last    if  $curLine_ =~ /^>/;                 #<-- LOOP EXIT POINT.
@@ -928,7 +928,7 @@ sub _processInputStream{
                     }
                 }else{
                     eval $recScript_;
-                }                        
+                }
                 $@   and   die  "Error in record script; $@\n";
                 undef $SIG{__DIE__};  undef $SIG{__WARN__};
 

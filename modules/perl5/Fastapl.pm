@@ -20,7 +20,7 @@ use fastaplUtils;
 
 @EXPORT  =  qw(
 $seqIsCirc $seq @seq seq seg $seq1 $seq2 $head @head %head $id $comment $commentAtStartOfStream
-fin fin1 fin2 len len1 len2 
+fin fin1 fin2 len len1 len2
 trim rc matches expandRegex widen
 codonAA ORFs translate translations runs kmers addKmers asHash
 pr ps Ps
@@ -386,7 +386,7 @@ sub seqSeg_to_directedRanges{
 #  Return range (sometimes two for circular sequences)
 #  for seqSeg (POS1, POS2) or equivalently (POS2, POS1)
 #  suitable for use in memory efficient for loops.
-# 
+#
 #    @range = seqSeg_to_numRanges( $up, $dw );
 #    while(  ($a, $b)  =  splice @range, 0, 2  ){
 #      for my $i ($a..$b){
@@ -428,7 +428,7 @@ sub trim{
 
     my $lenToKeep  =  $dw - $up + 1;
     $seq  =   substr $seq, $up, $lenToKeep;
-    
+
     @seq  =  splice @seq, $up, $lenToKeep    if $::needSeqArray_;
 
     return $lenToKeep;
@@ -569,7 +569,7 @@ sub matches{
                 while(  $seg =~ /$regex/g  ){
                     if( $revP ){  $matches->push(  $searchUp - $-[0],  $searchUp - $+[0]  )}
                     else       {  $matches->push(  $searchUp + $-[0],  $searchUp + $+[0]  )}
-                    pos $seg  =  $-[0] + 1    if $overlapOK;                
+                    pos $seg  =  $-[0] + 1    if $overlapOK;
                 }
             }
             if(  $lookOnStrand != 0  ){
@@ -577,9 +577,9 @@ sub matches{
                 while(  $seg =~ /$regex/g  ){
                     if( $revP ){  $matches->push(  $searchUp + $-[0],  $searchUp + $+[0]  )}
                     else       {  $matches->push(  $searchUp - $-[0],  $searchUp - $+[0]  )}
-                    pos $seg  =  $-[0] + 1    if $overlapOK;                
+                    pos $seg  =  $-[0] + 1    if $overlapOK;
                 }
-            }            
+            }
         }
         else{#  Current seg is circular.
             my $segseg  =  segseg( $searchUp, $searchDw );
@@ -763,7 +763,7 @@ sub _setORFtrack{
             }
         }#END:  for $seq starting positions in current frame.
         my $endCodonMid  =  $curCodonMid;
-        
+
         if(  $inORF  &&  $seqIsCirc  ){
             #──────────  Finish off wrapped ORF  ──────────
             for(   $curCodonMid  =  $numNtsWrapped + 1;
@@ -812,7 +812,7 @@ sub _setORFtrack{
 #  ORFs(  seqRef, ORFspec  )
 #
 #  seqRef defaults to \$seq
-#  
+#
 #  ORFspec contains an integer minWeight and an optional M or A.
 #  An M means only consider ORFs starting with M.
 #  An A means consider ORFs preceded by an AG splicing acceptor or starting with M
@@ -866,7 +866,7 @@ sub ORFs{
         $ntSeqRf  =  $_[0];
         $ORFspec  =  $_[1]   if length $_[0];
     }
-    
+
 
     $ORFspec  =~  /^[mM]?[aA]?\d+$/   or   die   "$err invalid ORF specifier '$ORFspec', should match [ma]?\\d";
 
@@ -992,13 +992,13 @@ sub _ORFs{
                 }
             }#END:  if(  $numNucsRght  )
 
-            
+
             #──────────  Finish off wrapped ORF  ──────────
             for(   $curCodonBeg  =  $numNucsLeft;
                    $curCodonBeg  <  $begCodonBeg - 2;
                    $curCodonBeg += 3
                 ){
-                
+
                 $aaSeq     .=     $aa   =   codonAA  substr $$ntSeqRf,$curCodonBeg,3;
                 $ORFcurWeight++    if $aa =~ /[A-Z]/;
 
@@ -1043,7 +1043,7 @@ sub _ORFs{
     return @retVal;
 
 }#END: _ORFs( $ntSeqRf, $minWeight )
-    
+
 
 
 
@@ -1239,7 +1239,7 @@ sub changecase{
         if(  $caller =~ /^d/  ){   substr $seq, $a, $b-$a+1,  lc substr $seq, $a, $b-$a+1   }
         else                   {   substr $seq, $a, $b-$a+1,  uc substr $seq, $a, $b-$a+1   }
     }
-    
+
     return $seqSegs;
 }#END: changecase()
 
@@ -1764,7 +1764,7 @@ sub print_clozTags{
         $n = len-1  if  $n < 0;
     }
     #Edge case of $n = len or $n = -1 for linear seq is not a problem.  Although out of range, vec silently returns 0 in that case.
-    
+
     # $htmlP?  clozTagsHtml : clozTagsXterm;
     if(  $htmlP  ){
         if(  $s  ){#  Reverse strand.
@@ -1830,7 +1830,7 @@ sub clozTags{
         $n = len-1  if  $n < 0;
     }
     #Edge case of $n = len or $n = -1 for linear seq is not a problem.  Although out of range, vec silently returns 0 in that case.
-    
+
     my $retVal  =  '';
     # $htmlP?  clozTagsHtml : clozTagsXterm;
     if(  $htmlP  ){
@@ -1975,7 +1975,7 @@ sub sayRulerTrack{
     use integer;   #Use integer division in this function.
 
     my ($start, $past)  =  (@_, $ps_start, $ps_past);
-    
+
     my $lineLen  =  abs( $start - $past );
     my $rulerTrack   =   ' '  x  $lineLen;
 
@@ -2026,8 +2026,8 @@ sub sayRulerTrack{
 #  ps( SEQSEGS )  Prints SEQSEGS.
 #  SEQSEGS can take the form of a list of paired positions or a reference to FastaplSeqsegs object
 #  Defaults:  ps(    ) -->  ps( 0,  len )
-#             ps(  3 ) -->  ps( 3,  len )  
-#             ps( -3 ) -->  ps( 3, -len )  
+#             ps(  3 ) -->  ps( 3,  len )
+#             ps( -3 ) -->  ps( 3, -len )
 sub ps{
     $ps_ds  =  0;
     $csq  =  '';
@@ -2055,7 +2055,7 @@ sub ps2{
 
         #  Fill in default value of $dw as needed.
         push @seg,  $seg[0] < 0? -&len : len    if @seg == 1;
-        
+
         $ps_1stSegP = 1;   ps3  if    ($ps_up, $ps_dw)  =  splice @seg, 0, 2;
         $ps_1stSegP = 0;   ps3  while ($ps_up, $ps_dw)  =  splice @seg, 0, 2;
     }
@@ -2092,10 +2092,10 @@ sub ps3(){
         $ps_topSeq = \$seq;
         $ps_botSeq = \$csq    if $ps_ds;
     }
-    
+
     die  "...Omitting long ($_ chars) sequence.\n"
       if -t STDOUT  and   100_000_000  <  ($_ = abs($ps_dw - $ps_up));
-        
+
     colorize  $ps_up, $ps_dw,  $ps_ds? ($ps_dw, $ps_up) : ()    if $opt_{colorizeP};
 
     if(  $opt_{printSeqOn1LineP}  ||  ($numSeqLines_ == 1) && !$opt_{seqLineLen}  ){
@@ -2173,7 +2173,7 @@ sub set_ps_numWidth{
     for(  $ps_numWidth = 1;  $absMax >= 10;  $absMax /= 10  ){ ++$ps_numWidth }
 }
 
-#  Return inline rule string appropriate for just before from-0 position $i 
+#  Return inline rule string appropriate for just before from-0 position $i
 sub ruleBefore($){
     return  ''                                             if  $_[0] % 10   !=  0;
     return  sprintf " %${ps_numWidth}d ", int $_[0]/100    if  $_[0] % 100  ==  0;
@@ -2181,7 +2181,7 @@ sub ruleBefore($){
     return  ' ';
 }
 
-#  Return inline rule string appropriate for just before from-0 position $i 
+#  Return inline rule string appropriate for just before from-0 position $i
 sub ruleBeforeSpacer($){
     return  ''                                             if  $_[0] % 10   !=  0;
     return  ' ' x ($ps_numWidth+2)                         if  $_[0] % 100  ==  0;
@@ -2218,7 +2218,7 @@ sub printSeq_1line_inlineRuler(){
             if(   $ORFtrackAny[$ps_top]  &&  ORFtrackAny( $ps_top, $ps_up, $ps_dw )  ){
                 $i = $ps_start;
                 print ORFtrack $ps_top, $i;
-                
+
                 for(  $i += $ps_dir;  $i != $ps_past;  $i += $ps_dir  ){
                     print  ruleBeforeSpacer $i,  ORFtrack $ps_top, $i;
                 }
@@ -2267,7 +2267,7 @@ sub printSeq_1line_inlineRuler(){
             if(   $ORFtrackAny[$ps_bot]  &&  ORFtrackAny( $ps_bot, $ps_up, $ps_dw )  ){
                 $i = $ps_start;
                 print ORFtrack $ps_bot, $i;
-                
+
                 for(  $i += $ps_dir;  $i != $ps_past;  $i += $ps_dir  ){
                     print  ruleBeforeSpacer $i,  ORFtrack $ps_bot, $i;
                 }
@@ -2280,7 +2280,7 @@ sub printSeq_1line_inlineRuler(){
             if(   $ORFtrackAny[$ps_top]  &&  ORFtrackAny( $ps_top, $ps_up, $ps_dw )  ){
                 $i = $ps_start;
                 print ORFtrack $ps_top, $i;
-                
+
                 for(  $i += $ps_dir;  $i != $ps_past;  $i += $ps_dir  ){
                     print  ruleBeforeSpacer $i,  ORFtrack $ps_top, $i;
                 }
@@ -2316,7 +2316,7 @@ sub printSeq_1line_inlineRuler(){
             if(   $ORFtrackAny[$ps_bot]  &&  ORFtrackAny( $ps_bot, $ps_up, $ps_dw )  ){
                 $i = $ps_start;
                 print ORFtrack $ps_bot, $i;
-                
+
                 for(  $i += $ps_start;  $i != $ps_past;  $i += $ps_dir  ){
                     print  ruleBeforeSpacer $i,  ORFtrack $ps_bot, $i;
                 }
@@ -2347,7 +2347,7 @@ sub printSeq_multiline{
                 print ORFtrack $ps_top, $_    for  $start .. $past-1;
                 say  '';
             }
-                
+
             if(  anyMarkup  ){
                 {
                     for ($start..$past-1){
@@ -2473,7 +2473,7 @@ sub printSeq_multiline_inlineRuler{
 
     #  Usually padding needs to be added to the start of the first line to make blocks of 10 bases align.
     my $leadBlockPadSize  =   $ps_top?  (10 - $ps_start%10) % 10  :  $ps_start%10;
-    
+
     my $numBasesInPartialLine   =   min(  $numBasesPerLine - $leadBlockPadSize,   $ps_len  )   % $ps_numResPerLine;
 
     my $numWidth  =   max  6,  1+ length len;   #Widest coordinate is -len
@@ -2516,7 +2516,7 @@ sub printSeq_multiline_inlineRuler{
                 }
                 $i  =  $pos < 0 ?  $L+$pos  :  $pos;
                 print  openTags( $ps_top, $i ),  substr( $$ps_topSeq, $i, 1 ),  clozTags( $ps_top, $i );
-                $pos  +=  $ps_dir;   
+                $pos  +=  $ps_dir;
             }while  $pos != $linePastPos;
 
             print_clozAllOpenTags $ps_top;
@@ -2592,7 +2592,7 @@ sub printSeq_multiline_inlineRuler{
                 for (0..9){
                     $i  =  $pos < 0 ?  $L+$pos  :  $pos;
                     print  openTags( $ps_top, $i ),  substr( $$ps_topSeq, $i, 1 ),  clozTags( $ps_top, $i );
-                    $pos  +=  $ps_dir;   
+                    $pos  +=  $ps_dir;
                 }
             }
             print  clozAllOpenTags $ps_top;
@@ -2607,7 +2607,7 @@ sub printSeq_multiline_inlineRuler{
                 for (0..9){
                     $i  =  $pos < 0 ?  $L+$pos  :  $pos;
                     print  openTags( $ps_bot, $i ),  substr( $$ps_botSeq, $i, 1 ),  clozTags( $ps_bot, $i );
-                    $pos  +=  $ps_dir;   
+                    $pos  +=  $ps_dir;
                 }
             }
            say  '';
@@ -2619,7 +2619,7 @@ sub printSeq_multiline_inlineRuler{
                     for (0..9){
                         $i  =  $pos < 0 ?  $L+$pos  :  $pos;
                         print ORFtrack $ps_bot, $i;
-                        $pos  +=  $ps_dir;   
+                        $pos  +=  $ps_dir;
                     }
                 }
                 say  '';
@@ -2641,7 +2641,7 @@ sub printSeq_multiline_inlineRuler{
                 print(   ($pos - $lineStartPos) %50 ?  ' '  :  $b5spc   )    if  $pos%10 == 0  &&  $pos != $lineStartPos;
                 $i  =  $pos < 0 ?  $L+$pos  :  $pos;
                 print  ORFtrack $ps_top, $i;
-                $pos  +=  $ps_dir;   
+                $pos  +=  $ps_dir;
             }while(  $pos != $ps_past  );
             say  '';
             $pos  =  $lineStartPos;
@@ -2680,7 +2680,7 @@ sub printSeq_multiline_inlineRuler{
                  $i  =  $pos < 0 ?  $L+$pos  :  $pos;
                  print(   ($pos - $lineStartPos) %50 ?  ' '  :  $b5spc   )    if  $pos%10 == 0  &&  $pos != $lineStartPos;
                  print  ORFtrack $ps_bot, $i;
-                 $pos  +=  $ps_dir;   
+                 $pos  +=  $ps_dir;
              }while(  $pos != $ps_past  );
              say  '';
          }
@@ -2840,7 +2840,7 @@ sub printSeq_multiline_inlineRuler_longUnalignedBlocks(){
                 }
             }
 
-            {  
+            {
                 #  Print top sequence.
                 if(  $ORFtrackAny[$ps_top]  ){
                     push  @ORFtop,  ORFtrack $ps_top, $i;
@@ -2940,7 +2940,7 @@ sub runs($){
 #  Return hash holding any KEY=VALUE pairs present in @_
 #  @_ defaults to @head.
 sub asHash{
-    
+
     @_   or   @_  =  @head;
 
     my @keyValuePairs;
@@ -2991,7 +2991,7 @@ sub addKmers( \%@ ){
 
     $k  =~  /^[1-9]\d*$/   or   die  "addKmers expected positive integer argument but got $k";
 
-    
+
     if(  @_ == 3  ){
         my $regex=  qr/$_[2]/;
         my $kmer;
@@ -3018,7 +3018,7 @@ sub sayInputError{
 sub redirectSTDOUT{
     -t STDOUT
         or   _dieWithUsage  "not sure whether to output to file '$opt_{outputFilename}' or STDOUT";
-    
+
     my $outStream  =  *STDOUT;   #STDOUT is now redirected to $outStream;
     open(   $outStream, '>', $opt_{outputFilename}   )
         or   _dieWithUsage  "could not open output file '$opt_{outputFilename}', $!";
