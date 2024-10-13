@@ -2888,7 +2888,6 @@ sub printSeq_multiline_inlineRuler_longUnalignedBlocks(){
         }
     }
 
-
 }#END:  printSeq_multiline_inlineRuler_longUnalignedBlocks
 
 
@@ -2955,17 +2954,22 @@ sub asHash{
 
 #  kmers( $k, [$regex] )  Returns associative list:  kmer₁, freq₁, ...
 #  of the fixed lengthed substrings (e.g. k-mers) in $seq and their frequencies.
+#
+#  Optionally $regex can be used to select which k-mers to include.
+#  So for example [acgt] would exclude k-mers with n's or upcased ACGT
 sub kmers{
-    #  else return kmers as list.
     defined wantarray   or   die  'useless call of kmers in void context';
+
+    #  else return kmers as list.
     0 < @_ and @_ < 3   or   die  'kmers expected one or two arguments';   #perl v5.32 could use 1 < @_ < 3
     my %freq;
     my $k = shift;
 
     $k  =~  /^[1-9]\d*$/   or   die  "kmers expected positive integer argument but got $k";
 
+    my $regex= shift;
+
     if(  @_  ){
-        my $regex= shift;
         for  my $i  (0..fin+1-$k){
             my $kmer =  substr $seq, $i, $k;
             ++$freq{$kmer}   if  $kmer=~m/$regex/;
@@ -2975,34 +2979,59 @@ sub kmers{
         ++$freq{substr $seq, $_, $k}   for  0..fin+1-$k;
     }
 
+    _kmerFreqs_add_wrapped_fragment( \%freq, $k , $regex )   if $seqIsCirc;
+
     return  %freq;
 }#END: kmers()
 
 
-#  addKmers( %h, $k, [$regex] ) adds counts of length $k kmers in $seq to %h
+#  _kmerFreqs_add_wrapped_fragment( \%freq, $k, [$regex] )
+#  For circular DNA molecules.
+#  Add to counts of k-mers which straddle the end of $seq, to the frequencies in hash %freq
+sub _kmerFreqs_add_wrapped_fragment{
+    my( $freqRf, $k, $regex )=  @_;
+
+    if( $seqIsCirc ){
+        my $wrapped_frag=   substr ($seq, len+1-$k)  .  substr ($seq, 0, $k-1);
+        for  my $i  (0..$k-2){
+            my $kmer=  substr $wrapped_frag, $i, $k;
+            ++$freqRf->{$kmer}   if !$regex or $kmer=~m/$regex/;
+        }
+    }
+}
+
+
+#  addKmers( %freq, $k, [$regex] ) adds counts of length $k kmers in $seq to %h
 #  if $regex given, only kmers matching it are added.
-#  addKmers( %h, $k )  is equivalent to addTo( %h, kmers $k ), but saves memory (0~40%) for large $k.
+#  addKmers( %freq, $k )  is equivalent to addTo( %h, kmers $k ), but saves memory (0~40%) for large $k.
+#
+#  This function is for use in fastapl user scripts.
+#  Call syntax is addKmers( %freq, $k )
+#  Note the prototype \%@ here.
 sub addKmers( \%@ ){
     die  'call of addKmers in non-void context'   if  defined wantarray;
     1 < @_ and @_ < 4   or   die  'addKmers expected two or three arguments';   #v5.32 could use 1 < @_ < 4
-    my( $hRef, $k )=  @_[0,1];
+    my( $freqRf, $k )=  @_[0,1];
 
-    ref $hRef eq 'HASH'   or   die  'addKmers expected first argument to be a hash reference';
+    ref $freqRf eq 'HASH'   or   die  'addKmers expected first argument to be a hash reference';
 
     $k  =~  /^[1-9]\d*$/   or   die  "addKmers expected positive integer argument but got $k";
 
+    my $regex=  qr/$_[2]/  if defined $_[2];
 
-    if(  @_ == 3  ){
-        my $regex=  qr/$_[2]/;
+    if(  $regex  ){
         my $kmer;
         for  my $i  (0..fin+1-$k){
             $kmer =  substr $seq, $i, $k;
-            ++$hRef->{$kmer}   if  $kmer=~m/$regex/;
+            ++$freqRf->{$kmer}   if  $kmer=~m/$regex/;
         }
     }
     else{
-            ++$hRef->{substr $seq, $_, $k}   for 0..fin+1-$k;
+            ++$freqRf->{substr $seq, $_, $k}   for 0..fin+1-$k;
     }
+
+    _kmerFreqs_add_wrapped_fragment( $freqRf, $k , $regex )   if $seqIsCirc;
+
 }#END: addKmers(\%@)
 
 
