@@ -36,7 +36,7 @@ my %cksumDone;  #$cksumDone{FILE} TRUE iff cksum done on FILE when reading the o
 
 my $generatePrograms_flag=   0;  #If given, also test programs generated with fastapl -n option.
 my $printExpected_flag=      0;  #Print expected output file pathname.
-my $opt_abortOnErrorP=   undef;  #Abort immediately upon error? 
+my $opt_abortOnErrorP=   undef;  #Abort immediately upon error?
 my $absolutePathnames_flag=  0;  #Print pathnames as absolute pathnames?
 my $justPrint_flag        =  0;  #Print but do not execute commands?
 my $verbose_flag          =  0;  #Print commands before executing?
@@ -88,7 +88,7 @@ $| = 1;  #Do not buffer output.
         'd|direct-only         Only run fastapql directly, do not try standalone',
         'e|print-expected      Print expected output file pathname',
         'n|just-print          Do not run commands, just print them'
-        );         
+        );
 
     if(  $docFlag{options}  ){
         say " $_"  for @optionSummary;
@@ -100,7 +100,7 @@ $| = 1;  #Do not buffer output.
 
 
 { # ───────────────  BEG: Check arguments  ───────────────
-    
+
     printError  'not enough arguments'  if @ARGV < 2;
     printError  'too many arguments'    if @ARGV > 3;
 
@@ -150,7 +150,7 @@ my $oneLinerCoreLine;
 # ──────────  Set input, expectedOutput partial pathnames  ──────────
 my $inputDir         =  '';  #To prepend to  input pathnames as given in one-liners file
 my $expectedOutputDir=  '';  #To prepend to output pathnames as given in one-liners file
-{  
+{
     my $curLine  =  nextLine $oneLinerFile;
 
     ($inputDir)  =  $curLine =~ /\$INPUT_DIR\s*=\s*(\S+)\s*$/
@@ -163,11 +163,11 @@ my $expectedOutputDir=  '';  #To prepend to output pathnames as given in one-lin
 
     -d $expectedOutputDir  or
         die  "Error; when reading one-liner file '$oneLinerFilename', expected '$expectedOutputDir' to be a directory, but it is not\n";
-    
+
 # ──────────  Check inputfile cksums  ──────────
     $curLine =  nextLine $oneLinerFile;
     $curLine =~ /^BEG_CKSUMS$/   or   die  'could not find CKSUMS section';
-    
+
     while(   $curLine=  nextLine $oneLinerFile   ){
         last   if $curLine =~ /^END_CKSUMS$/;
 
@@ -315,7 +315,7 @@ while( <$oneLinerFile> ){  #Loop through one-liners file lines
         say '';  next;    #Go to next one-liner
     }
 
-    
+
     #  ───────────────  Test program made with '-n' flag  ───────────────
     $command  =  "$fastaqplPath -n $commandArgs";
 
@@ -359,7 +359,7 @@ sub assertCommandOutputMatchesExpected{
     $?   and  die  "Non-zero status '$?' returned"   if !$curCommandGrepish;
 
     printf  "status=%-3d", $?   if $?;
-    
+
     my $outputPathname  =  "/tmp/out${countString}";
     open   my $outputFile,  '>',  $outputPathname
         or   die  "could not open file '$outputPathname'";
