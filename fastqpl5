@@ -2,7 +2,7 @@
 #  Author: Paul Horton
 #  Copyright (C) 2010, Paul Horton, All rights reserved.
 #  Creation Date: 2010.8.19
-#  Last Modification: $Date: 2013/10/20 09:53:13 $
+#  Last Updated: 20241014
 #
 #  Description: Fastq format stream processing utility.
 #               fastqpl Fastq Perl Loop (pronounced "fast Q-ple")
@@ -33,7 +33,7 @@
 #
 #
 # *------------------      Unusual Code Constructs       -------------------*
-# 
+#
 # SPECIAL COMMENTS FOR GENERATING STANDALONE PROGAM:
 #   This code has some special comments such as:
 #
@@ -306,7 +306,7 @@ if(  $mainScript_arg_  ){
 
 }
 else{  # -----  Script not given directly on the command line  -----
-    
+
     _sayUsageError  "'-b|--begin' flag given without '-e'"    if  $begScript_arg_;
     _sayUsageError  "'-z|--end' flag given without '-e'"      if  $endScript_arg_;
 
@@ -331,7 +331,7 @@ else{  # -----  Script not given directly on the command line  -----
             _sayUsageError
                 "filename '$scriptFilename' was given as a script file, but it looks like a fasta input file\nPerhaps you forgot to give the script or script file?";
         }
-        
+
         open  $scriptFile, '<', $scriptFilename
             or   die  "could not open script file: '$scriptFilename',$!\n";
 
@@ -371,7 +371,7 @@ die  "Error; record script does look like a sorting script.\n"
 
 _dieIfScriptCompileError( $recScript_, 'record' );
 _dieIfScriptCompileError( $begScript_, 'BEGIN'  )   if  $begScript_;
-_dieIfScriptCompileError( $endScript_, 'END'    )   if  $endScript_;      
+_dieIfScriptCompileError( $endScript_, 'END'    )   if  $endScript_;
 
 
 #  -----  Determine if main script uses @seq  -----
@@ -482,10 +482,10 @@ sub _extractBlock{
 
     my $blockScript;  # to hold block contents and return.
 
-    if(  ( my $upToBlockLabel, my $rest ) = 
+    if(  ( my $upToBlockLabel, my $rest ) =
          (  $$scriptRef  =~  / ^(.*?) $blockLabel \s* (\{ .* ) /xs   )
         ){
-        
+
         if(   $blockScript  =  extract_codeblock( $rest, '{}' )   ){
             $$scriptRef  =  $upToBlockLabel . $rest;
         }
@@ -676,7 +676,7 @@ sub _printCommonCode{
         }
 
         #  Real code in main program.  Also conditionally included in standalone program.
-        #                       TEXT    #       IF   CONDITION 
+        #                       TEXT    #       IF   CONDITION
         if(   $line  =~  m{  ^ ([^#]+) \#== \s+ IF \s+ (.*) $  }x   ){
             say  $1   if(  eval $2  );
             next LINE;
@@ -838,7 +838,7 @@ sub _runtimeErrorHandler{
 #  Generate subroutine suitable to handle exceptions when sorting.
 sub _runtimeSortErrorHandler{
     my $message  =  shift;
-    
+
     (  my $head1, my $headAref1, my $id1  )  =  @$a;
     (  my $head2, my $headAref2, my $id2  )  =  @$b;
 
@@ -1010,7 +1010,7 @@ sub errProb2{
 #  Return hash holding any KEY=VALUE pairs present in @_
 #  @_ defaults to @head.
 sub asHash{
-    
+
     @_   or   @_  =  @head;
 
     my @keyValuePairs;
@@ -1154,7 +1154,7 @@ sub rc{
     else{   #  No arguments passed to rc().
         die  'rc() without arguments called when sorting'   if $sortMode_flag_;  #== SKIP
 
-        _rc( \$seq ); 
+        _rc( \$seq );
         $quality  =  reverse $quality;
 
         #  Synch @seq up with $seq.
@@ -1173,7 +1173,7 @@ sub _rc{
         (my $offendingPart)  =  $$s =~ /([^ACGTUNSWRYKMBDHVacgtunswrykmbdhv]+)/;
         die  "While attempting to reverse complement, encountered chars [$offendingPart] not defined for nucleic acid sequences";
         }
-}    
+}
 
 
 #  Shorten sequence and quality to maximum length $len, by removing from the end.
@@ -1218,7 +1218,7 @@ sub toPhred_{
 #  Phred score --> character.
 sub Phred_to_qualChar_{
     my $Phred  =  shift;
-    
+
     die  "Phred score '$Phred' is out of range"   if   $Phred < 0  ||  $Phred > 93;
 
     return  chr 33 + $Phred;
@@ -1228,7 +1228,7 @@ sub Phred_to_qualChar_{
 #  error prob --> Phred score.
 sub prob_to_qualChar_{
     my $prob  =  shift;
-    
+
     die  "invalid probability ($prob)"    if   $prob < 0  ||  $prob > 1;
 
     return  Phred_to_qualChar_ toPhred_ $prob;
@@ -1280,7 +1280,7 @@ sub quality{
         die  "In function quality(), index ($idx) out of range"   if  $idx  >=  length $quality;
         return  substr $quality, $idx, 1;
     }
-    
+
     die  "function quality() expects no more than one argument but got $numArgs";
 }
 
@@ -1297,7 +1297,7 @@ sub seq{
         die  "In function quality(), index ($idx) out of range"   if  $idx  >=  length $seq;
         return  substr $seq, $idx, 1;
     }
-    
+
     die  "function seq() expects no more than one argument but got $numArgs";
 }
 
@@ -2002,7 +2002,7 @@ Not optimized for speed. L<Sorting|"s_sort"> is slow and memory intensive (propo
 
 =head1  LICENSE
 
-You may use this program under the GNU public license. 
+You may use this program under the GNU public license.
 
 
 =head1  AUTHOR
