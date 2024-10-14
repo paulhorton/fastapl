@@ -138,7 +138,7 @@ $| = 1;  #Do not buffer output.
 
 
 # ───────────────  Define some vars  ───────────────
-my $count=  0;
+my $oneLiner_count=  0;
 my $oneLinerNumber;
 
 my $oneLinerNumberLine;
@@ -195,7 +195,6 @@ my $expectedOutputDir=  '';  #To prepend to output pathnames as given in one-lin
 }
 
 
-
 while( <$oneLinerFile> ){  #Loop through one-liners file lines
     chop;
 
@@ -209,17 +208,34 @@ while( <$oneLinerFile> ){  #Loop through one-liners file lines
     }
 
 
+    ++$oneLiner_count;
+
+    #  If fastaqplRegressionTester.pl command line says to only execute some commands skip over any others.
+    if(  @oneLinersToRun  ){
+        next   unless  any  {$oneLiner_count == $_}  @oneLinersToRun;    #Next one-liner line   <───  LOOP NEXT
+    }
+
+
     #  ━━━━━━━━━━━━━━━━━━━━━━━━━  Process core line  ━━━━━━━━━━━━━━━━━━━━━━━━━
 
     #  ────────────  Make assignment from core line info  ────────────
     $oneLinerCoreLine  =  $_;
-    {
+    if(  $oneLinerCoreLine eq 'SKIPME'  ){
+        say  "Skipped $oneLiner_count";
+        next;  # LOOP NEXT
+    }
+    else{
         my $tabCount   =   $oneLinerCoreLine =~ tr/\011/\011/;
         $tabCount > 0
             or   die  "Error; when reading list of one-liners in '$oneLinerFilename': expected at least one tab in line: '$oneLinerCoreLine'\n";
         $tabCount < 3
             or   die  "too many tabs ($tabCount) in line: '$oneLinerCoreLine'\n"
     }
+
+
+    $oneLinerNumber == $oneLiner_count
+        or   die  "$0 Inconsistency: command count = $oneLiner_count, but command number given in one liner file is '$oneLinerNumber'\n";
+
 
     $oneLinerNumber   or   die  'one-liner number not found';
 
@@ -247,17 +263,7 @@ while( <$oneLinerFile> ){  #Loop through one-liners file lines
         $cksumDone{$stdinRedirectPathname}   ||   die  "No cksum declared for stdin redirect file '$stdinRedirectPathname'\n";
     }
 
-    ++$count;
-
-    #  If command line says to only execute one command, skip over any others.
-    if(  @oneLinersToRun  ){
-        next   unless  any  {$count == $_}  @oneLinersToRun;    #Next one-liner line   <───  LOOP EXIT
-    }
-
-    $oneLinerNumber == $count
-        or   die  "$0 Inconsistency: command count = $count, but command number given in one liner file is '$oneLinerNumber'\n";
-
-    $countString  =  sprintf "%02d", $count;
+    $countString  =  sprintf '%02d', $oneLiner_count;
 
     $expectedOutputPathname  =  "$expectedOutputDir/out${countString}";
     convertToAbsPath( $expectedOutputPathname )   if $absolutePathnames_flag;
@@ -298,7 +304,7 @@ while( <$oneLinerFile> ){  #Loop through one-liners file lines
         print  "\n";
     }
 
-    next  if $justPrint_flag;  #Early jump to next one-liner  <---------- JUMP
+    next  if $justPrint_flag;  #Early jump to next one-liner  <----- LOOP NEXT
 
 
     #  ───────────────  Test fastapql executed directly  ───────────────
