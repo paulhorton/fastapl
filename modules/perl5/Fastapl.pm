@@ -81,6 +81,7 @@ our $seqIsCirc;  #Sequence is from a circular molecule?  Inialized by command li
 my @ARGVSpec = (
     'e|script=s'              =>  \$opt_{mainScript},
     'b|begin=s'               =>  \$opt_{begScript},
+    'O|circular'              =>  sub{  $opt_{seqIsCirc}= $seqIsCirc= 1  },
     'c|count'                 =>  \$opt_{countP},
     'C|colorize'              =>  \$opt_{colorizeP},
     'd|dna'                   =>  \$opt_{dnaP},
@@ -96,10 +97,10 @@ my @ARGVSpec = (
     'n|generate-standalone'   =>  \$opt_{generateStandaloneP},
 #       'h|help      Reserved for possible future addition.
     'o|output-file=s'         =>  \$opt_{outputFilename},
-    'O|circular'              =>  sub{  $opt_{seqIsCirc} = $seqIsCirc = 1  },
     'ORF:s'                   =>  \$printORFs_arg,
     'p|print-each-record'     =>  \$opt_{printEachRecSS_P},
     'P|print-each-record-ds'  =>  \$opt_{printEachRecDS_P},
+    '1|print-seq-on-1-line'   =>  \$opt_{printSeqOn1LineP},
     'q|grep-quiet'            =>  \$opt_{quietP},
     'Q|valid-seq-chars=s'     =>  \$opt_{validSeqChars},
     'r|ruler-inline'          =>  \$opt_{rulerInlineP},
@@ -107,7 +108,6 @@ my @ARGVSpec = (
 #        w|warn      Reserved for possible future addition.
     's|sort'                  =>  \$opt_{sortP},
 #        v|verbose   Reserved for possible future addition.
-    '1|print-seq-on-1-line'   =>  \$opt_{printSeqOn1LineP},
     );
 
 
@@ -2969,7 +2969,7 @@ sub kmers{
 
     my $regex= shift;
 
-    if(  @_  ){
+    if(  $regex  ){
         for  my $i  (0..fin+1-$k){
             my $kmer =  substr $seq, $i, $k;
             ++$freq{$kmer}   if  $kmer=~m/$regex/;
