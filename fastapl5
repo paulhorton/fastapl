@@ -1373,6 +1373,15 @@ Currently only tested on linux.
 Scientific/Bioinformatics
 
 
+=head1  TROUBLESHOOTING
+
+The flexibility of perl syntax can be confusing at times.
+If you are not sure how perl is parsing your script try:
+ % perl -MO=Deparse -e  'YOUR SCRIPT'
+
+(-MO=Deparse Requires module B::Deparse. Install with cpan or debian package libperl-dev.)
+
+
 =head1  BUGS
 
 No known bugs.
