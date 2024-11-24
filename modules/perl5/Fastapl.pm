@@ -2970,6 +2970,10 @@ sub kmers{
     my $regex= shift;
 
     if(  $regex  ){
+        #  Reality check regex.  Once I passed $seq by mistake when it help a chromosome.
+        my $regexLen= length $regex;
+        $regexLen < 999   or   die  "kmers passed regex of length $regexLen, seems too long to be want you want.";
+
         for  my $i  (0..fin+1-$k){
             my $kmer =  substr $seq, $i, $k;
             ++$freq{$kmer}   if  $kmer=~m/$regex/;
