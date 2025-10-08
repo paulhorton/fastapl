@@ -2970,7 +2970,7 @@ sub kmers{
     my $regex= shift;
 
     if(  $regex  ){
-        #  Reality check regex.  Once I passed $seq by mistake when it help a chromosome.
+        #  Reality check regex.  Once I passed $seq by mistake when it held a chromosome.
         my $regexLen= length $regex;
         $regexLen < 999   or   die  "kmers passed regex of length $regexLen, seems too long to be want you want.";
 
