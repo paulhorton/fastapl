@@ -323,7 +323,7 @@ else{  #─────  Script not given directly on the command line  ──�
 
 
 # ──────────  Check for senseless options when scripts not given  ──────────
-unless(  $begScript_  and  $recScript_  and  $endScript_  ){
+unless(  $begScript_  or  $recScript_  or  $endScript_  ){
   if(  $opt_{printSeqOn1LineP}  or  !$printEachRec_  ){
     _dieWithUsage  "Current options and script will not do anything.  Perhaps you wanted to add the -p|--print-each-record option?";
   }
