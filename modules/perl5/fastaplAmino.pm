@@ -66,7 +66,7 @@ my %eukaryoticAbundance =
 my %molWeight =
     ( _name => 'Molecular weight',
       _id   => 'molWeight',
-      A =>  89.1, 
+      A =>  89.1,
       R => 174.2,
       N => 132.1,
       D => 133.1,
@@ -95,7 +95,7 @@ my %molWeight =
 
 
 my %toProp  =
-    ( 
+    (
       'euabundance'    => \%eukaryoticAbundance,
       'kyte doolittle' => \%KYTJ820101,
       'kytj820101'     => \%KYTJ820101,
@@ -212,7 +212,7 @@ expanded in the future.
 
 =head1  LICENSE
 
-You may use this program under the GNU public license. 
+You may use this program under the GNU public license.
 
 
 =head1  AUTHOR
